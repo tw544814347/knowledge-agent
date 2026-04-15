@@ -1,0 +1,941 @@
+{
+  "source_dir": "/Users/wei.tao/Desktop/Data Confluence",
+  "stats": {
+    "total_docs": 49,
+    "cross_refs": 3,
+    "external_links": 70,
+    "images": 9,
+    "categories": [
+      "LLM",
+      "RAG+Memory",
+      "Anomaly Detection",
+      "Tech Doc",
+      "Agent",
+      "Cursor经验"
+    ]
+  },
+  "documents": [
+    {
+      "filename": "Data Chatbot - DataJoi(multi-agent version).md",
+      "path": "05.Data IDE/Agent/Data Chatbot - DataJoi(multi-agent version).md",
+      "category": "Agent",
+      "pageId": "2927952558",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "DataJoi 评测体系技术方案.md",
+      "path": "05.Data IDE/Agent/DataJoi 评测体系技术方案.md",
+      "category": "Agent",
+      "pageId": "3150061423",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Deepwiki Agent.md",
+      "path": "05.Data IDE/Agent/Deepwiki Agent.md",
+      "category": "Agent",
+      "pageId": "2925315303",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Eight Honors and Eight Shames.md",
+      "path": "05.Data IDE/Agent/Eight Honors and Eight Shames.md",
+      "category": "Agent",
+      "pageId": "2930794769",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Multi-Agent vs Workflow.md",
+      "path": "05.Data IDE/Agent/Multi-Agent vs Workflow.md",
+      "category": "Agent",
+      "pageId": "2991393608",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Prompt Optimization Agent.md",
+      "path": "05.Data IDE/Agent/Prompt Optimization Agent.md",
+      "category": "Agent",
+      "pageId": "2925314665",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Protobuf Chatbot.md",
+      "path": "05.Data IDE/Agent/Protobuf Chatbot.md",
+      "category": "Agent",
+      "pageId": "2925314690",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "2025-12交接索引.md",
+      "path": "05.Data IDE/Anomaly Detection/2025-12交接索引.md",
+      "category": "Anomaly Detection",
+      "pageId": "3014595609",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Anomaly Detection.md",
+      "path": "05.Data IDE/Anomaly Detection/Anomaly Detection.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366350088",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Backend Service.md",
+      "path": "05.Data IDE/Anomaly Detection/Backend Service.md",
+      "category": "Anomaly Detection",
+      "pageId": "3004901665",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "PRD-Shark.md",
+      "path": "05.Data IDE/Anomaly Detection/PRD-Shark.md",
+      "category": "Anomaly Detection",
+      "pageId": "2666421967",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "异常检测技术调研.md",
+      "path": "05.Data IDE/Anomaly Detection/异常检测技术调研.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366352516",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "异常检测问题记录.md",
+      "path": "05.Data IDE/Anomaly Detection/异常检测问题记录.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366352598",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "异常检测需求收集.md",
+      "path": "05.Data IDE/Anomaly Detection/异常检测需求收集.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366354218",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "异常检测项目排期.md",
+      "path": "05.Data IDE/Anomaly Detection/异常检测项目排期.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366352564",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "时序预测.md",
+      "path": "05.Data IDE/Anomaly Detection/时序预测.md",
+      "category": "Anomaly Detection",
+      "pageId": "2366352544",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Cursor Rules.md",
+      "path": "05.Data IDE/Cursor经验/Cursor Rules.md",
+      "category": "Cursor经验",
+      "pageId": "2785050513",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "MCP分享.md",
+      "path": "05.Data IDE/Cursor经验/MCP分享.md",
+      "category": "Cursor经验",
+      "pageId": "2757990970",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Prompt分享.md",
+      "path": "05.Data IDE/Cursor经验/Prompt分享.md",
+      "category": "Cursor经验",
+      "pageId": "2757990958",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "其他工具.md",
+      "path": "05.Data IDE/Cursor经验/其他工具.md",
+      "category": "Cursor经验",
+      "pageId": "2815377485",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://github.com/danielmiessler/Fabric",
+          "domain": "github.com",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "开发套路分享.md",
+      "path": "05.Data IDE/Cursor经验/开发套路分享.md",
+      "category": "Cursor经验",
+      "pageId": "2757990978",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Application & Platform.md",
+      "path": "05.Data IDE/LLM/Application & Platform.md",
+      "category": "LLM",
+      "pageId": "2413012540",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Basic Concept.md",
+      "path": "05.Data IDE/LLM/Basic Concept.md",
+      "category": "LLM",
+      "pageId": "2413012526",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://p6-volc-community-sign.byteimg.com/tos-cn-i-tlddhu82om/91dea70c3ba540d884467a8f3567d43d~tplv-tlddhu82om-image.image?=&rk3s=8031ce6d&x-expires=1724911382&x-signature=GcjmCdQ56%2Bs%2BkAYIrflqbTRvMSg%3D",
+          "domain": "p6-volc-community-sign.byteimg.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.jianshu.com/p/34a504af8d51",
+          "domain": "www.jianshu.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://tech.meituan.com/2024/04/11/gpu-vector-retrieval-system-practice.html",
+          "domain": "tech.meituan.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://mp.weixin.qq.com/s/ow7n7W2Or9VmmtxRxaj9Hgkimi",
+          "domain": "mp.weixin.qq.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://mp.weixin.qq.com/s/ow7n7W2Or9VmmtxRxaj9Hg",
+          "domain": "mp.weixin.qq.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://hub.baai.ac.cn/view/29504",
+          "domain": "hub.baai.ac.cn",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.36kr.com/p/2739822615783688",
+          "domain": "www.36kr.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://blog.csdn.net/weixin_48707135/article/details/138525347",
+          "domain": "blog.csdn.net",
+          "status": "pending"
+        },
+        {
+          "url": "https://blog.csdn.net/Python_cocola/article/details/140407020",
+          "domain": "blog.csdn.net",
+          "status": "pending"
+        },
+        {
+          "url": "https://mp.weixin.qq.com/s?__biz=Mzg2OTk1NDQ4Ng==&mid=2247484584&idx=1&sn=7bf4cc2fa7698b4add1d7913564c6a89&chksm=ce946271f9e3eb679be95f523075a71962ab9e83adc450759d518f028bf12da7c12ec5d8601b&scene=21#wechat_redirect",
+          "domain": "mp.weixin.qq.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.cnblogs.com/qq1035807396/p/18151070",
+          "domain": "www.cnblogs.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://blog.csdn.net/CV_Autobot/article/details/138385376",
+          "domain": "blog.csdn.net",
+          "status": "pending"
+        },
+        {
+          "url": "https://segmentfault.com/a/1190000045098691",
+          "domain": "segmentfault.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://zhuanlan.zhihu.com/p/683651359",
+          "domain": "zhuanlan.zhihu.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://segmentfault.com/a/1190000045034374",
+          "domain": "segmentfault.com",
+          "status": "pending"
+        }
+      ],
+      "images": [
+        {
+          "url": "https://confluence.shopee.io/download/attachments/2413012526/image2024-8-28_14-51-18.png",
+          "status": "auth_required"
+        }
+      ]
+    },
+    {
+      "filename": "Project.md",
+      "path": "05.Data IDE/LLM/Project.md",
+      "category": "LLM",
+      "pageId": "2462336671",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Langchain V.S. LlamaIndex.md",
+      "path": "05.Data IDE/RAG+Memory/Langchain V.S. LlamaIndex.md",
+      "category": "RAG+Memory",
+      "pageId": "2749039228",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "RAG应用案例.md",
+      "path": "05.Data IDE/RAG+Memory/RAG应用案例.md",
+      "category": "RAG+Memory",
+      "pageId": "2783757640",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "RAG有效性评估.md",
+      "path": "05.Data IDE/RAG+Memory/RAG有效性评估.md",
+      "category": "RAG+Memory",
+      "pageId": "2749040235",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://github.com/explodinggradients/ragas",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/truera/trulens",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/confident-ai/deepeval",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/stanford-futuredata/ARES",
+          "domain": "github.com",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "RAG调研方案 (version 0.1).md",
+      "path": "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md",
+      "category": "RAG+Memory",
+      "pageId": "2742657833",
+      "references_to": [
+        "05.Data IDE/RAG+Memory/知识库构建流程中的潜在问题和解决方案.md",
+        "05.Data IDE/RAG+Memory/知识图谱与向量数据库.md",
+        "05.Data IDE/RAG+Memory/vector db & RAG.md"
+      ],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://space-next.shopee.io/reliability/smart/main/workspace",
+          "domain": "space-next.shopee.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://knowledge.alpha.insea.io/",
+          "domain": "knowledge.alpha.insea.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://aichat.infra.shopee.io/bot/botList",
+          "domain": "aichat.infra.shopee.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://compass.llm.shopee.io/",
+          "domain": "compass.llm.shopee.io",
+          "status": "pending"
+        }
+      ],
+      "images": [
+        {
+          "url": "https://confluence.shopee.io/download/attachments/2742657833/image2025-5-29_15-11-57.png",
+          "status": "auth_required"
+        }
+      ]
+    },
+    {
+      "filename": "SuperRAG.md",
+      "path": "05.Data IDE/RAG+Memory/SuperRAG.md",
+      "category": "RAG+Memory",
+      "pageId": "3146851993",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "embabel.md",
+      "path": "05.Data IDE/RAG+Memory/embabel.md",
+      "category": "RAG+Memory",
+      "pageId": "2897707783",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://deepwiki.com/search/agent-1-tooltoolobject-java-to\\_8c6bd498-f418-42d8-a1a0-1e4aa808e9b8",
+          "domain": "deepwiki.com",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "kb 里程碑.md",
+      "path": "05.Data IDE/RAG+Memory/kb 里程碑.md",
+      "category": "RAG+Memory",
+      "pageId": "2829606930",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "md test file.md",
+      "path": "05.Data IDE/RAG+Memory/md test file.md",
+      "category": "RAG+Memory",
+      "pageId": "2839495398",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "milvus V.S. Qdrant.md",
+      "path": "05.Data IDE/RAG+Memory/milvus V.S. Qdrant.md",
+      "category": "RAG+Memory",
+      "pageId": "2742657425",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "vector db & RAG.md",
+      "path": "05.Data IDE/RAG+Memory/vector db & RAG.md",
+      "category": "RAG+Memory",
+      "pageId": "2742657412",
+      "references_to": [],
+      "referenced_by": [
+        "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md"
+      ],
+      "external_links": [
+        {
+          "url": "https://arxiv.org/pdf/2410.12837",
+          "domain": "arxiv.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/pgvector/pgvector#:~:text=By%20default%2C%20pgvector%20performs%20exact,search%2C%20which%20provides%20perfect%20recall",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://infiniflow.org/#:~:text=Incredibly%20fast",
+          "domain": "infiniflow.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://milvus.io/#:~:text=Milvus%20is%20an%20open,vectors%20with%20minimal%20performance%20loss",
+          "domain": "milvus.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://qdrant.tech/#:~:text=Cloud,downtime%20upgrades.%20Qdrant%20Cloud",
+          "domain": "qdrant.tech",
+          "status": "pending"
+        },
+        {
+          "url": "https://weaviate.io/platform#:~:text=Get%20the%20best%20of%20vector,and%20keyword%20search",
+          "domain": "weaviate.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.firecrawl.dev/blog/best-open-source-rag-frameworks#:~:text=LangChain%20emerged%20as%20one%20of,augmented%20generation%20systems",
+          "domain": "www.firecrawl.dev",
+          "status": "pending"
+        },
+        {
+          "url": "https://docs.aperturedata.io/Integrations/llamaindex_howto#:~:text=LlamaIndex%20is%20a%20simple%2C%20flexible,Augmented%20Generation",
+          "domain": "docs.aperturedata.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://haystack.deepset.ai/#:~:text=RAG",
+          "domain": "haystack.deepset.ai",
+          "status": "pending"
+        },
+        {
+          "url": "https://flowiseai.com/#:~:text=LLM%20Orchestration",
+          "domain": "flowiseai.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.langflow.org/#:~:text=Langflow%20is%20a%20low,any%20API%2C%20model%2C%20or%20database",
+          "domain": "www.langflow.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/infiniflow/ragflow#:~:text=RAGFlow%20is%20an%20open,from%20various%20complex%20formatted%20data",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/infiniflow/ragflow#:~:text=RAGFlow%20uses%20Elasticsearch%20by%20default,to%20Infinity%2C%20follow%20these%20steps",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://tryfastgpt.ai/#:~:text=EmpowerImage%3A%20logowith%20Your%20Expertise",
+          "domain": "tryfastgpt.ai",
+          "status": "pending"
+        },
+        {
+          "url": "https://tryfastgpt.ai/#:~:text=Seamlessly%20connect%20with%20existing%20GPT,aligned%20APIs",
+          "domain": "tryfastgpt.ai",
+          "status": "pending"
+        },
+        {
+          "url": "https://tryfastgpt.ai/#:~:text=Multi",
+          "domain": "tryfastgpt.ai",
+          "status": "pending"
+        },
+        {
+          "url": "https://dify.ai/#:~:text=The%20Innovation%20Engine%20for%20GenAI,Applications",
+          "domain": "dify.ai",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/chatchat-space/Langchain-Chatchat#:~:text=Langchain,and%20Agent%20app%20with%20langchain",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/chatchat-space/Langchain-Chatchat#:~:text=%E5%9F%BA%E4%BA%8E%20ChatGLM%20%E7%AD%89%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E4%B8%8E%20Langchain%20%E7%AD%89%E5%BA%94%E7%94%A8%E6%A1%86%E6%9E%B6%E5%AE%9E%E7%8E%B0%EF%BC%8C%E5%BC%80%E6%BA%90%E3%80%81%E5%8F%AF%E7%A6%BB%E7%BA%BF%E9%83%A8%E7%BD%B2%E7%9A%84,RAG%20%E4%B8%8E%20Agent%20%E5%BA%94%E7%94%A8%E9%A1%B9%E7%9B%AE%E3%80%82",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/AI-App/OpenDevin.OpenDevin#:~:text=Welcome%20to%20OpenDevin%2C%20an%20open,source%20community",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.k2view.com/what-is-retrieval-augmented-generation#:~:text=RAG%20architecture",
+          "domain": "www.k2view.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://zilliz.com/blog/safeguard-data-integrity-on-prem-rag-deployment-with-llmware-and-milvus#:~:text=9,the%20LLM%20is%20Bling%207B",
+          "domain": "zilliz.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/infiniflow/ragflow#:~:text=Latest%20Updates",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://zilliz.com/blog/safeguard-data-integrity-on-prem-rag-deployment-with-llmware-and-milvus#:~:text=services,financial%20and%20legal%20services%20companies",
+          "domain": "zilliz.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://zilliz.com/blog/safeguard-data-integrity-on-prem-rag-deployment-with-llmware-and-milvus#:~:text=This%20architecture%20diagram%20illustrates%20RAG%27s,premises%20using%20LLMware%20and%20Milvus",
+          "domain": "zilliz.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://www.firecrawl.dev/blog/best-open-source-rag-frameworks#:~:text=Dify%20is%20an%20open,ready%20AI%20applications",
+          "domain": "www.firecrawl.dev",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "不同角色RAG需求.md",
+      "path": "05.Data IDE/RAG+Memory/不同角色RAG需求.md",
+      "category": "RAG+Memory",
+      "pageId": "2769236369",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "关键流程.md",
+      "path": "05.Data IDE/RAG+Memory/关键流程.md",
+      "category": "RAG+Memory",
+      "pageId": "2769237112",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "文档解析方案对比.md",
+      "path": "05.Data IDE/RAG+Memory/文档解析方案对比.md",
+      "category": "RAG+Memory",
+      "pageId": "2749044555",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "知识图谱与向量数据库.md",
+      "path": "05.Data IDE/RAG+Memory/知识图谱与向量数据库.md",
+      "category": "RAG+Memory",
+      "pageId": "2749045713",
+      "references_to": [],
+      "referenced_by": [
+        "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md"
+      ],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "知识库构建流程中的潜在问题和解决方案.md",
+      "path": "05.Data IDE/RAG+Memory/知识库构建流程中的潜在问题和解决方案.md",
+      "category": "RAG+Memory",
+      "pageId": "2749046146",
+      "references_to": [],
+      "referenced_by": [
+        "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md"
+      ],
+      "external_links": [
+        {
+          "url": "https://www.aneasystone.com/archives/2024/06/advanced-rag-notes.html",
+          "domain": "www.aneasystone.com",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "知识库系统收益评估方式.md",
+      "path": "05.Data IDE/RAG+Memory/知识库系统收益评估方式.md",
+      "category": "RAG+Memory",
+      "pageId": "2803411160",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "系统挑战.md",
+      "path": "05.Data IDE/RAG+Memory/系统挑战.md",
+      "category": "RAG+Memory",
+      "pageId": "2792987211",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "金融kb.md",
+      "path": "05.Data IDE/RAG+Memory/金融kb.md",
+      "category": "RAG+Memory",
+      "pageId": "2981628009",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "非向量化方案.md",
+      "path": "05.Data IDE/RAG+Memory/非向量化方案.md",
+      "category": "RAG+Memory",
+      "pageId": "2785041576",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "BE Entry Task.md",
+      "path": "05.Data IDE/Tech Doc/BE Entry Task.md",
+      "category": "Tech Doc",
+      "pageId": "1337865469",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "http://git.garena.com",
+          "domain": "git.garena.com",
+          "status": "pending"
+        },
+        {
+          "url": "http://golang.org",
+          "domain": "golang.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/golang/go/wiki/CodeReviewComments",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://golang.org/pkg/testing/",
+          "domain": "golang.org",
+          "status": "pending"
+        },
+        {
+          "url": "http://blog.golang.org/profiling-go-programs",
+          "domain": "blog.golang.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://golang.org/doc/articles/wiki/",
+          "domain": "golang.org",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/fatih/vim-go",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/dominikh/go-mode.el",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/DisposaBoy/GoSublime",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/visualfc/liteide",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://marketplace.visualstudio.com/items?itemName=lukehoban.Go",
+          "domain": "marketplace.visualstudio.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/go-sql-driver/mysql",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "http://redis.io",
+          "domain": "redis.io",
+          "status": "pending"
+        },
+        {
+          "url": "https://github.com/go-redis/redis",
+          "domain": "github.com",
+          "status": "pending"
+        },
+        {
+          "url": "https://blog.csdn.net/weixin_70730532/article/details/125201463",
+          "domain": "blog.csdn.net",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    },
+    {
+      "filename": "Bitmap64 统一序列化.md",
+      "path": "05.Data IDE/Tech Doc/Bitmap64 统一序列化.md",
+      "category": "Tech Doc",
+      "pageId": "1554286865",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://github.com/RoaringBitmap/CRoaring/blob/master/cpp/roaring64map.hh",
+          "domain": "github.com",
+          "status": "pending"
+        }
+      ],
+      "images": [
+        {
+          "url": "https://confluence.shopee.io/download/attachments/1554286865/image2022-12-21_11-26-3.png",
+          "status": "auth_required"
+        },
+        {
+          "url": "https://confluence.shopee.io/download/attachments/1554286865/image2022-12-21_11-3-6.png",
+          "status": "auth_required"
+        },
+        {
+          "url": "https://confluence.shopee.io/download/attachments/1554286865/image2022-12-21_10-55-35.png",
+          "status": "auth_required"
+        }
+      ]
+    },
+    {
+      "filename": "Flink相关.md",
+      "path": "05.Data IDE/Tech Doc/Flink相关.md",
+      "category": "Tech Doc",
+      "pageId": "312813417",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": []
+    },
+    {
+      "filename": "Load Data From S3.md",
+      "path": "05.Data IDE/Tech Doc/Load Data From S3.md",
+      "category": "Tech Doc",
+      "pageId": "1118328455",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "https://git.garena.com/shopee/seamoney-data/real-time/spark/hdfs2hbaseandredis.git",
+          "domain": "git.garena.com",
+          "status": "pending"
+        }
+      ],
+      "images": [
+        {
+          "url": "https://confluence.shopee.io/download/attachments/1118328455/image2022-5-16_16-52-30.png",
+          "status": "auth_required"
+        }
+      ]
+    },
+    {
+      "filename": "大数据平台架构图.md",
+      "path": "05.Data IDE/Tech Doc/大数据平台架构图.md",
+      "category": "Tech Doc",
+      "pageId": "465804524",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [],
+      "images": [
+        {
+          "url": "https://confluence.shopee.io/download/attachments/465804524/image2021-4-8_15-26-59.png",
+          "status": "auth_required"
+        },
+        {
+          "url": "https://confluence.shopee.io/download/attachments/465804524/image2022-11-11_23-8-6.png",
+          "status": "auth_required"
+        },
+        {
+          "url": "https://confluence.shopee.io/download/attachments/465804524/image2021-4-8_15-13-14.png",
+          "status": "auth_required"
+        }
+      ]
+    },
+    {
+      "filename": "实时数据-entrytask.md",
+      "path": "05.Data IDE/Tech Doc/实时数据-entrytask.md",
+      "category": "Tech Doc",
+      "pageId": "339903329",
+      "references_to": [],
+      "referenced_by": [],
+      "external_links": [
+        {
+          "url": "http://git.garena.com/",
+          "domain": "git.garena.com",
+          "status": "pending"
+        }
+      ],
+      "images": []
+    }
+  ],
+  "graph_edges": [
+    {
+      "from": "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md",
+      "to": "05.Data IDE/RAG+Memory/vector db & RAG.md",
+      "type": "cross_reference",
+      "pageId": "2742657412"
+    },
+    {
+      "from": "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md",
+      "to": "05.Data IDE/RAG+Memory/知识图谱与向量数据库.md",
+      "type": "cross_reference",
+      "pageId": "2749045713"
+    },
+    {
+      "from": "05.Data IDE/RAG+Memory/RAG调研方案 (version 0.1).md",
+      "to": "05.Data IDE/RAG+Memory/知识库构建流程中的潜在问题和解决方案.md",
+      "type": "cross_reference",
+      "pageId": "2749046146"
+    }
+  ]
+}

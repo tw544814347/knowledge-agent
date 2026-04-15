@@ -1,6 +1,8 @@
-"""LLM 客户端：通过 Ollama REST API 调用 DeepSeek R1 7B"""
+"""LLM 客户端：通过 Ollama REST API 调用本地 LLM（默认 DeepSeek R1 14B）"""
 
+import json
 import time
+from typing import Iterator
 
 import httpx
 from loguru import logger
@@ -114,6 +116,37 @@ class LLMClient:
             except Exception as e:
                 logger.error(f"LLM 异步调用失败: {e}")
                 raise LLMError(f"生成回答时出错: {e}")
+
+    def stream_generate(self, prompt: str, system_prompt: str = "") -> Iterator[str]:
+        """流式生成：逐 token yield，不影响生成速度"""
+        payload = self._build_payload(prompt, system_prompt)
+        payload["stream"] = True
+        start = time.time()
+        try:
+            with self._client.stream(
+                "POST", f"{self.base_url}/api/chat", json=payload, timeout=None
+            ) as resp:
+                resp.raise_for_status()
+                for line in resp.iter_lines():
+                    data = json.loads(line)
+                    token = data.get("message", {}).get("content", "")
+                    if token:
+                        yield token
+                    if data.get("done"):
+                        break
+            logger.info(f"LLM 流式完成: model={self.model}, elapsed={time.time() - start:.1f}s")
+        except httpx.TimeoutException:
+            raise LLMError("模型推理超时")
+        except httpx.ConnectError:
+            raise LLMError("无法连接 Ollama 服务")
+        except json.JSONDecodeError:
+            raise LLMError("Ollama 返回了无效的流式数据")
+        except LLMError:
+            raise
+        except GeneratorExit:
+            logger.debug("流式生成被客户端中断")
+        except Exception as e:
+            raise LLMError(f"流式生成出错: {e}")
 
     def close(self) -> None:
         self._client.close()

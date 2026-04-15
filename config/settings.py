@@ -7,18 +7,22 @@ from pydantic import Field
 class Settings(BaseSettings):
     # Ollama
     ollama_base_url: str = Field(default="http://localhost:11434", alias="OLLAMA_BASE_URL")
-    llm_model: str = Field(default="deepseek-r1:7b", alias="LLM_MODEL")
-    embedding_model: str = Field(default="nomic-embed-text", alias="EMBEDDING_MODEL")
+    llm_model: str = Field(default="deepseek-r1:14b", alias="LLM_MODEL")
+    embedding_model: str = Field(default="bge-m3", alias="EMBEDDING_MODEL")
 
     # LLM 参数
-    llm_temperature: float = Field(default=0.7, alias="LLM_TEMPERATURE")
+    llm_temperature: float = Field(default=0.2, alias="LLM_TEMPERATURE")
     llm_top_p: float = Field(default=0.9, alias="LLM_TOP_P")
     llm_max_tokens: int = Field(default=2048, alias="LLM_MAX_TOKENS")
 
-    # RAG
-    chunk_size: int = Field(default=512, alias="CHUNK_SIZE")
-    chunk_overlap: int = Field(default=50, alias="CHUNK_OVERLAP")
-    top_k: int = Field(default=5, alias="TOP_K")
+    # RAG — 小 chunk 用于检索，大 chunk 用于上下文返回（Parent Document Retrieval）
+    chunk_size: int = Field(default=256, alias="CHUNK_SIZE")
+    chunk_overlap: int = Field(default=32, alias="CHUNK_OVERLAP")
+    parent_chunk_size: int = Field(default=1536, alias="PARENT_CHUNK_SIZE")
+    parent_chunk_overlap: int = Field(default=128, alias="PARENT_CHUNK_OVERLAP")
+    top_k: int = Field(default=8, alias="TOP_K")
+    min_score: float = Field(default=0.5, alias="MIN_SCORE")
+    max_chunks_per_doc: int = Field(default=3, alias="MAX_CHUNKS_PER_DOC")
 
     # ChromaDB
     chroma_persist_dir: str = Field(default="./data/vectordb", alias="CHROMA_PERSIST_DIR")
@@ -26,7 +30,7 @@ class Settings(BaseSettings):
 
     # 知识文档
     knowledge_source_dir: str = Field(
-        default="/Users/wei.tao/Desktop/Data Confluence",
+        default="./knowledge",
         alias="KNOWLEDGE_SOURCE_DIR",
     )
 

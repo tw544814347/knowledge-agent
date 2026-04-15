@@ -1,6 +1,9 @@
 """API 路由定义"""
 
+import json
+
 from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
 from loguru import logger
 
 from src.core.rag_pipeline import RAGPipeline
@@ -51,6 +54,22 @@ async def ask_question(req: QueryRequest):
     except Exception as e:
         logger.error(f"问答失败: {e}")
         raise HTTPException(status_code=500, detail=f"问答处理失败: {str(e)}")
+
+
+@router.post("/ask/stream")
+async def ask_question_stream(req: QueryRequest):
+    """流式知识库问答：先返回检索来源，再逐 token 返回回答"""
+    pipeline = _require_pipeline()
+
+    def generate():
+        try:
+            for chunk in pipeline.stream_query(req.question, top_k=req.top_k):
+                yield json.dumps(chunk, ensure_ascii=False) + "\n"
+        except Exception as e:
+            logger.error(f"流式问答失败: {e}")
+            yield json.dumps({"type": "error", "message": str(e)}, ensure_ascii=False) + "\n"
+
+    return StreamingResponse(generate(), media_type="text/plain; charset=utf-8")
 
 
 @router.post("/sync", response_model=SyncResponse)

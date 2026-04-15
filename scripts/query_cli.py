@@ -36,7 +36,10 @@ def main():
             if result.sources:
                 print("\n参考来源:")
                 for s in result.sources:
-                    print(f"  - {s.filename} [{s.category}] (相关度: {s.score:.2f})")
+                    line = f"  - {s.filename} [{s.category}] (相关度: {s.score:.2f})"
+                    if s.related_docs:
+                        line += f"  → 关联: {', '.join(s.related_docs)}"
+                    print(line)
             print()
 
         except LLMError as e:

@@ -1,6 +1,7 @@
 """文档加载模块：从知识文档目录加载 Markdown / TXT 文件"""
 
 import hashlib
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -9,6 +10,8 @@ from loguru import logger
 EXCLUDE_DIRS = {".specstory", ".vscode", ".cursor", ".git", "__pycache__", "node_modules"}
 
 SUPPORTED_EXTENSIONS = {".md", ".txt"}
+
+RELATIONS_FILE = Path(__file__).resolve().parent.parent.parent / "docs" / "doc_relations.json"
 
 
 @dataclass
@@ -29,6 +32,21 @@ class DocumentLoader:
 
     def __init__(self, source_dir: str):
         self.source_dir = Path(source_dir)
+        self._relations = self._load_relations()
+
+    def _load_relations(self) -> dict[str, dict]:
+        """加载文档关系映射，返回 {相对路径: 关系数据} 字典"""
+        if not RELATIONS_FILE.exists():
+            return {}
+        try:
+            data = json.loads(RELATIONS_FILE.read_text(encoding="utf-8"))
+            return {
+                doc["path"]: doc
+                for doc in data.get("documents", [])
+            }
+        except Exception as e:
+            logger.warning(f"加载文档关系映射失败: {e}")
+            return {}
 
     def load_all(self) -> list[Document]:
         """加载目录下所有支持格式的文档"""
@@ -98,6 +116,20 @@ class DocumentLoader:
                 "extension": file_path.suffix.lower(),
                 "size": len(content),
             }
+
+            try:
+                rel_str = str(file_path.relative_to(self.source_dir))
+            except ValueError:
+                rel_str = ""
+            if rel_str and rel_str in self._relations:
+                rel = self._relations[rel_str]
+                if rel.get("references_to"):
+                    metadata["references_to"] = ", ".join(rel["references_to"])
+                if rel.get("referenced_by"):
+                    metadata["referenced_by"] = ", ".join(rel["referenced_by"])
+                if rel.get("pageId"):
+                    metadata["pageId"] = rel["pageId"]
+
             return Document(content=content, metadata=metadata)
 
         except UnicodeDecodeError:

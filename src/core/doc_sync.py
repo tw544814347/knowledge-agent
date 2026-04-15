@@ -34,7 +34,11 @@ class DocumentSyncer:
 
     def _load_saved_checksums(self) -> dict[str, str]:
         if CHECKSUM_FILE.exists():
-            return json.loads(CHECKSUM_FILE.read_text(encoding="utf-8"))
+            try:
+                return json.loads(CHECKSUM_FILE.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError) as e:
+                logger.warning(f"校验和文件损坏，将重新构建: {e}")
+                return {}
         return {}
 
     def _save_checksums(self, checksums: dict[str, str]) -> None:
@@ -83,9 +87,9 @@ class DocumentSyncer:
                 for doc in documents:
                     self.vector_store.delete_by_source(doc.metadata["source"])
 
-                chunks = self.processor.process_documents(documents)
-                self.vector_store.add_documents(chunks)
-                logger.info(f"已更新 {len(documents)} 个文件 → {len(chunks)} 个 chunk")
+                child_chunks, parent_map = self.processor.process_documents(documents)
+                self.vector_store.add_documents(child_chunks, parent_map)
+                logger.info(f"已更新 {len(documents)} 个文件 → {len(child_chunks)} 个检索 chunk")
 
         self._save_checksums(new_checksums)
         self.last_sync_time = datetime.now().isoformat()

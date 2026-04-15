@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 data/vectordb/
+data/checksums.json
 *.egg-info/
 dist/
 build/
@@ -10,3 +11,8 @@ build/
 venv/
 .specstory/
 .DS_Store
+node_modules/
+frontend/node_modules/
+frontend/dist/
+*.log
+.ollama_pull_monitor.pid

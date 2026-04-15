@@ -15,6 +15,7 @@ class SourceInfo(BaseModel):
     category: str = ""
     score: float = 0.0
     section: str = ""
+    related_docs: list[str] = Field(default_factory=list, description="关联文档列表")
 
 
 class QueryResponse(BaseModel):

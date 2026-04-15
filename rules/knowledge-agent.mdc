@@ -2,18 +2,19 @@
 
 ## 项目概述
 
-本项目构建一个基于本地 LLM（DeepSeek R1 7B）的知识库 Agent，通过 Ollama 提供模型推理服务，实现对私有知识文档的智能问答与检索。
+本项目构建一个基于本地 LLM（DeepSeek R1 14B）的知识库 Agent，通过 Ollama 提供模型推理服务，实现对私有知识文档的智能问答与检索。
 
 ## 技术栈
 
 | 组件 | 技术选型 | 说明 |
 |------|---------|------|
-| LLM 推理 | Ollama + DeepSeek R1 7B | 本地部署，数据不出域 |
-| 后端框架 | Python (FastAPI) | 提供 API 服务 |
+| LLM 推理 | Ollama + DeepSeek R1 14B | 本地部署，数据不出域 |
+| 后端框架 | Python (FastAPI) | REST + 流式（StreamingResponse）双模式 API |
 | 向量数据库 | ChromaDB | 知识文档向量化存储（余弦相似度） |
-| 文档切分 | langchain-text-splitters | Markdown 标题切分 + 递归字符切分 |
-| Embedding 模型 | nomic-embed-text (Ollama) | 本地 Embedding，已预装 |
-| HTTP 客户端 | httpx | 调用 Ollama REST API |
+| 文档切分 | langchain-text-splitters | Markdown 标题切分 + 双层 chunk（Parent Document Retrieval） |
+| Embedding 模型 | bge-m3 (Ollama) | BAAI 多语言 Embedding，1024 维 |
+| HTTP 客户端 | httpx | 调用 Ollama REST API（支持同步/流式） |
+| 前端框架 | React + Vite + Tailwind CSS | 暗色系聊天 UI，流式渲染 |
 
 ## 开发范式
 
@@ -29,10 +30,11 @@ always use ask.py 提问用户来纠正可能的错误！！！！
 用户提问 → 查询向量化 → 相似度检索 → 上下文注入 → LLM 生成回答
 ```
 
-- **文档预处理**：将知识文档切分为合适大小的 chunk（推荐 512~1024 tokens）
-- **向量化存储**：使用 Embedding 模型将 chunk 转为向量，存入 ChromaDB
-- **检索召回**：用户提问时，先将问题向量化，从向量库中检索 Top-K 相关 chunk
-- **增强生成**：将检索到的 chunk 作为上下文注入 Prompt，由 LLM 生成最终回答
+- **文档预处理**：将知识文档按 Markdown 标题分段，再双层切分（小 chunk ~256 字符用于检索，大 chunk ~1536 字符用于上下文）
+- **向量化存储**：使用 bge-m3 Embedding 模型将小 chunk 转为向量，存入 ChromaDB；大 chunk 单独存储供上下文返回
+- **检索召回**：用户提问时，先将问题向量化，从向量库中检索候选 → 过滤低分（< 0.5）→ 同文件去重（最多 3 条）→ 返回 Top-K
+- **Parent Document Retrieval**：检索命中小 chunk 后，替换为其所属大 chunk 的完整内容，兼顾精准匹配和上下文完整
+- **增强生成**：将检索到的上下文（含文档引用关系提示）注入 Prompt，由 LLM 生成最终回答
 
 ### 2. Prompt 工程规范
 
@@ -51,10 +53,35 @@ always use ask.py 提问用户来纠正可能的错误！！！！
 ### 4. 模型调用规范
 
 - 通过 Ollama REST API（`/api/chat`、`/api/embed`）调用本地模型
-- 默认模型：`deepseek-r1:7b`（推理任务）
-- Embedding 模型：`nomic-embed-text`（向量化任务）
+- 默认模型：`deepseek-r1:14b`（推理任务）
+- Embedding 模型：`bge-m3`（向量化任务，多语言优化）
 - 所有模型调用需包含超时处理和重试机制（使用 tenacity 库）
 - 模型参数（temperature、top_p 等）通过 `.env` + `pydantic-settings` 管理
+- LLM 推理优先使用流式模式（`stream: true`），减少用户等待感知
+
+### 5. 流式 API 规范
+
+后端通过 `/ask/stream` 端点提供 NDJSON 流式响应，每行一个 JSON 事件：
+
+```
+{"type":"sources","sources":[...]}   ← 检索结果（立即返回）
+{"type":"token","content":"..."}     ← LLM 逐 token 推送
+{"type":"done"}                      ← 生成完成
+{"type":"error","message":"..."}     ← 异常
+```
+
+- 后端使用 `StreamingResponse` + 同步生成器（Starlette 自动线程池化）
+- 前端使用 `fetch` + `ReadableStream` 读取，`requestAnimationFrame` 批量渲染
+- `<think>...</think>` 标签内容在前端解析为思考过程，灰色折叠框显示
+- 折叠框思考中自动展开、完成后自动收起，支持手动切换
+
+### 6. 前端开发规范
+
+- 技术栈：React 18 + Vite + Tailwind CSS v4
+- 组件拆分：`App` → `Sidebar` + `ChatPanel` → `MessageBubble` + `ThinkingIndicator`
+- 状态管理：useState + useRef（无需 Redux，单页本地应用）
+- 流式渲染性能：使用 `requestAnimationFrame` 批量合并 token → setState，避免逐 token 重渲染
+- 暗色主题：CSS 变量定义在 `index.css` 的 `@theme` 中，全局统一
 
 ## 本文件夹专用规则
 
@@ -96,15 +123,21 @@ always use ask.py 提问用户来纠正可能的错误！！！！
 ├── rules/                  # 开发规范和规则
 ├── src/
 │   ├── core/               # 核心逻辑（RAG pipeline、文档同步）
-│   ├── api/                # FastAPI 路由
+│   ├── api/                # FastAPI 路由（含流式端点）
 │   ├── models/             # 数据模型（Pydantic）
 │   ├── prompts/            # Prompt 模板
 │   ├── utils/              # 工具函数
 │   └── tests/              # 测试文件
 ├── config/                 # 配置文件（settings.py）
+├── frontend/               # React 前端（Vite + Tailwind）
+│   └── src/
+│       ├── components/     # ChatPanel、MessageBubble、Sidebar、ThinkingIndicator
+│       ├── api.js          # 后端 API 客户端（含流式请求）
+│       └── index.css       # 全局样式和暗色主题
 ├── data/
 │   └── vectordb/           # 向量数据库持久化
-├── scripts/                # 脚本（索引、启动、CLI 问答）
+├── docs/                   # 文档关系映射（自动生成）
+├── scripts/                # 脚本（索引、启动、CLI 问答、关系图构建）
 ├── .env                    # 环境变量（不提交）
 ├── requirements.txt        # Python 依赖
 └── README.md               # 项目说明
