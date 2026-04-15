@@ -58,6 +58,30 @@ npm run dev
 
 访问 `http://localhost:3000` 打开聊天界面。
 
+### 外部访问（GitHub Pages + ngrok）
+
+项目前端已部署到 GitHub Pages，外部可通过 https://tw544814347.github.io/knowledge-agent/ 访问。
+
+由于后端（Ollama LLM）运行在本地，需要 ngrok 内网穿透才能让外部前端连接到本地后端。**每次开机后需执行：**
+
+```bash
+# 1. 启动后端 API
+cd ~/Desktop/知识库\ agent && python scripts/run_server.py &
+
+# 2. 启动 ngrok 内网穿透（将本地 8000 端口暴露到公网）
+ngrok http 8000 &
+```
+
+启动后确认：
+- 后端健康检查：`curl http://localhost:8000/health`
+- ngrok 状态面板：http://localhost:4040
+
+> **注意**：ngrok 免费版的 URL 通常保持不变（当前为 `kerosene-duo-swaddling.ngrok-free.dev`）。如果 URL 发生变化，需要更新 GitHub 仓库变量并重新部署前端：
+> ```bash
+> gh variable set VITE_API_URL --body "https://新的ngrok地址"
+> gh workflow run deploy-pages.yml
+> ```
+
 ## API 接口
 
 启动服务后访问 `http://localhost:8000/docs` 查看 Swagger 文档。
