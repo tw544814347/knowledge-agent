@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  base: process.env.GITHUB_PAGES ? '/knowledge-agent/' : '/',
   server: {
     port: 3000,
     proxy: {

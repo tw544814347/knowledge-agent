@@ -1,4 +1,8 @@
-const API_BASE = '/api/v1';
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
+  : '/api/v1';
+
+const HEALTH_BASE = import.meta.env.VITE_API_URL || '';
 
 export async function askQuestion(question, topK = 8, signal) {
   const res = await fetch(`${API_BASE}/ask`, {
@@ -22,7 +26,7 @@ export async function getStatus() {
 }
 
 export async function healthCheck() {
-  const res = await fetch('/health');
+  const res = await fetch(`${HEALTH_BASE}/health`);
   if (!res.ok) throw new Error('服务不可用');
   return res.json();
 }
