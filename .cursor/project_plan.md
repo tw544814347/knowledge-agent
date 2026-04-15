@@ -6,9 +6,9 @@
 
 ## 知识源
 
-- 目录：`/Users/wei.tao/Desktop/Data Confluence`
-- 文件类型：Markdown（约 50 个文件，200+ KB）
-- 分类：Agent、Anomaly Detection、Cursor经验、LLM、RAG+Memory、Tech Doc
+- 目录：`./knowledge`（已内置到项目仓库）
+- 文件类型：Markdown（96 个文件，552 KB）
+- 分类：Agent、Anomaly Detection、Credit Bot、Cursor经验、LLM、MCP、RAG+Memory、Tech Doc
 - 特点：文件会不定期更新、删除、新增，需增量同步
 
 ## 任务清单
@@ -72,7 +72,17 @@
 - [x] 思考过程折叠框（灰色、自动展开/收起、内容滚动）`done`
 - [x] 流式打字光标 + 答案逐字展示 `done`
 
-### 阶段八：后续迭代
+### 阶段八：GitHub 部署
+
+- [x] 安装 gh CLI + 浏览器认证登录 `done`
+- [x] 知识库文件内置到 `knowledge/` + 路径改为相对路径 `done`
+- [x] 创建 Public 仓库并推送所有代码 `done`
+- [x] GitHub Actions 工作流自动构建前端 `done`
+- [x] GitHub Pages 部署前端（https://tw544814347.github.io/knowledge-agent/）`done`
+- [x] 前端 API_BASE 支持环境变量配置 `done`
+- [ ] ngrok 内网穿透（后端公网访问）`not started`
+
+### 阶段九：后续迭代
 
 - [ ] 添加单元测试和集成测试 `not started`
 - [ ] 性能测试（索引速度、查询延迟）`not started`

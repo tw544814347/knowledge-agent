@@ -1,5 +1,32 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-15（GitHub 部署 + 知识库内置）
+
+### GitHub 仓库
+
+- 创建 Public 仓库 [tw544814347/knowledge-agent](https://github.com/tw544814347/knowledge-agent)
+- 前端自动部署到 GitHub Pages：https://tw544814347.github.io/knowledge-agent/
+- 添加 `.github/workflows/deploy-pages.yml` GitHub Actions 工作流（push main 自动构建部署）
+
+### 知识库内置
+
+- 将外挂知识库 `/Users/wei.tao/Desktop/Data Confluence` 复制到项目内 `knowledge/` 目录（96 个文件）
+- `.env`、`.env.example`、`config/settings.py` 路径从绝对路径改为 `./knowledge`
+- 清理 `.specstory`、`.vscode`、`.DS_Store` 等隐藏文件
+
+### 前端适配
+
+- `api.js`：API_BASE 支持 `VITE_API_URL` 环境变量（部署时指向 ngrok 后端 URL）
+- `vite.config.js`：`base` 支持 GitHub Pages 子路径 `/knowledge-agent/`
+
+### .gitignore 完善
+
+- 新增 `node_modules/`、`frontend/dist/`、`*.log`、`data/checksums.json` 等排除规则
+
+### 待完成
+
+- ngrok 内网穿透配置（安装完成，待用户提供 authtoken 后启用）
+
 ## 2026-04-15（流式 API + 前端实时渲染）
 
 ### 核心优化：非流式 → 流式

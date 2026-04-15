@@ -2,6 +2,11 @@
 
 基于本地 LLM 的私有知识库智能问答系统，采用 RAG（检索增强生成）架构。
 
+- **GitHub 仓库**：https://github.com/tw544814347/knowledge-agent
+- **在线前端**：https://tw544814347.github.io/knowledge-agent/
+
+> 在线前端需要后端 API 运行（本地启动后端 + ngrok 穿透，或设置 `VITE_API_URL` 环境变量）
+
 ## 技术栈
 
 - **LLM 推理**：Ollama + DeepSeek R1 14B
@@ -61,6 +66,7 @@ npm run dev
 |------|------|------|
 | `/health` | GET | 健康检查（含 LLM 和 Embedding 模型信息） |
 | `/api/v1/ask` | POST | 知识库问答 |
+| `/api/v1/ask/stream` | POST | 流式知识库问答（NDJSON） |
 | `/api/v1/sync` | POST | 增量文档同步 |
 | `/api/v1/rebuild` | POST | 重建全量索引 |
 | `/api/v1/status` | GET | 索引状态查询 |
@@ -91,8 +97,10 @@ npm run dev
 │   └── build_relations.py          # 文档关系图构建
 ├── frontend/                       # React 前端
 │   └── src/
+├── knowledge/                      # 内置知识库文件（Markdown）
 ├── docs/                           # 文档关系映射（自动生成）
-├── data/vectordb/                  # 向量数据库持久化
+├── data/vectordb/                  # 向量数据库持久化（不提交）
+├── .github/workflows/              # GitHub Actions 自动部署
 ├── .env                            # 环境配置（不提交）
 └── requirements.txt                # Python 依赖
 ```
@@ -101,7 +109,7 @@ npm run dev
 
 复制 `.env.example` 为 `.env` 并根据需要修改：
 
-- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径
+- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径（默认 `./knowledge`）
 - `LLM_MODEL`：LLM 模型名称（默认 `deepseek-r1:14b`）
 - `EMBEDDING_MODEL`：Embedding 模型（默认 `bge-m3`）
 - `CHUNK_SIZE` / `PARENT_CHUNK_SIZE`：双层 chunk 切分参数
