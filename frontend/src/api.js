@@ -4,10 +4,14 @@ const API_BASE = import.meta.env.VITE_API_URL
 
 const HEALTH_BASE = import.meta.env.VITE_API_URL || '';
 
+const NGROK_HEADERS = import.meta.env.VITE_API_URL?.includes('ngrok')
+  ? { 'ngrok-skip-browser-warning': 'true' }
+  : {};
+
 export async function askQuestion(question, topK = 8, signal) {
   const res = await fetch(`${API_BASE}/ask`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...NGROK_HEADERS },
     body: JSON.stringify({ question, top_k: topK }),
     signal,
   });
@@ -20,25 +24,25 @@ export async function askQuestion(question, topK = 8, signal) {
 }
 
 export async function getStatus() {
-  const res = await fetch(`${API_BASE}/status`);
+  const res = await fetch(`${API_BASE}/status`, { headers: NGROK_HEADERS });
   if (!res.ok) throw new Error('获取状态失败');
   return res.json();
 }
 
 export async function healthCheck() {
-  const res = await fetch(`${HEALTH_BASE}/health`);
+  const res = await fetch(`${HEALTH_BASE}/health`, { headers: NGROK_HEADERS });
   if (!res.ok) throw new Error('服务不可用');
   return res.json();
 }
 
 export async function syncDocuments() {
-  const res = await fetch(`${API_BASE}/sync`, { method: 'POST' });
+  const res = await fetch(`${API_BASE}/sync`, { method: 'POST', headers: NGROK_HEADERS });
   if (!res.ok) throw new Error('同步失败');
   return res.json();
 }
 
 export async function rebuildIndex() {
-  const res = await fetch(`${API_BASE}/rebuild`, { method: 'POST' });
+  const res = await fetch(`${API_BASE}/rebuild`, { method: 'POST', headers: NGROK_HEADERS });
   if (!res.ok) throw new Error('重建索引失败');
   return res.json();
 }
@@ -46,7 +50,7 @@ export async function rebuildIndex() {
 export async function askQuestionStream(question, topK = 8, signal, onChunk) {
   const res = await fetch(`${API_BASE}/ask/stream`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...NGROK_HEADERS },
     body: JSON.stringify({ question, top_k: topK }),
     signal,
   });
