@@ -1,0 +1,111 @@
+# 知识库 Agent 开发规范
+
+## 项目概述
+
+本项目构建一个基于本地 LLM（DeepSeek R1 7B）的知识库 Agent，通过 Ollama 提供模型推理服务，实现对私有知识文档的智能问答与检索。
+
+## 技术栈
+
+| 组件 | 技术选型 | 说明 |
+|------|---------|------|
+| LLM 推理 | Ollama + DeepSeek R1 7B | 本地部署，数据不出域 |
+| 后端框架 | Python (FastAPI) | 提供 API 服务 |
+| 向量数据库 | ChromaDB | 知识文档向量化存储（余弦相似度） |
+| 文档切分 | langchain-text-splitters | Markdown 标题切分 + 递归字符切分 |
+| Embedding 模型 | nomic-embed-text (Ollama) | 本地 Embedding，已预装 |
+| HTTP 客户端 | httpx | 调用 Ollama REST API |
+
+## 开发范式
+
+### 0. ask plugin 使用
+
+always use ask.py 提问用户来纠正可能的错误！！！！
+
+### 1. RAG（检索增强生成）架构
+
+本项目采用 RAG 架构，核心流程：
+
+```
+用户提问 → 查询向量化 → 相似度检索 → 上下文注入 → LLM 生成回答
+```
+
+- **文档预处理**：将知识文档切分为合适大小的 chunk（推荐 512~1024 tokens）
+- **向量化存储**：使用 Embedding 模型将 chunk 转为向量，存入 ChromaDB
+- **检索召回**：用户提问时，先将问题向量化，从向量库中检索 Top-K 相关 chunk
+- **增强生成**：将检索到的 chunk 作为上下文注入 Prompt，由 LLM 生成最终回答
+
+### 2. Prompt 工程规范
+
+- 所有 Prompt 模板统一存放在 `src/prompts/` 目录下
+- 使用 Python f-string（`.format()`）模板化管理
+- System Prompt 需明确角色定义、回答边界和输出格式
+- 禁止在 Prompt 中硬编码业务逻辑
+
+### 3. 知识文档管理
+
+- 知识文档源目录通过 `.env` 的 `KNOWLEDGE_SOURCE_DIR` 配置（当前为 `Data Confluence` 目录）
+- 当前主要支持 Markdown 和纯文本格式
+- 支持增量同步：基于 MD5 校验和检测文件变更（新增/修改/删除）
+- 向量数据库持久化存储在 `data/vectordb/` 目录
+
+### 4. 模型调用规范
+
+- 通过 Ollama REST API（`/api/chat`、`/api/embed`）调用本地模型
+- 默认模型：`deepseek-r1:7b`（推理任务）
+- Embedding 模型：`nomic-embed-text`（向量化任务）
+- 所有模型调用需包含超时处理和重试机制（使用 tenacity 库）
+- 模型参数（temperature、top_p 等）通过 `.env` + `pydantic-settings` 管理
+
+## 本文件夹专用规则
+
+### 代码规范
+
+- Python 代码遵循 PEP 8 规范
+- 类型注解（Type Hints）必须添加
+- 异步函数优先使用 `async/await`
+- 所有对外 API 接口需编写 Pydantic 数据模型
+- 错误应当抛出自定义异常，禁止吞掉异常返回错误字符串
+
+### 配置管理
+
+- 敏感配置使用 `.env` 文件，禁止提交到版本控制
+- 模型参数、chunk 大小等可调参数放入 `.env`，通过 `config/settings.py` 加载
+- 使用 `pydantic-settings` 管理配置
+
+### 日志规范
+
+- 使用 `loguru` 模块
+- 日志级别：DEBUG（开发）、INFO（生产）
+- 模型调用耗时、token 用量需记录日志
+
+### 测试规范
+
+- 单元测试存放在 `src/tests/`
+- 使用 `pytest` 作为测试框架
+- 关键 RAG 流程需编写集成测试
+
+### 资源管理规范
+
+- 长连接客户端（httpx.Client、ChromaDB PersistentClient）使用单例模式，避免多实例
+- 需要清理的资源使用 context manager，禁止依赖 `__del__`
+
+### 目录结构约定
+
+```
+知识库 agent/
+├── rules/                  # 开发规范和规则
+├── src/
+│   ├── core/               # 核心逻辑（RAG pipeline、文档同步）
+│   ├── api/                # FastAPI 路由
+│   ├── models/             # 数据模型（Pydantic）
+│   ├── prompts/            # Prompt 模板
+│   ├── utils/              # 工具函数
+│   └── tests/              # 测试文件
+├── config/                 # 配置文件（settings.py）
+├── data/
+│   └── vectordb/           # 向量数据库持久化
+├── scripts/                # 脚本（索引、启动、CLI 问答）
+├── .env                    # 环境变量（不提交）
+├── requirements.txt        # Python 依赖
+└── README.md               # 项目说明
+```
