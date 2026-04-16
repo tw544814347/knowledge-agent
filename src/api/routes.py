@@ -27,6 +27,9 @@ from src.models.schemas import (
     User,
     NewChatRequest,
     AskResponseRequest,
+    KnowledgeBase,
+    KnowledgeBaseListResponse,
+    SwitchKnowledgeBaseRequest,
 )
 from config.settings import settings
 
@@ -299,4 +302,61 @@ async def check_ask_requests() -> dict:
     return {
         "has_request": False,
         "request": None
+    }
+
+
+@router.get("/knowledge-bases")
+async def get_knowledge_bases(current_user: User = Depends(get_current_user)) -> KnowledgeBaseListResponse:
+    """获取可用的知识库列表"""
+    # 硬编码几个知识库作为示例，后续可以从配置文件读取
+    knowledge_bases = [
+        KnowledgeBase(
+            id="agent-kb-v1.2",
+            name="Agent KB v1.2",
+            path="./agent kb v1.2",
+            description="主要的AI Agent知识库",
+            is_active=True
+        ),
+        KnowledgeBase(
+            id="general-kb",
+            name="通用知识库",
+            path="./general",
+            description="通用技术文档库",
+            is_active=True
+        ),
+        KnowledgeBase(
+            id="project-docs",
+            name="项目文档",
+            path="./project-docs",
+            description="项目相关文档",
+            is_active=False  # 示例：未激活
+        )
+    ]
+    
+    # 当前活跃的知识库（可以从用户配置或全局配置读取）
+    current_kb = "agent-kb-v1.2"
+    
+    return KnowledgeBaseListResponse(
+        knowledge_bases=knowledge_bases,
+        current=current_kb
+    )
+
+
+@router.post("/knowledge-bases/switch")
+async def switch_knowledge_base(
+    request: SwitchKnowledgeBaseRequest,
+    current_user: User = Depends(get_current_user)
+) -> dict:
+    """切换知识库"""
+    # TODO: 实现知识库切换逻辑
+    # 1. 验证知识库ID是否有效
+    # 2. 更新用户配置或全局配置
+    # 3. 可能需要重新加载向量数据库
+    
+    logger.info(f"用户 {current_user.email} 请求切换到知识库: {request.kb_id}")
+    
+    return {
+        "status": "success",
+        "message": f"已切换到知识库: {request.kb_id}",
+        "kb_id": request.kb_id
     }

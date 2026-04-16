@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Database, RefreshCw, HardDriveDownload, X, Cpu, Layers, Plus, LogIn, LogOut } from 'lucide-react';
 import { syncDocuments, rebuildIndex, newChat } from '../api';
 import ConversationHistory from './ConversationHistory';
+import KnowledgeBaseSelector from './KnowledgeBaseSelector';
 
 export default function Sidebar({ 
   serverStatus, 
@@ -148,6 +149,20 @@ export default function Sidebar({
           )}
         </section>
 
+        {/* 知识库选择 */}
+        {user && (
+          <section>
+            <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">知识库选择</h2>
+            <KnowledgeBaseSelector 
+              user={user}
+              onKnowledgeBaseChange={(kbId) => {
+                console.log('切换到知识库:', kbId);
+                // 这里可以触发索引重新加载等操作
+              }}
+            />
+          </section>
+        )}
+
         {/* 历史对话 */}
         {user && (
           <section>
@@ -167,6 +182,7 @@ export default function Sidebar({
               <ConversationHistory 
                 onSelectConversation={onSelectConversation}
                 selectedConversationId={selectedConversationId}
+                user={user}
               />
             </div>
           </section>

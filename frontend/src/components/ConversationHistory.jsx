@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MessageSquare, Pin, PinOff, Trash2, Clock } from 'lucide-react';
 import { getConversations, updateConversation, deleteConversation } from '../api';
 
-export default function ConversationHistory({ onSelectConversation, selectedConversationId }) {
+export default function ConversationHistory({ onSelectConversation, selectedConversationId, user }) {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,8 +22,13 @@ export default function ConversationHistory({ onSelectConversation, selectedConv
   };
 
   useEffect(() => {
-    loadConversations();
-  }, []);
+    if (user) {
+      loadConversations();
+    } else {
+      setConversations([]);
+      setLoading(false);
+    }
+  }, [user]);
 
   const handlePin = async (conversationId, currentPinned) => {
     try {

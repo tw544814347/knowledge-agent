@@ -59,6 +59,11 @@ class Conversation(BaseModel):
     created_at: datetime = Field(..., description="创建时间")
     pinned: bool = Field(default=False, description="是否置顶")
     user_id: str = Field(..., description="所属用户ID")
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 
 class ConversationListResponse(BaseModel):
@@ -84,6 +89,26 @@ class AskResponseRequest(BaseModel):
     question: str = Field(..., description="问题内容")
     selected_option: str = Field(..., description="用户选择的选项")
     option_index: int = Field(..., description="选项索引")
+
+
+class KnowledgeBase(BaseModel):
+    """知识库信息"""
+    id: str = Field(..., description="知识库ID")
+    name: str = Field(..., description="显示名称")
+    path: str = Field(..., description="文件路径")
+    description: Optional[str] = Field(None, description="描述")
+    is_active: bool = Field(default=True, description="是否可用")
+    
+
+class KnowledgeBaseListResponse(BaseModel):
+    """知识库列表响应"""
+    knowledge_bases: List[KnowledgeBase] = Field(..., description="知识库列表")
+    current: Optional[str] = Field(None, description="当前选中的知识库ID")
+
+
+class SwitchKnowledgeBaseRequest(BaseModel):
+    """切换知识库请求"""
+    kb_id: str = Field(..., description="知识库ID")
 
 
 class UpdateConversationRequest(BaseModel):
@@ -112,6 +137,11 @@ class User(BaseModel):
     nickname: Optional[str] = Field(None, description="昵称")
     created_at: datetime = Field(..., description="创建时间")
     is_active: bool = Field(default=True, description="是否激活")
+    
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 
 class UserInDB(User):

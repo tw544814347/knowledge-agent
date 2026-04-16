@@ -21,6 +21,7 @@
 ### 0. ask plugin 使用
 
 always use ask.py 提问用户来纠正可能的错误！！！！
+发布前需要x
 
 ### 1. RAG（检索增强生成）架构
 
