@@ -87,9 +87,13 @@ export async function askQuestionStream(question, topK = 8, signal, onChunk) {
 // 对话历史相关 API
 const HEADERS = { 'Content-Type': 'application/json', ...NGROK_HEADERS };
 
-export const getConversations = async (limit = 20) => {
+export const getConversations = async (limit = 10) => {
+  const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations?limit=${limit}`, {
-    headers: NGROK_HEADERS,
+    headers: {
+      ...NGROK_HEADERS,
+      'Authorization': `Bearer ${token}`
+    },
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return await response.json();
@@ -104,9 +108,13 @@ export const getConversation = async (conversationId) => {
 };
 
 export const createConversation = async (question, answer, sources = []) => {
+  const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations`, {
     method: 'POST',
-    headers: HEADERS,
+    headers: {
+      ...HEADERS,
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify({
       question,
       answer,
@@ -118,9 +126,13 @@ export const createConversation = async (question, answer, sources = []) => {
 };
 
 export const updateConversation = async (conversationId, updates) => {
+  const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
     method: 'PUT',
-    headers: HEADERS,
+    headers: {
+      ...HEADERS,
+      'Authorization': `Bearer ${token}`
+    },
     body: JSON.stringify(updates),
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -128,9 +140,93 @@ export const updateConversation = async (conversationId, updates) => {
 };
 
 export const deleteConversation = async (conversationId) => {
+  const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
     method: 'DELETE',
-    headers: NGROK_HEADERS,
+    headers: {
+      ...NGROK_HEADERS,
+      'Authorization': `Bearer ${token}`
+    },
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+// 用户认证相关 API
+export const register = async (email, password, nickname) => {
+  const response = await fetch(`${API_BASE}/auth/register`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ email, password, nickname }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const login = async (email, password) => {
+  const response = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ email, password }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const data = await response.json();
+  
+  // 保存token到localStorage
+  localStorage.setItem('access_token', data.access_token);
+  localStorage.setItem('user', JSON.stringify(data.user));
+  
+  return data;
+};
+
+export const logout = () => {
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('user');
+};
+
+export const getCurrentUser = () => {
+  const userStr = localStorage.getItem('user');
+  return userStr ? JSON.parse(userStr) : null;
+};
+
+export const isAuthenticated = () => {
+  return !!localStorage.getItem('access_token');
+};
+
+// 新对话功能
+export const newChat = async () => {
+  const token = localStorage.getItem('access_token');
+  const response = await fetch(`${API_BASE}/chat/new`, {
+    method: 'POST',
+    headers: {
+      ...HEADERS,
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify({ clear_current: true }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+// Ask tool integration
+export const sendAskResponse = async (question, selectedOption, optionIndex) => {
+  const response = await fetch(`${API_BASE}/ask/response`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({
+      question,
+      selected_option: selectedOption,
+      option_index: optionIndex
+    })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const checkAskRequests = async () => {
+  const response = await fetch(`${API_BASE}/ask/check`, {
+    method: 'GET',
+    headers: HEADERS,
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return await response.json();

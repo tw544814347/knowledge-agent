@@ -2,7 +2,7 @@
 
 import json
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.responses import StreamingResponse
 from loguru import logger
 
@@ -10,6 +10,8 @@ from src.core.rag_pipeline import RAGPipeline
 from src.core.llm_client import LLMError
 from src.core.doc_sync import DocumentSyncer
 from src.core.conversation_manager import ConversationManager
+from src.core.user_manager import UserManager
+from src.core.auth_deps import get_current_user, get_current_user_optional, get_user_manager
 from src.models.schemas import (
     QueryRequest,
     QueryResponse,
@@ -19,6 +21,12 @@ from src.models.schemas import (
     ConversationListResponse,
     CreateConversationRequest,
     UpdateConversationRequest,
+    UserCreate,
+    UserLogin,
+    Token,
+    User,
+    NewChatRequest,
+    AskResponseRequest,
 )
 from config.settings import settings
 
@@ -126,15 +134,83 @@ async def get_status():
     )
 
 
+# 用户认证相关 API
+@router.post("/auth/register", response_model=Token)
+async def register(user_create: UserCreate):
+    """用户注册"""
+    user_manager = get_user_manager()
+    try:
+        user = user_manager.create_user(user_create)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="邮箱已被注册"
+            )
+        
+        # 创建访问令牌
+        user_in_db = user_manager.get_user_by_email(user.email)
+        access_token = user_manager.create_access_token(user_in_db)
+        
+        return Token(access_token=access_token, user=user)
+    except Exception as e:
+        logger.error(f"用户注册失败: {e}")
+        raise HTTPException(status_code=500, detail=f"注册失败: {str(e)}")
+
+
+@router.post("/auth/login", response_model=Token)
+async def login(user_login: UserLogin):
+    """用户登录"""
+    user_manager = get_user_manager()
+    try:
+        user_in_db = user_manager.authenticate_user(user_login.email, user_login.password)
+        if not user_in_db:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="邮箱或密码错误"
+            )
+        
+        # 创建访问令牌
+        access_token = user_manager.create_access_token(user_in_db)
+        
+        # 转换为User对象（不包含密码）
+        user = User(
+            id=user_in_db.id,
+            email=user_in_db.email,
+            nickname=user_in_db.nickname,
+            created_at=user_in_db.created_at,
+            is_active=user_in_db.is_active
+        )
+        
+        return Token(access_token=access_token, user=user)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"用户登录失败: {e}")
+        raise HTTPException(status_code=500, detail=f"登录失败: {str(e)}")
+
+
+@router.get("/auth/me", response_model=User)
+async def get_current_user_info(current_user: User = Depends(get_current_user)):
+    """获取当前用户信息"""
+    return current_user
+
+
+@router.post("/chat/new")
+async def new_chat(request: NewChatRequest, current_user: User = Depends(get_current_user)):
+    """创建新对话"""
+    return {"message": "新对话已创建", "user_id": current_user.id, "clear_current": request.clear_current}
+
+
 # 对话历史相关 API
 @router.post("/conversations", response_model=Conversation)
-async def create_conversation(req: CreateConversationRequest):
+async def create_conversation(req: CreateConversationRequest, current_user: User = Depends(get_current_user)):
     """保存对话到历史记录"""
     conv_manager = _require_conv_manager()
     try:
         conversation = conv_manager.create_conversation(
             question=req.question,
             answer=req.answer,
+            user_id=current_user.id,
             sources=req.sources
         )
         return conversation
@@ -144,14 +220,14 @@ async def create_conversation(req: CreateConversationRequest):
 
 
 @router.get("/conversations", response_model=ConversationListResponse)
-async def get_conversations(limit: int = 20):
+async def get_conversations(limit: int = 10, current_user: User = Depends(get_current_user)):
     """获取历史对话列表"""
     conv_manager = _require_conv_manager()
     try:
-        conversations = conv_manager.get_conversations(limit=min(limit, 50))  # 最多50条
+        conversations = conv_manager.get_conversations(current_user.id, limit=min(limit, 10))  # 最多10条
         return ConversationListResponse(
             conversations=conversations,
-            total=conv_manager.get_conversation_count()
+            total=conv_manager.get_conversation_count(current_user.id)
         )
     except Exception as e:
         logger.error(f"获取对话列表失败: {e}")
@@ -182,10 +258,45 @@ async def update_conversation(conversation_id: str, req: UpdateConversationReque
 
 
 @router.delete("/conversations/{conversation_id}")
-async def delete_conversation(conversation_id: str):
+async def delete_conversation(conversation_id: str, current_user: User = Depends(get_current_user)):
     """删除对话"""
     conv_manager = _require_conv_manager()
-    success = conv_manager.delete_conversation(conversation_id)
+    success = conv_manager.delete_conversation(conversation_id, current_user.id)
     if not success:
-        raise HTTPException(status_code=404, detail="对话不存在")
+        raise HTTPException(status_code=404, detail="对话不存在或无权限")
     return {"message": "删除成功"}
+
+
+@router.post("/chat/new")
+async def new_chat(
+    request: NewChatRequest,
+    current_user: User = Depends(get_current_user)
+) -> dict:
+    """创建新对话"""
+    return {"status": "success", "message": "新对话已创建"}
+
+
+@router.post("/ask/response")
+async def ask_response(request: AskResponseRequest) -> dict:
+    """处理ask.py工具的用户响应"""
+    logger.info(f"Ask.py response: {request.question} -> {request.selected_option} (index: {request.option_index})")
+    return {
+        "status": "success", 
+        "message": f"已接收用户选择: {request.selected_option}",
+        "data": {
+            "question": request.question,
+            "selected_option": request.selected_option,
+            "option_index": request.option_index
+        }
+    }
+
+
+@router.get("/ask/check")
+async def check_ask_requests() -> dict:
+    """检查是否有待处理的ask请求（用于前端轮询）"""
+    # 这里可以实现检查ask.py队列的逻辑
+    # 暂时返回无请求
+    return {
+        "has_request": False,
+        "request": None
+    }

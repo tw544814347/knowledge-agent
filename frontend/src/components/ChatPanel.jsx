@@ -8,6 +8,8 @@ export default function ChatPanel({
   onToggleSidebar, 
   sidebarOpen, 
   selectedConversation,
+  user,
+  onLogin,
   onConversationSaved 
 }) {
   const [messages, setMessages] = useState([]);
@@ -52,6 +54,9 @@ export default function ChatPanel({
       
       setMessages([userMsg, aiMsg]);
       setInput('');
+    } else {
+      // selectedConversation为null表示新对话
+      setMessages([]);
     }
   }, [selectedConversation]);
 
@@ -84,7 +89,7 @@ export default function ChatPanel({
 
   const handleSend = async () => {
     const question = input.trim();
-    if (!question || loading || !isConnected) return;
+    if (!question || loading || !isConnected || !user) return;
 
     const userId = `u_${Date.now()}`;
     const aiMsgId = `a_${Date.now()}`;
@@ -225,8 +230,16 @@ export default function ChatPanel({
             </div>
             <h2 className="text-lg font-medium text-[var(--color-text-primary)] mb-1">知识库 Agent</h2>
             <p className="text-sm text-[var(--color-text-muted)] max-w-sm">
-              基于 DeepSeek R1 + RAG 的智能问答系统，输入你的问题开始对话。
+              基于 DeepSeek R1 + RAG 的智能问答系统，{user ? '输入你的问题开始对话。' : '请先登录后开始使用。'}
             </p>
+            {!user && (
+              <button
+                onClick={onLogin}
+                className="mt-4 px-6 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] text-white transition-colors"
+              >
+                登录/注册
+              </button>
+            )}
             <div className="mt-6 flex flex-wrap gap-2 justify-center max-w-md">
               {['Multi-Agent 和 Workflow 有什么区别？', 'RAG 系统有哪些挑战？', 'Cursor 有什么使用技巧？'].map(q => (
                 <button
@@ -255,8 +268,12 @@ export default function ChatPanel({
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isConnected ? '输入你的问题...' : '后端服务未连接...'}
-            disabled={!isConnected || loading}
+            placeholder={
+              !user ? '请先登录后开始对话...' :
+              !isConnected ? '后端服务未连接...' :
+              '输入你的问题...'
+            }
+            disabled={!user || !isConnected || loading}
             rows={1}
             className="flex-1 bg-transparent resize-none text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] outline-none disabled:opacity-40 max-h-[150px]"
           />
@@ -271,7 +288,7 @@ export default function ChatPanel({
           ) : (
             <button
               onClick={handleSend}
-              disabled={!input.trim() || !isConnected}
+              disabled={!input.trim() || !isConnected || !user}
               className="p-2 rounded-lg bg-[var(--color-accent-dim)] hover:bg-[var(--color-accent)] text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors shrink-0"
             >
               <Send size={18} />

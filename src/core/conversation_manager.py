@@ -45,6 +45,7 @@ class ConversationManager:
         self,
         question: str,
         answer: str,
+        user_id: str,
         sources: List[SourceInfo] = None
     ) -> Conversation:
         """创建新对话"""
@@ -67,24 +68,30 @@ class ConversationManager:
             title=title,
             message=message,
             created_at=datetime.now(),
-            pinned=False
+            pinned=False,
+            user_id=user_id
         )
         
         # 保存到内存和文件（转换为dict，datetime会被序列化为字符串）
         conv_dict = conversation.model_dump()
         conv_dict['created_at'] = conversation.created_at.isoformat()
+        conv_dict['user_id'] = user_id
         self._conversations[conversation_id] = conv_dict
         self._save_conversations()
         
         return conversation
     
-    def get_conversations(self, limit: int = 20) -> List[Conversation]:
+    def get_conversations(self, user_id: str, limit: int = 10) -> List[Conversation]:
         """获取对话列表（置顶+最近）"""
         conversations = []
         
-        # 转换为 Conversation 对象
+        # 转换为 Conversation 对象（只获取当前用户的对话）
         for conv_data in self._conversations.values():
             try:
+                # 只返回当前用户的对话
+                if conv_data.get('user_id') != user_id:
+                    continue
+                    
                 # 兼容性处理：确保 created_at 是 datetime 对象
                 if isinstance(conv_data.get('created_at'), str):
                     conv_data['created_at'] = datetime.fromisoformat(conv_data['created_at'])
@@ -154,14 +161,16 @@ class ConversationManager:
             print(f"Warning: Failed to parse updated conversation: {e}")
             return None
     
-    def delete_conversation(self, conversation_id: str) -> bool:
+    def delete_conversation(self, conversation_id: str, user_id: str) -> bool:
         """删除对话"""
-        if conversation_id in self._conversations:
+        # 检查对话是否存在且属于当前用户
+        conv_data = self._conversations.get(conversation_id)
+        if conv_data and conv_data.get('user_id') == user_id:
             del self._conversations[conversation_id]
             self._save_conversations()
             return True
         return False
     
-    def get_conversation_count(self) -> int:
+    def get_conversation_count(self, user_id: str) -> int:
         """获取对话总数"""
-        return len(self._conversations)
+        return len([c for c in self._conversations.values() if c.get('user_id') == user_id])

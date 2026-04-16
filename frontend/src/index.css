@@ -14,6 +14,8 @@
   --color-text-primary: #e6edf3;
   --color-text-secondary: #8b949e;
   --color-text-muted: #6e7681;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
 }
 
 body {

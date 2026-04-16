@@ -43,6 +43,17 @@ class Settings(BaseSettings):
 
     # 日志
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
+    
+    # JWT 认证
+    jwt_secret_key: str = Field(default="dev-secret-key", alias="JWT_SECRET_KEY")
+    jwt_algorithm: str = Field(default="HS256", alias="JWT_ALGORITHM") 
+    jwt_access_token_expire_minutes: int = Field(default=1440, alias="JWT_ACCESS_TOKEN_EXPIRE_MINUTES")
+    
+    # 邮件配置
+    smtp_host: str = Field(default="", alias="SMTP_HOST")
+    smtp_port: int = Field(default=587, alias="SMTP_PORT")
+    smtp_username: str = Field(default="", alias="SMTP_USERNAME")
+    smtp_password: str = Field(default="", alias="SMTP_PASSWORD")
 
     class Config:
         env_file = ".env"

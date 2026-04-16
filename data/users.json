@@ -1,0 +1,13 @@
+{
+  "users": {
+    "e797697e-54d1-42fe-97f3-769bfeff0130": {
+      "id": "e797697e-54d1-42fe-97f3-769bfeff0130",
+      "email": "testv3@example.com",
+      "nickname": "V3测试用户",
+      "hashed_password": "$2b$12$KlKCIP6tg7X6sRNfq3GGAeKEXGDE/18zKc2S3g7cp0.vilWsTeN4a",
+      "created_at": "2026-04-16T14:40:58.284545",
+      "is_active": true
+    }
+  },
+  "last_updated": "2026-04-16T14:40:58.285012"
+}
