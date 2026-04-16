@@ -33,26 +33,58 @@ export default function ChatPanel({
   // 当选中历史对话时，加载对话内容
   useEffect(() => {
     if (selectedConversation) {
-      const userMsg = {
-        id: `u_${Date.now()}`,
-        role: 'user',
-        content: selectedConversation.message.question,
-        timestamp: new Date(selectedConversation.created_at),
-      };
+      // 处理不同的数据结构：置顶对话使用messages数组，普通对话使用message对象
+      let conversationMessages = [];
       
-      const aiMsg = {
-        id: `a_${Date.now()}`,
-        role: 'assistant',
-        content: selectedConversation.message.answer,
-        sources: selectedConversation.message.sources || [],
-        timestamp: new Date(selectedConversation.created_at),
-        loading: false,
-        streaming: false,
-        thinking: '',
-        thinkingDone: true,
-      };
+      if (selectedConversation.messages && Array.isArray(selectedConversation.messages)) {
+        // 置顶对话：有多条消息的情况
+        selectedConversation.messages.forEach((msg, index) => {
+          const userMsg = {
+            id: `u_${Date.now()}_${index}`,
+            role: 'user',
+            content: msg.question,
+            timestamp: new Date(msg.created_at || selectedConversation.created_at),
+          };
+          
+          const aiMsg = {
+            id: `a_${Date.now()}_${index}`,
+            role: 'assistant',
+            content: msg.answer,
+            sources: msg.sources || [],
+            timestamp: new Date(msg.created_at || selectedConversation.created_at),
+            loading: false,
+            streaming: false,
+            thinking: '',
+            thinkingDone: true,
+          };
+          
+          conversationMessages.push(userMsg, aiMsg);
+        });
+      } else if (selectedConversation.message) {
+        // 普通对话：单条消息的情况
+        const userMsg = {
+          id: `u_${Date.now()}`,
+          role: 'user',
+          content: selectedConversation.message.question,
+          timestamp: new Date(selectedConversation.created_at),
+        };
+        
+        const aiMsg = {
+          id: `a_${Date.now()}`,
+          role: 'assistant',
+          content: selectedConversation.message.answer,
+          sources: selectedConversation.message.sources || [],
+          timestamp: new Date(selectedConversation.created_at),
+          loading: false,
+          streaming: false,
+          thinking: '',
+          thinkingDone: true,
+        };
+        
+        conversationMessages = [userMsg, aiMsg];
+      }
       
-      setMessages([userMsg, aiMsg]);
+      setMessages(conversationMessages);
       setInput('');
     } else {
       // selectedConversation为null表示新对话
@@ -141,6 +173,8 @@ export default function ChatPanel({
     };
 
     try {
+      // 如果有选中的对话，传递conversation_id以在该对话中添加消息
+      const conversationId = selectedConversation?.id || null;
       await askQuestionStream(question, 8, controller.signal, (chunk) => {
         if (chunk.type === 'sources') {
           setMessages(prev => prev.map(m => m.id === aiMsgId ? {
@@ -165,21 +199,20 @@ export default function ChatPanel({
             generationTime: m.generationStartTime ? (endTime - m.generationStartTime) / 1000 : null, // 计算耗时（秒）
           } : m));
           
-          // 保存对话到历史记录（不包含thinking过程）
-          setTimeout(async () => {
+          // 通知父组件对话已完成（后端会自动保存到历史记录）
+          setTimeout(() => {
             try {
               const finalMessage = [...messages].find(m => m.id === aiMsgId);
               if (finalMessage && finalMessage.content && !finalMessage.error) {
-                const conversation = await createConversation(
-                  question,
-                  rawContent.current.replace(/<think>.*?<\/think>/gs, '').trim() || finalMessage.content,
-                  finalMessage.sources || []
-                );
-                onConversationSaved?.(conversation);
+                // 触发对话历史刷新（由于后端自动保存，前端只需要刷新显示）
+                onConversationSaved?.({ 
+                  id: 'auto_saved', 
+                  title: question.slice(0, 30),
+                  refresh: true 
+                });
               }
             } catch (error) {
-              console.error('保存对话失败:', error);
-              // 静默失败，不影响用户体验
+              console.error('通知对话完成失败:', error);
             }
           }, 500);
         } else if (chunk.type === 'error') {
@@ -188,7 +221,7 @@ export default function ChatPanel({
             ...m, content: `请求失败：${chunk.message}`, loading: false, error: true,
           } : m));
         }
-      });
+      }, conversationId);
     } catch (err) {
       if (err.name === 'AbortError') return;
       setMessages(prev => prev.map(m => m.id === aiMsgId ? {

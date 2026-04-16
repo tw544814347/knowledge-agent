@@ -47,11 +47,26 @@ export async function rebuildIndex() {
   return res.json();
 }
 
-export async function askQuestionStream(question, topK = 8, signal, onChunk) {
+export async function askQuestionStream(question, topK = 8, signal, onChunk, conversationId = null) {
+  const token = localStorage.getItem('access_token');
+  const headers = { 
+    'Content-Type': 'application/json', 
+    ...NGROK_HEADERS 
+  };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  const requestBody = { question, top_k: topK };
+  if (conversationId) {
+    requestBody.conversation_id = conversationId;
+  }
+  
   const res = await fetch(`${API_BASE}/ask/stream`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', ...NGROK_HEADERS },
-    body: JSON.stringify({ question, top_k: topK }),
+    headers,
+    body: JSON.stringify(requestBody),
     signal,
   });
 
@@ -242,6 +257,55 @@ export const resetPassword = async (email, resetCode, newPassword) => {
       email,
       reset_code: resetCode,
       new_password: newPassword
+    })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+// 修改密码（已登录用户）
+export const changePassword = async (currentPassword, newPassword) => {
+  const token = localStorage.getItem('access_token');
+  if (!token) {
+    throw new Error('请先登录');
+  }
+
+  const response = await fetch(`${API_BASE}/auth/change-password`, {
+    method: 'POST',
+    headers: {
+      ...HEADERS,
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      current_password: currentPassword,
+      new_password: newPassword
+    })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+// 发送注册验证码
+export const sendRegistrationCode = async (email) => {
+  const response = await fetch(`${API_BASE}/auth/send-registration-code`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ email })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+// 验证注册
+export const verifyRegistration = async (email, verificationCode, password, nickname) => {
+  const response = await fetch(`${API_BASE}/auth/verify-registration`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({
+      email,
+      verification_code: verificationCode,
+      password,
+      nickname
     })
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);

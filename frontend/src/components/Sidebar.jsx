@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Database, RefreshCw, HardDriveDownload, X, Cpu, Layers, Plus, LogIn, LogOut } from 'lucide-react';
+import { Database, RefreshCw, HardDriveDownload, X, Cpu, Layers, Plus, LogIn, LogOut, Key } from 'lucide-react';
 import { syncDocuments, rebuildIndex, newChat } from '../api';
 import ConversationHistory from './ConversationHistory';
 import KnowledgeBaseSelector from './KnowledgeBaseSelector';
@@ -13,7 +13,9 @@ export default function Sidebar({
   selectedConversationId,
   user,
   onLogin,
-  onLogout
+  onLogout,
+  onChangePassword,
+  refreshTrigger
 }) {
   const [syncing, setSyncing] = useState(false);
   const [rebuilding, setRebuilding] = useState(false);
@@ -56,6 +58,8 @@ export default function Sidebar({
       await newChat();
       onSelectConversation(null); // 清空当前选中的对话
       setMessage('新对话已创建');
+      // 触发对话历史刷新
+      setTimeout(() => setMessage(''), 2000);
     } catch (e) {
       setMessage(`创建新对话失败：${e.message}`);
     } finally {
@@ -84,13 +88,22 @@ export default function Sidebar({
                 {user.email}
               </div>
             </div>
-            <button
-              onClick={onLogout}
-              className="ml-2 p-1 rounded hover:bg-[var(--color-dark-600)] text-[var(--color-text-secondary)]"
-              title="退出登录"
-            >
-              <LogOut size={16} />
-            </button>
+            <div className="flex items-center gap-1 ml-2">
+              <button
+                onClick={onChangePassword}
+                className="p-1 rounded hover:bg-[var(--color-dark-600)] text-[var(--color-text-secondary)]"
+                title="修改密码"
+              >
+                <Key size={16} />
+              </button>
+              <button
+                onClick={onLogout}
+                className="p-1 rounded hover:bg-[var(--color-dark-600)] text-[var(--color-text-secondary)]"
+                title="退出登录"
+              >
+                <LogOut size={16} />
+              </button>
+            </div>
           </div>
         ) : (
           <button
@@ -158,6 +171,7 @@ export default function Sidebar({
                 onSelectConversation={onSelectConversation}
                 selectedConversationId={selectedConversationId}
                 user={user}
+                refreshTrigger={refreshTrigger}
               />
             </div>
           </section>

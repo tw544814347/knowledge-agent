@@ -1,11 +1,53 @@
 {
   "users": {
-    "8a4d6d3e-38cc-478c-b3a7-ddf8d71389ab": {
-      "id": "8a4d6d3e-38cc-478c-b3a7-d-f8d71389ab",
+    "671f347d-1984-4b6f-ac8d-913e77454117": {
+      "id": "671f347d-1984-4b6f-ac8d-913e77454117",
       "email": "wei.tao@shopee.com",
       "nickname": "Wei Tao",
-      "hashed_password": "$2b$12$McnkEwAjJl/RZuBrDbD4oONEkTP5Etdaza2hG8S7oZE3g1FalIYoe",
-      "created_at": "2026-04-16T00:00:00Z"
+      "hashed_password": "$2b$12$uNBZgoMNtcpHnInMxaQwJOV5izsrn01Uf.At/LLMop2jTprSUXPc.",
+      "created_at": "2026-04-16T15:31:04.080901",
+      "is_active": true
+    },
+    "27bf26ff-9e06-49f0-83b1-57cc601b2574": {
+      "id": "27bf26ff-9e06-49f0-83b1-57cc601b2574",
+      "email": "tw@jdw.com",
+      "nickname": "ewi",
+      "hashed_password": "$2b$12$CR/YdfiI0kBdeMDD.WzsHuNGL0xOcRp38KX23ZSOcPExMFxKHrdx.",
+      "created_at": "2026-04-16T16:17:04.713102",
+      "is_active": true
+    },
+    "7fbc409c-656b-4406-a9c2-8be8bb29974c": {
+      "id": "7fbc409c-656b-4406-a9c2-8be8bb29974c",
+      "email": "test@example.com",
+      "nickname": "测试用户",
+      "hashed_password": "$2b$12$lvUn8/vRyo4mZMR0ve15qusnZECsBe84Kheys92ceWMpuH8BhVJRW",
+      "created_at": "2026-04-16T16:20:39.465568",
+      "is_active": true
+    },
+    "034fbf02-4f98-4e50-80f5-6bdc354243d2": {
+      "id": "034fbf02-4f98-4e50-80f5-6bdc354243d2",
+      "email": "testuser@example.com",
+      "nickname": "测试用户",
+      "hashed_password": "$2b$12$O2oD8Ga/lI.4Vw9Ow6/YuufG5qSvo5Zzwhy7qTUPMa7wF6GWbx0w2",
+      "created_at": "2026-04-16T16:29:23.548058",
+      "is_active": true
+    },
+    "0f8c870b-3f37-42f9-adda-eb88e431500c": {
+      "id": "0f8c870b-3f37-42f9-adda-eb88e431500c",
+      "email": "external_user@example.com",
+      "nickname": "外部用户",
+      "hashed_password": "$2b$12$HHC2zurdAeUydCzSJspC1eobFu0CsUo0GZy.vpAthP1uABB/uPTRu",
+      "created_at": "2026-04-16T16:32:02.170287",
+      "is_active": true
+    },
+    "38a40cbe-0a27-4d1f-bbc5-549f49247ae4": {
+      "id": "38a40cbe-0a27-4d1f-bbc5-549f49247ae4",
+      "email": "test_new@example.com",
+      "nickname": "测试新用户",
+      "hashed_password": "$2b$12$drP1YIxNi6UjCoTdzOcUEuJcCaCUupP./1HZnWzInThQ0McJkMxBy",
+      "created_at": "2026-04-16T17:05:40.500456",
+      "is_active": true
     }
-  }
+  },
+  "last_updated": "2026-04-16T18:57:26.081361"
 }

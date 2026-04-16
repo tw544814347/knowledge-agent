@@ -9,6 +9,7 @@ class QueryRequest(BaseModel):
     """问答请求"""
     question: str = Field(..., min_length=1, description="用户问题")
     top_k: int = Field(default=5, ge=1, le=20, description="检索文档数量")
+    conversation_id: Optional[str] = Field(None, description="可选的对话ID，用于在现有对话中添加消息")
 
 
 class SourceInfo(BaseModel):
@@ -45,20 +46,25 @@ class SyncResponse(BaseModel):
 
 # 历史对话相关模型
 class ConversationMessage(BaseModel):
-    """对话消息"""
+    """单条对话消息"""
     question: str = Field(..., description="用户问题")
     answer: str = Field(..., description="AI回答")
     sources: List[SourceInfo] = Field(default_factory=list, description="参考来源")
+    created_at: datetime = Field(default_factory=datetime.now, description="消息创建时间")
 
 
 class Conversation(BaseModel):
-    """对话记录"""
+    """对话记录 - 支持多轮对话"""
     id: str = Field(..., description="对话ID")
-    title: str = Field(..., description="对话标题（从问题自动生成）")
-    message: ConversationMessage = Field(..., description="对话内容")
-    created_at: datetime = Field(..., description="创建时间")
+    title: str = Field(..., description="对话标题（从第一个问题自动生成）")
+    messages: List[ConversationMessage] = Field(default_factory=list, description="对话消息列表")
+    created_at: datetime = Field(..., description="对话创建时间")
+    updated_at: datetime = Field(default_factory=datetime.now, description="最后更新时间")
     pinned: bool = Field(default=False, description="是否置顶")
     user_id: str = Field(..., description="所属用户ID")
+    
+    # 兼容旧格式的单条消息
+    message: Optional[ConversationMessage] = Field(None, description="兼容旧格式的单条消息")
     
     class Config:
         json_encoders = {
@@ -121,6 +127,22 @@ class ResetPasswordRequest(BaseModel):
     email: EmailStr = Field(..., description="邮箱地址")
     reset_code: str = Field(..., description="重置验证码")
     new_password: str = Field(..., min_length=6, description="新密码（至少6位）")
+
+class ChangePasswordRequest(BaseModel):
+    """修改密码请求"""
+    current_password: str = Field(..., description="当前密码")
+    new_password: str = Field(..., min_length=6, description="新密码（至少6位）")
+
+class SendRegistrationCodeRequest(BaseModel):
+    """发送注册验证码请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+
+class VerifyRegistrationRequest(BaseModel):
+    """验证注册请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+    verification_code: str = Field(..., description="邮箱验证码")
+    password: str = Field(..., min_length=6, description="密码（至少6位）")
+    nickname: Optional[str] = Field(None, description="昵称（可选）")
 
 
 class UpdateConversationRequest(BaseModel):

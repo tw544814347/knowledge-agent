@@ -1,0 +1,154 @@
+# Bug 修复记录与改进建议
+
+> 记录每次bug修复的原因、解决方案和改进点，防止类似问题再次发生
+
+## 修复记录
+
+### Bug #001 (2026-04-16)
+**问题描述**: wei.tao@shopee.com 登录之后，仍显示"请求失败：需要登录"
+
+**根本原因**: 
+- 代码中token键名不一致：`changePassword`函数使用`localStorage.getItem('token')`，而其他地方使用`localStorage.getItem('access_token')`
+
+**修复方案**:
+- 统一将`changePassword`函数中的token获取改为`access_token`
+
+**影响文件**:
+- `frontend/src/api.js` (line 268)
+
+**改进点**:
+- ✅ 建立代码规范：所有localStorage键名使用统一常量定义
+- ✅ 添加代码审查检查点：检查localStorage键名一致性
+- ✅ 考虑创建统一的auth工具类管理token操作
+
+**预防措施**:
+```javascript
+// 建议：定义常量避免硬编码
+const TOKEN_KEY = 'access_token';
+const USER_KEY = 'user';
+
+// 统一的token操作函数
+export const getAuthToken = () => localStorage.getItem(TOKEN_KEY);
+export const setAuthToken = (token) => localStorage.setItem(TOKEN_KEY, token);
+```
+
+---
+
+### Bug #002 (2026-04-16)
+**问题描述**: 点击了pin的聊天会显示黑屏
+
+**根本原因**:
+- 数据结构不一致：置顶对话使用`messages`数组存储多条消息，普通对话使用`message`对象存储单条消息
+- 前端ChatPanel组件只处理了`message`对象格式，未处理`messages`数组格式
+
+**修复方案**:
+- 在ChatPanel中添加数据结构兼容处理，支持两种数据格式
+
+**影响文件**:
+- `frontend/src/components/ChatPanel.jsx` (useEffect hook, lines 34-61)
+
+**改进点**:
+- ✅ 数据结构标准化：统一对话数据格式，避免不同场景下的结构差异
+- ✅ 防御性编程：前端组件应该能优雅处理多种数据格式
+- ✅ 类型检查：考虑使用TypeScript或PropTypes进行数据结构验证
+
+**预防措施**:
+```javascript
+// 建议：定义统一的数据结构转换函数
+const normalizeConversationData = (conversation) => {
+  // 统一转换为messages数组格式
+  if (conversation.messages) return conversation.messages;
+  if (conversation.message) return [conversation.message];
+  return [];
+};
+```
+
+---
+
+### Bug #003 (2026-04-16)
+**问题描述**: 需要实现单个用户账户pin的消息最多3个，且pin的消息retention设置为30天，非pin的消息retention设置为7天
+
+**根本原因**:
+- 缺少业务规则实现：
+  1. 没有pin消息数量限制
+  2. 所有消息都使用相同的30天retention策略
+
+**修复方案**:
+1. 实现pin消息3个数量限制，超出时自动取消最旧的pin状态
+2. 实现差异化retention策略：pin消息30天，普通消息7天
+
+**影响文件**:
+- `src/core/conversation_manager.py`:
+  - `_clean_expired_conversations()` method
+  - `_clean_old_conversations()` method  
+  - `update_conversation()` method
+
+**改进点**:
+- ✅ 配置化管理：将业务规则（数量限制、retention天数）提取为配置项
+- ✅ 策略模式：不同类型消息的retention策略应该可扩展
+- ✅ 事务性操作：pin状态变更时的数量检查应该是原子操作
+
+**预防措施**:
+```python
+# 建议：配置化业务规则
+class ConversationConfig:
+    MAX_PINNED_CONVERSATIONS = 3
+    PINNED_RETENTION_DAYS = 30
+    REGULAR_RETENTION_DAYS = 7
+    MAX_REGULAR_CONVERSATIONS = 10
+
+# 建议：抽象retention策略
+class RetentionStrategy:
+    def get_retention_days(self, conversation_type: str) -> int:
+        # 根据类型返回对应的保留天数
+```
+
+---
+
+## 通用改进建议
+
+### 代码质量
+1. **常量定义**: 避免魔法数字和硬编码字符串
+2. **类型安全**: 考虑引入TypeScript增强类型检查
+3. **错误处理**: 增加更完善的错误边界和降级处理
+4. **单元测试**: 为关键业务逻辑添加测试覆盖
+
+### 开发流程
+1. **Code Review**: 重点检查数据结构一致性和业务规则实现
+2. **文档维护**: 及时更新API文档和数据结构说明
+3. **配置管理**: 业务规则应该通过配置文件管理，而非硬编码
+
+### 架构设计
+1. **数据一致性**: 建立统一的数据模型和转换规范
+2. **业务规则**: 重要业务逻辑应该集中管理，避免分散实现
+3. **可扩展性**: 设计时考虑未来可能的变更需求
+
+---
+
+## Bug记录模板
+
+```
+### Bug #XXX (YYYY-MM-DD)
+**问题描述**: 
+
+**根本原因**: 
+
+**修复方案**: 
+
+**影响文件**: 
+
+**改进点**: 
+
+**预防措施**: 
+
+---
+```
+
+## 下次提bug时的检查清单
+
+- [ ] 是否是数据结构不一致导致的问题？
+- [ ] 是否是硬编码常量不统一？
+- [ ] 是否是业务规则缺失或不完整？
+- [ ] 修复是否可能引入新的问题？
+- [ ] 是否需要更新相关文档？
+- [ ] 是否需要添加测试用例？

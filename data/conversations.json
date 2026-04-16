@@ -1,24 +1,286 @@
 {
-  "conversations": {
-    "95336ba4-1a31-4f3a-afea-a36691359ab6": {
-      "id": "95336ba4-1a31-4f3a-afea-a36691359ab6",
-      "title": "什么是RAG？",
-      "message": {
-        "question": "什么是RAG？",
-        "answer": "RAG（Retrieval-Augmented Generation）是一种结合检索和生成的AI架构，通过先检索相关文档再生成答案的方式提升问答质量。",
-        "sources": [
-          {
-            "filename": "test.md",
-            "category": "test",
-            "score": 0.8,
-            "section": "",
-            "related_docs": []
-          }
-        ]
+  "users": {
+    "671f347d-1984-4b6f-ac8d-913e77454117": {
+      "conversations": {
+        "3ddbf527-6906-4411-832a-308bbc84ef61": {
+          "id": "3ddbf527-6906-4411-832a-308bbc84ef61",
+          "title": "你好，我是Wei Tao",
+          "message": {
+            "question": "你好，我是Wei Tao",
+            "answer": "你好Wei Tao！很高兴见到你，我是智能助手，有什么可以帮助您的吗？",
+            "sources": []
+          },
+          "created_at": "2026-04-16T17:17:30.016476",
+          "pinned": false
+        },
+        "fce2e651-788c-498e-803c-5bab867c05de": {
+          "id": "fce2e651-788c-498e-803c-5bab867c05de",
+          "title": "系统功能测试",
+          "message": {
+            "question": "系统功能测试",
+            "answer": "系统功能测试完成，所有功能正常！",
+            "sources": []
+          },
+          "created_at": "2026-04-16T17:17:39.832833",
+          "pinned": false
+        },
+        "cd0628c2-420a-4c29-b7db-82acf8494d64": {
+          "id": "cd0628c2-420a-4c29-b7db-82acf8494d64",
+          "title": "自动保存功能测试",
+          "created_at": "2026-04-16T17:33:05.119716",
+          "pinned": false,
+          "messages": [
+            {
+              "question": "自动保存功能测试",
+              "answer": "在现有知识库中未找到与“自动保存功能测试”直接相关的内容。\n\n**参考来源：**\n1. audit_report.md (文档 1)\n2. audit_report.md (文档 2)\n3. 知识库系统收益评估方式.md (文档 3)\n\n如果需要进一步查阅其他关联文档，请告知具体需求。",
+              "sources": [
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5910459942008229,
+                  "section": "7. Anomaly detection - sharkAI 目录审计 (2026-04-16)",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5786059536778118,
+                  "section": "2. 执行动作摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "知识库系统收益评估方式.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5613126754760742,
+                  "section": "知识库系统收益评估方式",
+                  "related_docs": []
+                }
+              ]
+            },
+            {
+              "question": "multiagent",
+              "answer": "### 直接回答\n**多智能体（Multi-Agent）** 是指多个AI代理协同工作的系统，每个代理都有特定的任务和能力，通过协作完成复杂的任务。\n\n---\n\n### 补充细节\n1. **核心特点**\n   - **去中心化**：各个 Agent 独立决策，无需中央控制。\n   - **协作与辩论**：Agent 之间可以互相审核和改进结果（如文档4）。\n   - **循环迭代**：允许多次交互以优化最终输出。\n\n2. **优势**\n   - 解决复杂问题，尤其适合未知领域（如文档3）。\n   - 提高系统鲁棒性和灵活性。\n\n3. **挑战**\n   - Token消耗不可控，导致成本增加。\n   - 结果一致性难以保证。\n\n4. **当前应用**\n   - 多数场景仍处于工具使用阶段（如文档1）。\n   - 有框架如 MetaGPT、AgentVerse 等支持多智能体协作（如文档1）。\n\n---\n\n### 参考来源\n- 文档3: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 1. 核心摘要)\n- 文档4: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 3. 深度解析 > A. Multi-Agent (自主协作模式))\n- 文档1: Basic Concept.md [LLM] (Basic Concept > 2.应用发展)\n\n---\n\n### 关联文档\n如需进一步了解多智能体框架和工具，可以查阅：\n- MetaGPT\n- AgentVerse\n- Agents",
+              "sources": [
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6250252723693848,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.6090992022725151,
+                  "section": "4. 归档文件清单与原因",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.5911531448364258,
+                  "section": "1. 核心摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.5885555148124695,
+                  "section": "3. 深度解析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5833478569984436,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5729004144668579,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5691555738449097,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.5653918385505676,
+                  "section": "",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T18:07:30.887174"
+            },
+            {
+              "question": "1",
+              "answer": "### 直接回答\n根据提供的参考文档内容：\n\n1. **数据层定义**：\n   - ODS：贴源层，存储近原始事件与快照，支持UTC、变更频繁。\n   - DWD：明细建模，进行清洗、统一编码和主题关联。\n   - DWM：中间汇总层，轻度聚合和宽表准备。\n   - DWS：按主题/维度（如用户、借据、日）进行汇总。\n   - ADS：应用层指标表，主要用于报表与API服务。\n   - DIM：维度表，包括产品、地区和码表等。\n   - VIEW：逻辑视图，可能跨层封装，需注意性能与权限。\n\n2. **向量数据库及RAG架构**：\n   - RAG系统架构：用户请求由应用层接收，检索模块触发本地知识库查询。文档预处理后通过嵌入模型生成向量，存储于向量数据库（如Milvus、Weaviate）。用户提问时，系统将查询转换为向量，在向量库中检索相关文档，并结合LLM生成答案。\n   - 组件流程：数据预处理、索引存储、检索查询和生成回答四大环节。典型使用案例包括AI研发助手和智能问答平台。\n\n### 补充细节\n- **数据层定义**：\n  - ODS作为贴源层，主要用于存储原始数据的快照和事件数据。\n  - DWD进行清洗和标准化处理，为后续分析提供基础。\n  - DWM用于准备宽表，支持复杂的查询需求。\n  - DWS按主题或维度汇总数据，便于高层决策。\n  - ADS直接服务于应用层面的需求，如报表和API调用。\n  - DIM用于存储维度信息，如产品分类和地区代码。\n  - VIEW是逻辑视图，可能跨越多个层级，需谨慎处理性能问题。\n\n- **向量数据库及RAG架构**：\n  - RAG系统通过预处理文档生成向量，并存储于向量数据库中。用户提问时，系统检索相关文档并结合LLM生成回答。\n  - 典型使用案例包括AI研发助手和智能问答平台，分别服务于代码查询和技术支持。\n\n### 参考来源\n1. **Credit Mart Technical Guidelines.md**：详细列出了数据层的定义及其用途。\n2. **vector db & RAG.md**：介绍了RAG系统的架构设计、组件流程及典型应用场景。",
+              "sources": [
+                {
+                  "filename": "Credit Mart Technical Guidelines.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.623295783996582,
+                  "section": "Data Layer Definitions（ODS, DWD, DWM, DWS, ADS, DIM, VIEW）",
+                  "related_docs": []
+                },
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5145544409751892,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T18:51:13.322343"
+            }
+          ],
+          "updated_at": "2026-04-16T18:51:13.333622"
+        },
+        "48fad6ba-5cac-4737-b279-c4a57c9dd550": {
+          "id": "48fad6ba-5cac-4737-b279-c4a57c9dd550",
+          "title": "multiagent 和 workflow 区别",
+          "created_at": "2026-04-16T17:46:50.416348",
+          "pinned": false,
+          "messages": [
+            {
+              "question": "multiagent 和 workflow 区别",
+              "answer": "### 直接回答\n**Multi-Agent (自主协作) 和 Workflow (工作流编排)** 的主要区别如下：\n\n1. **协作与控制方式**\n   - **Multi-Agent**: 去中心化，多个 Agent 自主交互和决策。\n   - **Workflow**: 中心化控制，按预定义的步骤执行。\n\n2. **灵活性 vs 稳定性**\n   - **Multi-Agent**: 高度灵活，适合复杂、动态的任务。\n   - **Workflow**: 稳定性强，适用于标准化流程。\n\n3. **交互方式**\n   - **Multi-Agent**: Agent 之间协作与辩论，多次循环迭代。\n   - **Workflow**: 按部就班执行预定义步骤。\n\n---\n\n### 补充细节\n- **Multi-Agent** 的核心是去中心化和自主性，Agent 可根据当前语境决定下一步操作（文档1、文档4）。\n- **Workflow** 则依赖于预先定义的 SOP 或 DAG 图，按部就班执行（文档2、文档5）。\n\n---\n\n### 参考来源\n- 文档1: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排))\n- 文档2: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 1. 核心摘要)\n- 文档4: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 3. 深度解析 > A. Multi-Agent (自主协作模式))\n- 文档5: Basic Concept.md [LLM] (Basic Concept > 2.应用发展)\n\n---\n\n### 关联文档\n如需进一步了解多智能体协作或工作流编排的具体实现，可以查阅以下文档：\n- **Multi-Agent vs Workflow.md**",
+              "sources": [
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.685449481010437,
+                  "section": "架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6832680106163025,
+                  "section": "1. 核心摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6415292620658875,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6068467497825623,
+                  "section": "3. 深度解析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.58014976978302,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5760783471613278,
+                  "section": "4. 归档文件清单与原因",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5651063919067383,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5621351003646851,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                }
+              ]
+            },
+            {
+              "question": "一句话告诉我agent",
+              "answer": "Agent 是一种能够在特定环境中感知信息、做出决策并采取行动以实现目标的智能系统。",
+              "sources": [
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.6583764553070068,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.637734055519104,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6239336729049683,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6096506714820862,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "embabel.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5908876657485962,
+                  "section": "embabel",
+                  "related_docs": []
+                },
+                {
+                  "filename": "embabel.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5832821726799011,
+                  "section": "embabel",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.573976690053026,
+                  "section": "4. 归档文件清单与原因",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Prompt Optimization Agent.md",
+                  "category": "Agent",
+                  "score": 0.5710647106170654,
+                  "section": "",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T18:53:15.597961"
+            }
+          ],
+          "updated_at": "2026-04-16T18:53:15.615333"
+        }
       },
-      "created_at": "2026-04-16T13:15:26.683526",
-      "pinned": false
+      "last_updated": "2026-04-16T18:53:15.616398"
     }
   },
-  "last_updated": "2026-04-16T13:36:39.157955"
+  "last_updated": "2026-04-16T18:53:15.624069"
 }

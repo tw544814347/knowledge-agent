@@ -9,6 +9,7 @@ from typing import Optional, Dict, Any
 
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from loguru import logger
 
 from ..models.schemas import User, UserCreate, UserInDB, TokenData
 from config.settings import settings
@@ -22,11 +23,14 @@ class UserManager:
         self.data_dir.mkdir(exist_ok=True)
         self.users_file = self.data_dir / "users.json"
         self.reset_codes_file = self.data_dir / "reset_codes.json"
+        self.registration_codes_file = self.data_dir / "registration_codes.json"
         self._users: Dict[str, Dict[str, Any]] = {}
         self._reset_codes: Dict[str, Dict[str, Any]] = {}
+        self._registration_codes: Dict[str, Dict[str, Any]] = {}
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         self._load_users()
         self._load_reset_codes()
+        self._load_registration_codes()
     
     def _load_users(self):
         """从文件加载用户数据"""
@@ -269,3 +273,84 @@ class UserManager:
         if not token_data:
             return None
         return self.get_user_by_id(token_data.user_id)
+
+    def _load_registration_codes(self):
+        """从文件加载注册验证码数据"""
+        if self.registration_codes_file.exists():
+            try:
+                with open(self.registration_codes_file, 'r', encoding='utf-8') as f:
+                    self._registration_codes = json.load(f)
+            except (json.JSONDecodeError, OSError) as e:
+                logger.error(f"加载注册验证码文件失败: {e}")
+                self._registration_codes = {}
+        else:
+            self._registration_codes = {}
+
+    def _save_registration_codes(self):
+        """保存注册验证码数据到文件"""
+        try:
+            with open(self.registration_codes_file, 'w', encoding='utf-8') as f:
+                json.dump(self._registration_codes, f, ensure_ascii=False, indent=2)
+        except OSError as e:
+            logger.error(f"保存注册验证码文件失败: {e}")
+
+    def _clean_expired_registration_codes(self):
+        """清理过期的注册验证码"""
+        current_time = datetime.now()
+        expired_emails = []
+        
+        for email, code_data in self._registration_codes.items():
+            expires_at = datetime.fromisoformat(code_data['expires_at'])
+            if current_time > expires_at:
+                expired_emails.append(email)
+        
+        for email in expired_emails:
+            del self._registration_codes[email]
+        
+        if expired_emails:
+            self._save_registration_codes()
+            logger.info(f"清理了 {len(expired_emails)} 个过期的注册验证码")
+
+    def generate_registration_code(self, email: str) -> str:
+        """为邮箱生成注册验证码"""
+        # 检查邮箱是否已注册
+        if self.get_user_by_email(email):
+            raise ValueError("邮箱已被注册")
+        
+        # 清理过期验证码
+        self._clean_expired_registration_codes()
+        
+        # 生成6位数字验证码
+        code = str(secrets.randbelow(900000) + 100000)
+        expires_at = datetime.now() + timedelta(minutes=10)
+        
+        self._registration_codes[email] = {
+            'code': code,
+            'expires_at': expires_at.isoformat(),
+            'created_at': datetime.now().isoformat()
+        }
+        
+        self._save_registration_codes()
+        logger.info(f"为 {email} 生成注册验证码")
+        return code
+
+    def verify_registration_code(self, email: str, code: str) -> bool:
+        """验证注册验证码"""
+        # 清理过期验证码
+        self._clean_expired_registration_codes()
+        
+        if email not in self._registration_codes:
+            logger.warning(f"邮箱 {email} 没有有效的注册验证码")
+            return False
+        
+        code_data = self._registration_codes[email]
+        if code_data['code'] != code:
+            logger.warning(f"邮箱 {email} 注册验证码错误")
+            return False
+        
+        # 验证成功后删除验证码
+        del self._registration_codes[email]
+        self._save_registration_codes()
+        
+        logger.info(f"邮箱 {email} 注册验证码验证成功")
+        return True

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { MessageSquare, Pin, PinOff, Trash2, Clock } from 'lucide-react';
 import { getConversations, updateConversation, deleteConversation } from '../api';
 
-export default function ConversationHistory({ onSelectConversation, selectedConversationId, user }) {
+export default function ConversationHistory({ onSelectConversation, selectedConversationId, user, refreshTrigger }) {
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,7 +28,7 @@ export default function ConversationHistory({ onSelectConversation, selectedConv
       setConversations([]);
       setLoading(false);
     }
-  }, [user]);
+  }, [user, refreshTrigger]); // 当refreshTrigger变化时重新加载
 
   const handlePin = async (conversationId, currentPinned) => {
     try {

@@ -3,6 +3,7 @@ import ChatPanel from './components/ChatPanel';
 import Sidebar from './components/Sidebar';
 import AuthModal from './components/AuthModal';
 import AskModal from './components/AskModal';
+import ChangePasswordModal from './components/ChangePasswordModal';
 import { healthCheck, getStatus, getCurrentUser, logout, sendAskResponse } from './api';
 
 export default function App() {
@@ -12,6 +13,8 @@ export default function App() {
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [user, setUser] = useState(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [conversationRefreshTrigger, setConversationRefreshTrigger] = useState(0);
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [askModal, setAskModal] = useState(null); // { question, options }
 
   useEffect(() => {
@@ -74,6 +77,8 @@ export default function App() {
           user={user}
           onLogin={() => setShowAuthModal(true)}
           onLogout={handleLogout}
+          onChangePassword={() => setShowChangePasswordModal(true)}
+          refreshTrigger={conversationRefreshTrigger}
         />
       )}
 
@@ -86,7 +91,8 @@ export default function App() {
           user={user}
           onLogin={() => setShowAuthModal(true)}
           onConversationSaved={(conversation) => {
-            // 对话保存后可以刷新侧边栏，这里暂时不做处理
+            // 对话保存后刷新历史记录
+            setConversationRefreshTrigger(prev => prev + 1);
           }}
         />
       </main>
@@ -106,6 +112,18 @@ export default function App() {
           options={askModal.options}
           onClose={() => setAskModal(null)}
           onSelect={handleAskResponse}
+        />
+      )}
+
+      {/* Change Password Modal */}
+      {showChangePasswordModal && user && (
+        <ChangePasswordModal
+          user={user}
+          onClose={() => setShowChangePasswordModal(false)}
+          onSuccess={() => {
+            // 密码修改成功后的回调（如果需要特别处理）
+            console.log('密码修改成功');
+          }}
         />
       )}
     </div>

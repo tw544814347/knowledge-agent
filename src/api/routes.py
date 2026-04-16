@@ -34,6 +34,9 @@ from src.models.schemas import (
     SwitchKnowledgeBaseRequest,
     ForgotPasswordRequest,
     ResetPasswordRequest,
+    ChangePasswordRequest,
+    SendRegistrationCodeRequest,
+    VerifyRegistrationRequest,
 )
 from config.settings import settings
 
@@ -109,14 +112,52 @@ async def ask_question(req: QueryRequest):
 
 
 @router.post("/ask/stream")
-async def ask_question_stream(req: QueryRequest):
-    """流式知识库问答：先返回检索来源，再逐 token 返回回答"""
+async def ask_question_stream(
+    req: QueryRequest, 
+    current_user: User = Depends(get_current_user)
+):
+    """流式知识库问答：先返回检索来源，再逐 token 返回回答，并自动保存到历史记录"""
     pipeline = _require_pipeline()
+    conv_manager = _require_conv_manager()
+    
+    # 用于收集完整的回答内容
+    full_answer = []
+    sources = []
 
     def generate():
+        nonlocal full_answer, sources
         try:
             for chunk in pipeline.stream_query(req.question, top_k=req.top_k):
+                # 收集sources信息
+                if chunk.get("type") == "sources":
+                    sources = chunk.get("sources", [])
+                
+                # 收集答案token
+                if chunk.get("type") == "token":
+                    token = chunk.get("content", "")
+                    full_answer.append(token)
+                
+                # 流式输出给前端
                 yield json.dumps(chunk, ensure_ascii=False) + "\n"
+                
+                # 如果是完成信号，保存对话到历史记录
+                if chunk.get("type") == "done":
+                    try:
+                        complete_answer = "".join(full_answer)
+                        if complete_answer.strip():  # 只有非空回答才保存
+                            # 自动保存对话到历史记录
+                            conversation = conv_manager.create_conversation(
+                                question=req.question,
+                                answer=complete_answer,
+                                user_id=current_user.id,
+                                sources=sources,
+                                conversation_id=getattr(req, 'conversation_id', None)
+                            )
+                            logger.info(f"自动保存对话到历史记录: {conversation.id}")
+                    except Exception as save_error:
+                        logger.error(f"保存对话到历史记录失败: {save_error}")
+                        # 不影响流式响应，静默失败
+                        
         except Exception as e:
             logger.error(f"流式问答失败: {e}")
             yield json.dumps({"type": "error", "message": str(e)}, ensure_ascii=False) + "\n"
@@ -170,6 +211,8 @@ async def get_status():
 async def register(user_create: UserCreate):
     """用户注册"""
     user_manager = get_user_manager()
+    email_service = _require_email_service()
+    
     try:
         user = user_manager.create_user(user_create)
         if not user:
@@ -178,11 +221,21 @@ async def register(user_create: UserCreate):
                 detail="邮箱已被注册"
             )
         
+        # 发送欢迎邮件
+        try:
+            email_service.send_welcome_email(user.email, user.nickname or "用户")
+            logger.info(f"欢迎邮件已发送到: {user.email}")
+        except Exception as email_error:
+            logger.error(f"发送欢迎邮件失败: {email_error}")
+            # 邮件发送失败不影响注册流程
+        
         # 创建访问令牌
         user_in_db = user_manager.get_user_by_email(user.email)
         access_token = user_manager.create_access_token(user_in_db)
         
         return Token(access_token=access_token, user=user)
+    except HTTPException:
+        raise
     except Exception as e:
         logger.error(f"用户注册失败: {e}")
         raise HTTPException(status_code=500, detail=f"注册失败: {str(e)}")
@@ -266,21 +319,22 @@ async def get_conversations(limit: int = 10, current_user: User = Depends(get_cu
 
 
 @router.get("/conversations/{conversation_id}", response_model=Conversation)
-async def get_conversation(conversation_id: str):
+async def get_conversation(conversation_id: str, current_user: User = Depends(get_current_user)):
     """根据ID获取对话详情"""
     conv_manager = _require_conv_manager()
-    conversation = conv_manager.get_conversation(conversation_id)
+    conversation = conv_manager.get_conversation(conversation_id, current_user.id)
     if not conversation:
         raise HTTPException(status_code=404, detail="对话不存在")
     return conversation
 
 
 @router.put("/conversations/{conversation_id}", response_model=Conversation)
-async def update_conversation(conversation_id: str, req: UpdateConversationRequest):
+async def update_conversation(conversation_id: str, req: UpdateConversationRequest, current_user: User = Depends(get_current_user)):
     """更新对话（如置顶/取消置顶）"""
     conv_manager = _require_conv_manager()
     conversation = conv_manager.update_conversation(
         conversation_id=conversation_id,
+        user_id=current_user.id,
         pinned=req.pinned
     )
     if not conversation:
@@ -433,3 +487,108 @@ async def reset_password(request: ResetPasswordRequest) -> dict:
         "status": "success",
         "message": "密码重置成功，请使用新密码登录"
     }
+
+@router.post("/auth/change-password")
+async def change_password(
+    request: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user)
+) -> dict:
+    """修改密码（需要登录）"""
+    user_manager = _require_user_manager()
+    
+    # 验证当前密码
+    user_in_db = user_manager.get_user_by_email(current_user.email)
+    if not user_in_db or not user_manager.verify_password(request.current_password, user_in_db.hashed_password):
+        raise HTTPException(status_code=400, detail="当前密码不正确")
+    
+    # 更新密码
+    try:
+        # 直接修改用户管理器中的用户数据
+        if current_user.id in user_manager._users:
+            user_manager._users[current_user.id]['hashed_password'] = user_manager.get_password_hash(request.new_password)
+            user_manager._save_users()  # 保存到文件
+        else:
+            raise HTTPException(status_code=404, detail="用户不存在")
+    except Exception as e:
+        logger.error(f"密码修改失败: {e}")
+        raise HTTPException(status_code=500, detail="密码修改失败")
+    
+    logger.info(f"用户 {current_user.email} 密码修改成功")
+    return {
+        "status": "success",
+        "message": "密码修改成功"
+    }
+
+@router.post("/auth/send-registration-code")
+async def send_registration_code(request: SendRegistrationCodeRequest) -> dict:
+    """发送注册验证码"""
+    user_manager = _require_user_manager()
+    email_service = _require_email_service()
+    
+    try:
+        # 生成验证码
+        verification_code = user_manager.generate_registration_code(request.email)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    
+    # 发送验证邮件
+    if email_service.send_registration_verification_email(request.email, verification_code):
+        logger.info(f"注册验证码已发送到: {request.email}")
+        return {
+            "status": "success",
+            "message": "验证码已发送到您的邮箱，请查收"
+        }
+    else:
+        logger.error(f"发送注册验证码失败: {request.email}")
+        raise HTTPException(
+            status_code=500, 
+            detail="验证码发送失败，请稍后重试"
+        )
+
+@router.post("/auth/verify-registration", response_model=Token)
+async def verify_registration(request: VerifyRegistrationRequest):
+    """验证注册（使用验证码）"""
+    user_manager = _require_user_manager()
+    email_service = _require_email_service()
+    
+    # 验证验证码
+    if not user_manager.verify_registration_code(request.email, request.verification_code):
+        raise HTTPException(
+            status_code=400, 
+            detail="验证码无效或已过期，请重新获取验证码"
+        )
+    
+    try:
+        # 创建用户（不再需要检查邮箱是否已存在，验证码生成时已检查）
+        user_create = UserCreate(
+            email=request.email,
+            password=request.password,
+            nickname=request.nickname
+        )
+        user = user_manager.create_user(user_create)
+        
+        if not user:
+            raise HTTPException(
+                status_code=400,
+                detail="注册失败，邮箱可能已被注册"
+            )
+        
+        # 发送欢迎邮件（注册成功后发送）
+        try:
+            email_service.send_welcome_email(user.email, user.nickname or "用户")
+            logger.info(f"欢迎邮件已发送到: {user.email}")
+        except Exception as email_error:
+            logger.error(f"发送欢迎邮件失败: {email_error}")
+            # 邮件发送失败不影响注册流程
+        
+        # 创建访问令牌
+        user_in_db = user_manager.get_user_by_email(user.email)
+        access_token = user_manager.create_access_token(user_in_db)
+        
+        return Token(access_token=access_token, user=user)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"验证注册失败: {e}")
+        raise HTTPException(status_code=500, detail=f"注册失败: {str(e)}")
