@@ -6,6 +6,11 @@
 - **问题**：`verify-registration` 成功后未将 JWT 写入 `localStorage`，导致历史对话与流式问答在未重新登录时 401。
 - **处理**：`frontend/src/api.js` 中 `verifyRegistration` 与 `login` 一致，持久化 `access_token` 与 `user`。
 
+### 功能（点赞语料 → 知识库）
+- 消息级 `liked` / `liked_at`，`PUT .../messages/{i}/like`；流式完成后下发 `conversation_saved` 供前端绑定会话 ID。
+- 语料写入 `agent kb v1.2/liked_answers/la_{conv}_{idx}.md`（YAML front matter + `问题:`/`回答:`），点赞后触发 `sync()`；未触发时仍由约 5 分钟定时同步收录。
+- 前端回答气泡下「点赞」按钮；合并重复 `POST /chat/new` 路由。
+
 ### 🔐 用户认证系统
 - ✅ **JWT认证**：基于JSON Web Token的用户会话管理
 - ✅ **邮箱注册/登录**：支持用户邮箱密码注册和登录

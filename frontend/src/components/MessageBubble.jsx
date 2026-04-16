@@ -3,7 +3,7 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy, Check, FileText, User, Bot, Brain, ChevronRight } from 'lucide-react';
+import { Copy, Check, FileText, User, Bot, Brain, ChevronRight, ThumbsUp } from 'lucide-react';
 import ThinkingIndicator from './ThinkingIndicator';
 
 const markdownComponents = {
@@ -21,8 +21,9 @@ const markdownComponents = {
   },
 };
 
-export default function MessageBubble({ message }) {
+export default function MessageBubble({ message, onLike }) {
   const [copied, setCopied] = useState(false);
+  const [likeBusy, setLikeBusy] = useState(false);
   const isUser = message.role === 'user';
   const thinkDetailsRef = useRef(null);
   const thinkScrollRef = useRef(null);
@@ -51,6 +52,25 @@ export default function MessageBubble({ message }) {
     await navigator.clipboard.writeText(message.content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const canLike =
+    onLike &&
+    message.role === 'assistant' &&
+    message.conversationId != null &&
+    message.messageIndex != null &&
+    !message.loading &&
+    message.content &&
+    !message.error;
+
+  const handleLike = async () => {
+    if (!canLike || likeBusy) return;
+    setLikeBusy(true);
+    try {
+      await onLike(message, !message.liked);
+    } finally {
+      setLikeBusy(false);
+    }
   };
 
   const renderAIContent = () => {
@@ -130,13 +150,29 @@ export default function MessageBubble({ message }) {
           )}
 
           {!isUser && !message.loading && message.content && (
-            <div className="mt-1.5 flex items-center gap-2">
+            <div className="mt-1.5 flex items-center gap-2 flex-wrap">
               <button
                 onClick={handleCopy}
                 className="flex items-center gap-1 text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)] transition-colors"
               >
                 {copied ? <><Check size={12} /> 已复制</> : <><Copy size={12} /> 复制</>}
               </button>
+              {canLike && (
+                <button
+                  type="button"
+                  onClick={handleLike}
+                  disabled={likeBusy}
+                  title={message.liked ? '取消点赞' : '满意，加入语料库'}
+                  className={`flex items-center gap-1 text-xs transition-colors disabled:opacity-40 ${
+                    message.liked
+                      ? 'text-[var(--color-accent)]'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'
+                  }`}
+                >
+                  <ThumbsUp size={12} className={message.liked ? 'fill-current' : ''} />
+                  {message.liked ? '已点赞' : '点赞'}
+                </button>
+              )}
               <span className="text-xs text-[var(--color-text-muted)]">
                 {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>

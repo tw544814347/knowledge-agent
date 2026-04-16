@@ -71,7 +71,15 @@
       "hashed_password": "$2b$12$rLXBht5Ts346aaemhDekvOemdjsPleTAF7iFZoWQr.PXnd/GRWFUC",
       "created_at": "2026-04-16T22:18:22.320833",
       "is_active": true
+    },
+    "ac05bff9-e5a0-47a5-9ff0-55c43fd6dedb": {
+      "id": "ac05bff9-e5a0-47a5-9ff0-55c43fd6dedb",
+      "email": "tw544814347@gmail.com",
+      "nickname": "taowei",
+      "hashed_password": "$2b$12$RGspuG4envvDpswYggeHZ.CeXcaQHvOiKo1imj5w6G3pwc6ey9lxy",
+      "created_at": "2026-04-16T22:28:34.525053",
+      "is_active": true
     }
   },
-  "last_updated": "2026-04-16T22:18:22.321221"
+  "last_updated": "2026-04-16T22:28:34.526197"
 }

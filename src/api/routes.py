@@ -22,6 +22,7 @@ from src.models.schemas import (
     Conversation,
     ConversationListResponse,
     CreateConversationRequest,
+    MessageLikeRequest,
     UpdateConversationRequest,
     UserCreate,
     UserLogin,
@@ -151,9 +152,18 @@ async def ask_question_stream(
                                 answer=complete_answer,
                                 user_id=current_user.id,
                                 sources=sources,
-                                conversation_id=getattr(req, 'conversation_id', None)
+                                conversation_id=req.conversation_id,
                             )
                             logger.info(f"自动保存对话到历史记录: {conversation.id}")
+                            idx = len(conversation.messages) - 1
+                            yield json.dumps(
+                                {
+                                    "type": "conversation_saved",
+                                    "conversation_id": conversation.id,
+                                    "message_index": max(0, idx),
+                                },
+                                ensure_ascii=False,
+                            ) + "\n"
                     except Exception as save_error:
                         logger.error(f"保存对话到历史记录失败: {save_error}")
                         # 不影响流式响应，静默失败
@@ -352,13 +362,28 @@ async def delete_conversation(conversation_id: str, current_user: User = Depends
     return {"message": "删除成功"}
 
 
-@router.post("/chat/new")
-async def new_chat(
-    request: NewChatRequest,
-    current_user: User = Depends(get_current_user)
-) -> dict:
-    """创建新对话"""
-    return {"status": "success", "message": "新对话已创建"}
+@router.put("/conversations/{conversation_id}/messages/{message_index}/like", response_model=Conversation)
+async def set_message_like(
+    conversation_id: str,
+    message_index: int,
+    body: MessageLikeRequest,
+    current_user: User = Depends(get_current_user),
+):
+    """对某条问答点赞或取消；语料写入 agent kb v1.2/liked_answers/ 并触发增量同步"""
+    if message_index < 0:
+        raise HTTPException(status_code=400, detail="无效的消息索引")
+    conv_manager = _require_conv_manager()
+    result = conv_manager.set_message_liked(
+        conversation_id, current_user.id, message_index, body.liked
+    )
+    if not result:
+        raise HTTPException(status_code=404, detail="对话不存在或消息索引无效")
+    syncer = _require_syncer()
+    try:
+        syncer.sync()
+    except Exception as e:
+        logger.warning(f"点赞语料入库同步失败（可依赖定时同步）: {e}")
+    return result
 
 
 @router.post("/ask/response")

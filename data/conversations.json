@@ -55,7 +55,8 @@
                   "section": "知识库系统收益评估方式",
                   "related_docs": []
                 }
-              ]
+              ],
+              "liked": false
             },
             {
               "question": "multiagent",
@@ -118,7 +119,8 @@
                   "related_docs": []
                 }
               ],
-              "created_at": "2026-04-16T18:07:30.887174"
+              "created_at": "2026-04-16T18:07:30.887174",
+              "liked": false
             },
             {
               "question": "1",
@@ -139,7 +141,8 @@
                   "related_docs": []
                 }
               ],
-              "created_at": "2026-04-16T18:51:13.322343"
+              "created_at": "2026-04-16T18:51:13.322343",
+              "liked": false
             }
           ],
           "updated_at": "2026-04-16T18:51:13.333622"
@@ -210,7 +213,8 @@
                   "section": "vector db & RAG",
                   "related_docs": []
                 }
-              ]
+              ],
+              "liked": false
             },
             {
               "question": "一句话告诉我agent",
@@ -273,7 +277,8 @@
                   "related_docs": []
                 }
               ],
-              "created_at": "2026-04-16T18:53:15.597961"
+              "created_at": "2026-04-16T18:53:15.597961",
+              "liked": false
             },
             {
               "question": "一句话告诉我 workflow",
@@ -336,13 +341,15 @@
                   "related_docs": []
                 }
               ],
-              "created_at": "2026-04-16T21:59:03.954460"
+              "created_at": "2026-04-16T21:59:03.954460",
+              "liked": true,
+              "liked_at": "2026-04-16T23:24:34.105286"
             }
           ],
-          "updated_at": "2026-04-16T21:59:03.964332"
+          "updated_at": "2026-04-16T23:24:34.105845"
         }
       },
-      "last_updated": "2026-04-16T21:59:03.965616"
+      "last_updated": "2026-04-16T23:27:25.841567"
     },
     "8a1d3204-feeb-4ae6-b6ab-50e357aab83b": {
       "conversations": {
@@ -471,7 +478,241 @@
         }
       },
       "last_updated": "2026-04-16T22:21:52.995242"
+    },
+    "ac05bff9-e5a0-47a5-9ff0-55c43fd6dedb": {
+      "conversations": {
+        "d60a16ce-4ed6-4aed-a175-56e385875e6c": {
+          "id": "d60a16ce-4ed6-4aed-a175-56e385875e6c",
+          "title": "RAG 系统有哪些挑战？",
+          "messages": [
+            {
+              "question": "RAG 系统有哪些挑战？",
+              "answer": "RAG（Retrieval-Augmented Generation）系统在设计和实施过程中面临多种挑战，这些挑战可以从多个维度进行分析：\n\n### 1. **数据处理与存储**\n   - **大规模数据的延迟与成本**：处理和检索大规模数据集会导致延迟增加，并且存储和计算资源的成本也会显著上升。\n   - **数据质量**：知识库中的数据可能存在不准确、过时或格式不一致的问题，影响生成结果的质量。\n\n### 2. **模型能力**\n   - **上下文理解不足**：LLM可能无法充分理解和利用检索到的上下文信息，导致生成答案的相关性和准确性下降。\n   - **幻觉（Hallucination）**：模型可能会在没有足够支持的情况下编造事实，产生错误的信息。\n\n### 3. **知识库管理**\n   - **知识更新**：需要及时更新知识库以保持内容的时效性，这对系统维护提出了挑战。\n   - **多语言支持**：构建和维护多语言知识库增加了复杂性和成本。\n\n### 4. **检索算法**\n   - **检索准确性**：检索算法必须高效且准确，才能确保返回的相关文档足以支撑生成任务。\n   - **索引优化**：设计高效的索引结构以支持快速查询是技术上的挑战。\n\n### 5. **系统性能**\n   - **延迟与吞吐量**：在高并发场景下，系统需要处理大量请求，这对延迟和吞吐量提出了严格要求。\n   - **可扩展性**：随着数据量和用户需求的增长，系统必须能够轻松扩展以保持性能。\n\n### 6. **鲁棒性**\n   - **噪声输入处理**：系统需能有效处理包含噪声或不完整信息的查询，确保生成结果的质量。\n   - **异常情况处理**：应对知识库故障或其他异常情况的能力是系统鲁棒性的体现。\n\n### 7. **工具与框架选择**\n   - **框架适配性**：选择合适的框架（如LlamaIndex或Langchain）对于系统的性能和开发效率至关重要，但也可能带来特定的挑战。\n   - **集成复杂度**：不同工具之间的集成可能会增加系统设计和维护的复杂性。\n\n### 8. **评估与监控**\n   - **多维度评估**：需要综合考虑检索质量、生成质量和端到端性能等多个指标，这对评估方法提出了高要求。\n   - **实时监控**：持续监控系统的性能和用户反馈，及时发现并解决问题是保持系统稳定的关键。\n\n综上所述，RAG系统的挑战涉及数据管理、模型能力、算法优化、系统架构以及工具选择等多个方面。克服这些挑战需要综合考虑技术选型、系统设计和维护策略，以确保系统在性能、可靠性和可扩展性方面的表现。",
+              "sources": [
+                {
+                  "filename": "系统挑战.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5819104909896851,
+                  "section": "系统挑战",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5796434879302979,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "知识库构建流程中的潜在问题和解决方案.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5778501033782959,
+                  "section": "知识库构建流程中的潜在问题和解决方案",
+                  "related_docs": []
+                },
+                {
+                  "filename": "RAG有效性评估.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5732644200325012,
+                  "section": "RAG有效性评估",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5561927556991577,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5550957322120667,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.554690957069397,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "RAG有效性评估.md",
+                  "category": "RAG+Memory",
+                  "score": 0.55118328332901,
+                  "section": "RAG有效性评估",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T22:30:54.585621",
+              "liked": false
+            }
+          ],
+          "created_at": "2026-04-16T22:30:54.596325",
+          "updated_at": "2026-04-16T22:30:54.596331",
+          "pinned": false,
+          "message": null
+        }
+      },
+      "last_updated": "2026-04-16T22:30:54.613187"
+    },
+    "8664338b-f950-428d-8bb5-8e1da650ac79": {
+      "conversations": {
+        "e642cc2a-2eef-4eb7-95e3-9e235de9a2b3": {
+          "id": "e642cc2a-2eef-4eb7-95e3-9e235de9a2b3",
+          "title": "RAG 系统有哪些挑战？",
+          "messages": [
+            {
+              "question": "RAG 系统有哪些挑战？",
+              "answer": "根据提供的参考文档，RAG（检索增强生成）系统的挑战可以分为以下几个方面：\n\n### 1. **技术与架构**\n   - **专用优化的深度**：虽然可以通过组合和自定义实现高级RAG特性，但一些高级优化可能不如LlamaIndex那样“开箱即用”，需要更多自定义开发。\n   - **代码复杂度**：对于纯粹的RAG任务，有时Langchain的实现可能会显得更“重”一些。\n\n### 2. **知识管理**\n   - **数据质量与格式化**：构建高质量的知识库是一个挑战，包括数据的准确性、结构化和一致性。\n   - **冗余处理**：如何有效地管理和检索大规模数据中的冗余信息也是一个难题。\n\n### 3. **组织与文化**\n   - **内部资源有限**：RAG系统的开发需要一定的技术能力和资源投入，如果团队缺乏相关经验或资源，可能会面临挑战。\n   - **团队协作与文化**：推动RAG系统在组织内的采用可能需要时间和努力来培养团队文化和协作机制。\n\n### 4. **性能与成本**\n   - **延迟和计算资源**：RAG系统的检索和生成过程可能会引入额外的延迟，并且需要大量的计算资源，这可能增加系统的成本。\n   - **扩展性**：随着数据量和用户请求的增长，系统需要具备良好的可扩展性。\n\n### 5. **评估与监控**\n   - **多维度评估**：RAG系统的有效性需要从多个维度进行评估，包括检索质量、生成质量和端到端性能等。这些评估指标的设计和实施可能较为复杂。\n   - **鲁棒性和稳定性**：系统在面对不同类型查询、噪声输入或知识库变化时的稳定性也是一个挑战。\n\n### 6. **工具与框架的选择**\n   - **Langchain vs LlamaIndex**：选择适合的工具和框架（如Langchain或LlamaIndex）需要权衡其优缺点，尤其是在实现复杂功能时可能会面临技术上的挑战。\n\n总结来说，RAG系统的挑战主要集中在技术实现、知识管理、组织协作、性能优化以及评估监控等方面。",
+              "sources": [
+                {
+                  "filename": "系统挑战.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5819104909896851,
+                  "section": "系统挑战",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5796434879302979,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "知识库构建流程中的潜在问题和解决方案.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5778501033782959,
+                  "section": "知识库构建流程中的潜在问题和解决方案",
+                  "related_docs": []
+                },
+                {
+                  "filename": "RAG有效性评估.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5732644200325012,
+                  "section": "RAG有效性评估",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5561927556991577,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5550957322120667,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Langchain V.S. LlamaIndex.md",
+                  "category": "RAG+Memory",
+                  "score": 0.554690957069397,
+                  "section": "Langchain V.S. LlamaIndex",
+                  "related_docs": []
+                },
+                {
+                  "filename": "RAG有效性评估.md",
+                  "category": "RAG+Memory",
+                  "score": 0.55118328332901,
+                  "section": "RAG有效性评估",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T23:34:35.928844",
+              "liked": false,
+              "liked_at": null
+            }
+          ],
+          "created_at": "2026-04-16T23:34:35.940065",
+          "updated_at": "2026-04-16T23:34:35.940075",
+          "pinned": false,
+          "message": null
+        },
+        "f2613b5f-a0b6-4806-97cd-d11e6ef31415": {
+          "id": "f2613b5f-a0b6-4806-97cd-d11e6ef31415",
+          "title": "一句话告诉我workflow",
+          "messages": [
+            {
+              "question": "一句话告诉我workflow",
+              "answer": "**直接回答：**  \nWorkflow 是一个可执行的步骤图，包含条件、并行分支和引擎调用，用于处理单个风险场景。\n\n**补充细节：**  \n- **RiskWorkflow** 是 Shopee 风险特定的工作流实现或元数据，命名可能出现在日志和数据仓库中。\n- 工作流通常按顺序执行步骤（如 Step 1 → Step 2 → Step 3），并支持基于规则的条件分支。\n\n**参考来源：**  \n1. 文档1: Risk Workflow Trace Guide.md (Workflow Vocabulary)  \n2. 文档3: Multi-Agent vs Workflow.md (工作流串联模式)  \n\n**关联文档：**  \n- 如果需要进一步了解工作流与多智能体架构的区别，可以查阅《Multi-Agent vs Workflow.md》。",
+              "sources": [
+                {
+                  "filename": "la_48fad6ba-5cac-4737-b279-c4a57c9dd550_2.md",
+                  "category": "liked_answers",
+                  "score": 0.8068038219032864,
+                  "section": "",
+                  "related_docs": []
+                },
+                {
+                  "filename": "la_48fad6ba-5cac-4737-b279-c4a57c9dd550_2.md",
+                  "category": "liked_answers",
+                  "score": 0.6420648961101584,
+                  "section": "",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Risk Workflow Trace Guide.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.6348674297332764,
+                  "section": "Workflow Vocabulary",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6319867372512817,
+                  "section": "1. 核心摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6077290177345276,
+                  "section": "3. 深度解析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6002068519592285,
+                  "section": "架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5991109609603882,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Risk Workflow Trace Guide.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.598296046257019,
+                  "section": "Practical Mapping Between Process Concepts And Mart Tables",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T23:36:32.248201",
+              "liked": false,
+              "liked_at": null
+            }
+          ],
+          "created_at": "2026-04-16T23:36:32.253650",
+          "updated_at": "2026-04-16T23:36:32.253659",
+          "pinned": false,
+          "message": null
+        }
+      },
+      "last_updated": "2026-04-16T23:36:32.261445"
     }
   },
-  "last_updated": "2026-04-16T22:21:53.002405"
+  "last_updated": "2026-04-16T23:36:32.265962"
 }

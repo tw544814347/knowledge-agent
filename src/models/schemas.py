@@ -51,6 +51,13 @@ class ConversationMessage(BaseModel):
     answer: str = Field(..., description="AI回答")
     sources: List[SourceInfo] = Field(default_factory=list, description="参考来源")
     created_at: datetime = Field(default_factory=datetime.now, description="消息创建时间")
+    liked: bool = Field(default=False, description="用户是否点赞该条问答")
+    liked_at: Optional[datetime] = Field(None, description="点赞时间")
+
+
+class MessageLikeRequest(BaseModel):
+    """对话单条消息点赞/取消"""
+    liked: bool = Field(..., description="true 为点赞，false 为取消点赞")
 
 
 class Conversation(BaseModel):

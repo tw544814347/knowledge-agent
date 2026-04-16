@@ -115,9 +115,31 @@ export const getConversations = async (limit = 10) => {
 };
 
 export const getConversation = async (conversationId) => {
+  const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
-    headers: NGROK_HEADERS,
+    headers: {
+      ...NGROK_HEADERS,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
   });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+/** 对指定轮次的问答点赞或取消；后端会写入 liked_answers 并触发向量同步 */
+export const setMessageLike = async (conversationId, messageIndex, liked) => {
+  const token = localStorage.getItem('access_token');
+  const response = await fetch(
+    `${API_BASE}/conversations/${encodeURIComponent(conversationId)}/messages/${messageIndex}/like`,
+    {
+      method: 'PUT',
+      headers: {
+        ...HEADERS,
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ liked }),
+    }
+  );
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   return await response.json();
 };

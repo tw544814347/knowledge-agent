@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Send, PanelLeftOpen, Square } from 'lucide-react';
 import MessageBubble from './MessageBubble';
-import { askQuestionStream, createConversation } from '../api';
+import { askQuestionStream, setMessageLike } from '../api';
 
 export default function ChatPanel({ 
   isConnected, 
@@ -56,6 +56,9 @@ export default function ChatPanel({
             streaming: false,
             thinking: '',
             thinkingDone: true,
+            conversationId: selectedConversation.id,
+            messageIndex: index,
+            liked: !!msg.liked,
           };
           
           conversationMessages.push(userMsg, aiMsg);
@@ -79,6 +82,9 @@ export default function ChatPanel({
           streaming: false,
           thinking: '',
           thinkingDone: true,
+          conversationId: selectedConversation.id,
+          messageIndex: 0,
+          liked: !!selectedConversation.message?.liked,
         };
         
         conversationMessages = [userMsg, aiMsg];
@@ -143,6 +149,7 @@ export default function ChatPanel({
       timestamp: new Date(), loading: true, streaming: false,
       thinking: '', thinkingDone: false, thinkingStartTime: Date.now(),
       generationStartTime: startTime, // 记录生成开始时间
+      liked: false,
     }]);
 
     const rawContent = { current: '' };
@@ -215,6 +222,19 @@ export default function ChatPanel({
               console.error('通知对话完成失败:', error);
             }
           }, 500);
+        } else if (chunk.type === 'conversation_saved') {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === aiMsgId
+                ? {
+                    ...m,
+                    conversationId: chunk.conversation_id,
+                    messageIndex: chunk.message_index,
+                    liked: m.liked ?? false,
+                  }
+                : m
+            )
+          );
         } else if (chunk.type === 'error') {
           if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
           setMessages(prev => prev.map(m => m.id === aiMsgId ? {
@@ -242,6 +262,19 @@ export default function ChatPanel({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
+    }
+  };
+
+  const handleLikeToggle = async (message, nextLiked) => {
+    if (!user || message.conversationId == null || message.messageIndex == null) return;
+    try {
+      await setMessageLike(message.conversationId, message.messageIndex, nextLiked);
+      setMessages((prev) =>
+        prev.map((m) => (m.id === message.id ? { ...m, liked: nextLiked } : m))
+      );
+      onConversationSaved?.({ refresh: true });
+    } catch (err) {
+      console.error('点赞失败:', err);
     }
   };
 
@@ -293,8 +326,12 @@ export default function ChatPanel({
           </div>
         )}
 
-        {messages.map(msg => (
-          <MessageBubble key={msg.id} message={msg} />
+        {messages.map((msg) => (
+          <MessageBubble
+            key={msg.id}
+            message={msg}
+            onLike={user ? handleLikeToggle : undefined}
+          />
         ))}
         <div ref={messagesEndRef} />
       </div>

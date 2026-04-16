@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List, Optional, Dict, Any
 
+from config.settings import settings
 from ..models.schemas import Conversation, ConversationMessage, SourceInfo
 
 
@@ -285,6 +286,8 @@ class ConversationManager:
             for msg in conv_dict['messages']:
                 if isinstance(msg.get('created_at'), datetime):
                     msg['created_at'] = msg['created_at'].isoformat()
+                if isinstance(msg.get('liked_at'), datetime):
+                    msg['liked_at'] = msg['liked_at'].isoformat()
         
         # 移除user_id字段，因为在新结构中通过层级关系表示
         conv_dict.pop('user_id', None)
@@ -306,6 +309,10 @@ class ConversationManager:
             for msg in conv_data_with_uid['messages']:
                 if 'created_at' in msg and isinstance(msg['created_at'], str):
                     msg['created_at'] = datetime.fromisoformat(msg['created_at'])
+                if msg.get('liked_at') and isinstance(msg['liked_at'], str):
+                    msg['liked_at'] = datetime.fromisoformat(msg['liked_at'])
+                if 'liked' not in msg:
+                    msg['liked'] = False
         
         # 兼容旧格式：如果没有messages但有message，转换格式
         if 'message' in conv_data_with_uid and 'messages' not in conv_data_with_uid:
@@ -446,11 +453,118 @@ class ConversationManager:
         user_conversations = user_data['conversations']
         
         if conversation_id in user_conversations:
+            self._delete_all_liked_exports_for_conversation(conversation_id)
             del user_conversations[conversation_id]
             user_data['last_updated'] = datetime.now().isoformat()
             self._save_conversations()
             return True
         return False
+
+    def _liked_answers_dir(self) -> Path:
+        d = Path(settings.knowledge_source_dir) / "liked_answers"
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
+    def _liked_export_filename(self, conversation_id: str, message_index: int) -> str:
+        safe = conversation_id.replace("/", "_").replace("\\", "_")
+        return f"la_{safe}_{message_index}.md"
+
+    def _write_liked_export(
+        self,
+        user_id: str,
+        conversation_id: str,
+        message_index: int,
+        question: str,
+        answer: str,
+        liked_at_iso: str,
+    ) -> None:
+        path = self._liked_answers_dir() / self._liked_export_filename(conversation_id, message_index)
+        text = (
+            "---\n"
+            "type: liked_qa\n"
+            f"conversation_id: {conversation_id}\n"
+            f"message_index: {message_index}\n"
+            f"user_id: {user_id}\n"
+            f"liked_at: {liked_at_iso}\n"
+            "---\n\n"
+            f"问题: {question}\n\n"
+            f"回答: {answer}\n"
+        )
+        path.write_text(text, encoding="utf-8")
+
+    def _delete_liked_export(self, conversation_id: str, message_index: int) -> None:
+        path = self._liked_answers_dir() / self._liked_export_filename(conversation_id, message_index)
+        if path.is_file():
+            try:
+                path.unlink()
+            except OSError:
+                pass
+
+    def _delete_all_liked_exports_for_conversation(self, conversation_id: str) -> None:
+        d = self._liked_answers_dir()
+        if not d.is_dir():
+            return
+        safe = conversation_id.replace("/", "_").replace("\\", "_")
+        for p in d.glob(f"la_{safe}_*.md"):
+            try:
+                p.unlink()
+            except OSError:
+                pass
+
+    def set_message_liked(
+        self,
+        conversation_id: str,
+        user_id: str,
+        message_index: int,
+        liked: bool,
+    ) -> Optional[Conversation]:
+        """点赞/取消点赞某一条多轮消息，并同步写入或删除 liked_answers 下的语料文件"""
+        if user_id not in self._user_conversations:
+            return None
+
+        user_data = self._user_conversations[user_id]
+        conv_data = user_data.get("conversations", {}).get(conversation_id)
+        if not conv_data:
+            return None
+
+        if "messages" not in conv_data and "message" in conv_data:
+            conv_data["messages"] = [conv_data["message"]]
+
+        messages_list = conv_data.get("messages") or []
+        if message_index < 0 or message_index >= len(messages_list):
+            return None
+
+        msg = messages_list[message_index]
+        if not isinstance(msg, dict):
+            return None
+
+        if liked:
+            liked_at = datetime.now()
+            liked_at_iso = liked_at.isoformat()
+            msg["liked"] = True
+            msg["liked_at"] = liked_at_iso
+            self._write_liked_export(
+                user_id,
+                conversation_id,
+                message_index,
+                str(msg.get("question", "")),
+                str(msg.get("answer", "")),
+                liked_at_iso,
+            )
+        else:
+            msg["liked"] = False
+            msg.pop("liked_at", None)
+            self._delete_liked_export(conversation_id, message_index)
+
+        conv_data["updated_at"] = datetime.now().isoformat()
+        user_data["last_updated"] = datetime.now().isoformat()
+        self._save_conversations()
+
+        try:
+            return self._build_conversation_object(conversation_id, conv_data, user_id)
+        except Exception as e:
+            print(f"Warning: Failed to rebuild conversation after like: {e}")
+            return None
     
     def get_conversation_count(self, user_id: str) -> int:
         """获取用户的对话总数"""

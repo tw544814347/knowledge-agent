@@ -136,6 +136,20 @@ function persistAuthSession(data) {
 
 ---
 
+### 功能 #001 (2026-04-16) 点赞语料闭环
+**需求**: 用户对回答点赞，将「上一问 + 本答」落盘到 `agent kb v1.2/liked_answers/`，并进入向量检索语料。
+
+**实现要点**:
+- `data/conversations.json` 每条 `messages[]` 增加 `liked`、`liked_at`；`PUT /api/v1/conversations/{id}/messages/{index}/like`。
+- 导出文件：`la_{conversation_id}_{message_index}.md`，正文为 `问题:` / `回答:`，附 YAML front matter；取消点赞则删文件。
+- 流式结束并已落库后额外推送 NDJSON：`{"type":"conversation_saved","conversation_id","message_index"}`，前端据此显示点赞按钮。
+- 点赞成功后调用 `DocumentSyncer.sync()`；否则依赖默认 `SYNC_INTERVAL`（300s）轮询。
+- 删除整条会话时清理该会话对应的 `la_{cid}_*.md`。
+
+**相关文件**: `src/models/schemas.py`, `src/core/conversation_manager.py`, `src/api/routes.py`, `frontend/src/api.js`, `frontend/src/components/ChatPanel.jsx`, `frontend/src/components/MessageBubble.jsx`, `agent kb v1.2/liked_answers/README.md`
+
+---
+
 ### 配置更新 #001 (2026-04-16)
 **更改内容**: 启用真实邮件发送功能
 
