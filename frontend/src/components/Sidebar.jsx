@@ -123,31 +123,6 @@ export default function Sidebar({
           </div>
         </section>
 
-        {/* 索引信息 */}
-        <section>
-          <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">知识库</h2>
-          {indexStatus ? (
-            <div className="space-y-2 text-sm text-[var(--color-text-secondary)]">
-              <div className="flex items-center gap-2">
-                <Database size={14} />
-                <span>{indexStatus.total_chunks} 个文档片段</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Layers size={14} />
-                <span className="truncate text-xs" title={indexStatus.source_dir}>
-                  {indexStatus.source_dir?.split('/').slice(-2).join('/')}
-                </span>
-              </div>
-              {indexStatus.last_sync && (
-                <div className="text-xs text-[var(--color-text-muted)]">
-                  上次同步：{new Date(indexStatus.last_sync).toLocaleString()}
-                </div>
-              )}
-            </div>
-          ) : (
-            <p className="text-sm text-[var(--color-text-muted)]">加载中...</p>
-          )}
-        </section>
 
         {/* 知识库选择 */}
         {user && (

@@ -93,6 +93,7 @@ export default function ChatPanel({
 
     const userId = `u_${Date.now()}`;
     const aiMsgId = `a_${Date.now()}`;
+    const startTime = Date.now(); // 记录开始时间
     const controller = new AbortController();
 
     abortRef.current = controller;
@@ -109,6 +110,7 @@ export default function ChatPanel({
       id: aiMsgId, role: 'assistant', content: '', sources: [],
       timestamp: new Date(), loading: true, streaming: false,
       thinking: '', thinkingDone: false, thinkingStartTime: Date.now(),
+      generationStartTime: startTime, // 记录生成开始时间
     }]);
 
     const rawContent = { current: '' };
@@ -155,8 +157,12 @@ export default function ChatPanel({
         } else if (chunk.type === 'done') {
           if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
           flushRender();
+          const endTime = Date.now();
           setMessages(prev => prev.map(m => m.id === aiMsgId ? {
-            ...m, loading: false, thinkingDone: true,
+            ...m, 
+            loading: false, 
+            thinkingDone: true,
+            generationTime: m.generationStartTime ? (endTime - m.generationStartTime) / 1000 : null, // 计算耗时（秒）
           } : m));
           
           // 保存对话到历史记录（不包含thinking过程）

@@ -12,6 +12,7 @@ from src.core.rag_pipeline import RAGPipeline
 from src.core.doc_sync import DocumentSyncer
 from src.core.conversation_manager import ConversationManager
 from src.core.user_manager import UserManager
+from src.core.knowledge_base_manager import KnowledgeBaseManager
 from src.core.auth_deps import set_user_manager
 from src.api.routes import router, set_dependencies
 
@@ -27,8 +28,9 @@ async def lifespan(app: FastAPI):
     syncer = DocumentSyncer(vector_store=vector_store)
     conv_manager = ConversationManager()
     user_manager = UserManager()
+    kb_manager = KnowledgeBaseManager()
     
-    set_dependencies(pipeline, syncer, conv_manager)
+    set_dependencies(pipeline, syncer, conv_manager, user_manager, kb_manager)
     set_user_manager(user_manager)
     syncer.start_background_sync()
     yield

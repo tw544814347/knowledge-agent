@@ -22,14 +22,30 @@ export default function AuthModal({ onClose, onAuthSuccess }) {
       let result;
       if (isLogin) {
         result = await login(formData.email, formData.password);
+        onAuthSuccess(result.user);
+        onClose();
       } else {
+        // 注册成功后不直接关闭，而是切换到登录模式
         result = await register(formData.email, formData.password, formData.nickname);
+        // 注册成功，切换到登录界面
+        setIsLogin(true);
+        setFormData(prev => ({ ...prev, password: '', nickname: '' }));
+        setError(''); 
+        // 显示成功提示
+        setTimeout(() => {
+          setError('注册成功，请登录');
+        }, 100);
       }
-      
-      onAuthSuccess(result.user);
-      onClose();
     } catch (err) {
-      setError(err.message || '操作失败');
+      // 提取更友好的错误信息
+      let errorMessage = err.message || '操作失败';
+      if (errorMessage.includes('注册失败:')) {
+        errorMessage = errorMessage.replace('注册失败: ', '');
+      }
+      if (errorMessage.includes('HTTP 400') || errorMessage.includes('HTTP 500')) {
+        errorMessage = isLogin ? '登录失败，请检查邮箱和密码' : '注册失败，请稍后重试';
+      }
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

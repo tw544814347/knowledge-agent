@@ -1,0 +1,12 @@
+{
+  "knowledge_bases": [
+    {
+      "id": "agent-kb-v1.2",
+      "name": "AI Agent 知识库",
+      "path": "./agent kb v1.2",
+      "description": "主要的AI Agent技术文档和最佳实践",
+      "is_active": true
+    }
+  ],
+  "default": "agent-kb-v1.2"
+}

@@ -11,6 +11,7 @@ from src.core.llm_client import LLMError
 from src.core.doc_sync import DocumentSyncer
 from src.core.conversation_manager import ConversationManager
 from src.core.user_manager import UserManager
+from src.core.knowledge_base_manager import KnowledgeBaseManager
 from src.core.auth_deps import get_current_user, get_current_user_optional, get_user_manager
 from src.models.schemas import (
     QueryRequest,
@@ -38,14 +39,18 @@ router = APIRouter()
 _pipeline: RAGPipeline | None = None
 _syncer: DocumentSyncer | None = None
 _conv_manager: ConversationManager | None = None
+_user_manager: UserManager | None = None
+_kb_manager: KnowledgeBaseManager | None = None
 
 
-def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer, conv_manager: ConversationManager) -> None:
-    """由 main.py lifespan 注入共享的 pipeline、syncer 和 conversation_manager 实例"""
-    global _pipeline, _syncer, _conv_manager
+def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer, conv_manager: ConversationManager, user_manager: UserManager, kb_manager: KnowledgeBaseManager) -> None:
+    """由 main.py lifespan 注入共享的实例"""
+    global _pipeline, _syncer, _conv_manager, _user_manager, _kb_manager
     _pipeline = pipeline
     _syncer = syncer
     _conv_manager = conv_manager
+    _user_manager = user_manager
+    _kb_manager = kb_manager
 
 
 def _require_pipeline() -> RAGPipeline:
@@ -64,6 +69,18 @@ def _require_conv_manager() -> ConversationManager:
     if _conv_manager is None:
         raise HTTPException(status_code=503, detail="服务尚未初始化")
     return _conv_manager
+
+
+def _require_user_manager() -> UserManager:
+    if _user_manager is None:
+        raise HTTPException(status_code=503, detail="服务尚未初始化")
+    return _user_manager
+
+
+def _require_kb_manager() -> KnowledgeBaseManager:
+    if _kb_manager is None:
+        raise HTTPException(status_code=503, detail="服务尚未初始化")
+    return _kb_manager
 
 
 @router.post("/ask", response_model=QueryResponse)
@@ -308,33 +325,10 @@ async def check_ask_requests() -> dict:
 @router.get("/knowledge-bases")
 async def get_knowledge_bases(current_user: User = Depends(get_current_user)) -> KnowledgeBaseListResponse:
     """获取可用的知识库列表"""
-    # 硬编码几个知识库作为示例，后续可以从配置文件读取
-    knowledge_bases = [
-        KnowledgeBase(
-            id="agent-kb-v1.2",
-            name="Agent KB v1.2",
-            path="./agent kb v1.2",
-            description="主要的AI Agent知识库",
-            is_active=True
-        ),
-        KnowledgeBase(
-            id="general-kb",
-            name="通用知识库",
-            path="./general",
-            description="通用技术文档库",
-            is_active=True
-        ),
-        KnowledgeBase(
-            id="project-docs",
-            name="项目文档",
-            path="./project-docs",
-            description="项目相关文档",
-            is_active=False  # 示例：未激活
-        )
-    ]
+    kb_manager = _require_kb_manager()
     
-    # 当前活跃的知识库（可以从用户配置或全局配置读取）
-    current_kb = "agent-kb-v1.2"
+    knowledge_bases = kb_manager.get_knowledge_bases()
+    current_kb = kb_manager.get_current_knowledge_base()
     
     return KnowledgeBaseListResponse(
         knowledge_bases=knowledge_bases,
@@ -348,15 +342,25 @@ async def switch_knowledge_base(
     current_user: User = Depends(get_current_user)
 ) -> dict:
     """切换知识库"""
-    # TODO: 实现知识库切换逻辑
-    # 1. 验证知识库ID是否有效
-    # 2. 更新用户配置或全局配置
-    # 3. 可能需要重新加载向量数据库
+    kb_manager = _require_kb_manager()
     
-    logger.info(f"用户 {current_user.email} 请求切换到知识库: {request.kb_id}")
+    # 验证并设置知识库
+    success = kb_manager.set_current_knowledge_base(request.kb_id)
+    
+    if not success:
+        raise HTTPException(
+            status_code=400, 
+            detail=f"无法切换到知识库 {request.kb_id}，请确认知识库存在且可用"
+        )
+    
+    logger.info(f"用户 {current_user.email} 成功切换到知识库: {request.kb_id}")
+    
+    # TODO: 在这里可以实现向量库的热重载
+    # 目前只是记录切换，实际的向量库切换需要重启服务
     
     return {
         "status": "success",
         "message": f"已切换到知识库: {request.kb_id}",
-        "kb_id": request.kb_id
+        "kb_id": request.kb_id,
+        "note": "知识库切换已保存，向量库将在下次重启时生效"
     }

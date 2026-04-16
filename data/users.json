@@ -1,13 +1,13 @@
 {
   "users": {
-    "eff10c90-c2d4-4a70-a347-893a46dd4f76": {
-      "id": "eff10c90-c2d4-4a70-a347-893a46dd4f76",
-      "email": "fix-test@example.com",
-      "nickname": "修复测试",
-      "hashed_password": "$2b$12$N3L0wd9kskK0ngyBB9uC8enaIfA6PtnXn6y7uFOoWnpOkS.89W6Ta",
-      "created_at": "2026-04-16T14:53:57.131047",
+    "3c06a7c9-8cb0-4244-bc31-84decbebabf3": {
+      "id": "3c06a7c9-8cb0-4244-bc31-84decbebabf3",
+      "email": "kb-test@example.com",
+      "nickname": "知识库测试",
+      "hashed_password": "$2b$12$e5wGxJyartWWWtxD4aTe2O258a77uVJYDcZgaUD0Kq5i9A5yQh9Vi",
+      "created_at": "2026-04-16T15:12:23.134475",
       "is_active": true
     }
   },
-  "last_updated": "2026-04-16T14:53:57.131951"
+  "last_updated": "2026-04-16T15:12:23.135304"
 }

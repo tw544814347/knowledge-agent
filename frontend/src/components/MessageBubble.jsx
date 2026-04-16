@@ -140,6 +140,11 @@ export default function MessageBubble({ message }) {
               <span className="text-xs text-[var(--color-text-muted)]">
                 {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </span>
+              {message.generationTime && (
+                <span className="text-xs text-[var(--color-text-muted)]">
+                  耗时 {message.generationTime.toFixed(1)}s
+                </span>
+              )}
             </div>
           )}
         </div>
