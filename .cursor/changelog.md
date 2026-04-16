@@ -1,5 +1,33 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-16（知识库 v1.2 升级）
+
+### 知识库更新
+
+- **知识库路径迁移**：从 `./knowledge/` 迁移到 `./agent kb v1.2/`
+- **内容显著更新**：文档数从 96 个减少到 79 个，总大小从 552KB 增加到 2.0MB
+- **分类结构优化**：包含 Agent、Anomaly detection - sharkAI、Credit Bot - Datajoi、Cursor related、LLM、MCP、RAG+Memory 等类别
+- **新增文档**：包括 `knowledge_inventory.csv` 审计报告和 `audit_report.md` 等
+
+### 配置更新
+
+- **`.env`**：`KNOWLEDGE_SOURCE_DIR` 从 `./knowledge` 更新为 `./agent kb v1.2`
+- **`.env.example`**：同步更新知识库路径配置
+- **`config/settings.py`**：默认知识库路径更新
+- **`README.md`**：更新项目结构说明和配置文档
+
+### 索引重建
+
+- **完全重建向量数据库**：79 个文档 → 1254 个检索 chunk + 696 个上下文 chunk
+- **索引性能**：约 4.5 分钟完成全量重建（包含文档加载、切分、Embedding 计算、向量存储）
+- **功能验证**：CLI 和 API 问答功能正常工作
+
+### 受影响文件
+
+- 配置文件：`.env`、`.env.example`、`config/settings.py`、`README.md`
+- 向量数据库：完全重建，更新所有文档的 chunk 和 embedding
+- 知识库目录：从 `knowledge/` 迁移到 `agent kb v1.2/`
+
 ## 2026-04-15（GitHub 部署 + 知识库内置）
 
 ### GitHub 仓库

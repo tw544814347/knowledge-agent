@@ -1,0 +1,53 @@
+---
+topic: agent-architecture
+relevance: core
+language: mixed
+source: confluence
+last_reviewed: 2026-04-16
+---
+
+# 架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)
+
+> **Page ID**: 2991393608
+> **URL**: https://confluence.shopee.io/pages/viewpage.action?pageId=2991393608
+
+## 1. 核心摘要
+
+> **一句话总结**
+> * **Multi-Agent (自主协作)** 就像 **"专家研讨会"**：去中心化，由 Agent 根据当前语境自主决定下一步跟谁交互，适合解决未知的复杂问题。
+> * **Workflow (工作流串联)** 就像 **"工厂流水线"**：中心化控制，由人预先定义好 SOP (DAG图)，按部就班执行，适合高稳定性、标准化的业务落地。
+
+---
+
+## 2. 核心维度对比矩阵
+
+| **维度** | **Multi-Agent** | **Workflow** |
+| --- | --- | --- |
+| **控制权** | 动态/去中心化 | 静态/中心化 |
+| **确定性** | 低 | 高 |
+| **灵活性** | 极高 | 较低 |
+| **容错机制** | 内部循环解决 | 异常捕获/重试 |
+| **适用框架** | AutoGen, CrewAI, Swarm | LangChain, LangGraph, Dify, Coze |
+
+---
+
+## 3. 深度解析
+
+### A. Multi-Agent (自主协作模式)
+- **协作与辩论**：Agent A 产出结果，Agent B 负责审核
+- **循环迭代**：允许在达成目标前进行多次不确定的交互循环
+- **缺点**：Token 消耗不可控，结果一致性难保证
+
+### B. Workflow (工作流串联模式)
+- **顺序执行**：Step 1 → Step 2 → Step 3
+- **条件分支**：基于规则判断
+- **缺点**：缺乏灵活性
+
+---
+
+## 5. 架构选型建议
+
+- **Q1: 任务流程是否固定？** 是 → Workflow
+- **Q2: 是否需要系统自我纠错？** 是 → Multi-Agent
+
+> **趋势**：业界趋势是 "Graph" 架构（如 LangGraph），融合两者优势。

@@ -1,0 +1,76 @@
+file_path,directory,topic,relevance,language,format_quality,summary,action
+Credit Bot/1. Credit Bot PRD.md,Credit Bot,chatbot-product,partial,zh,差,Credit Bot 产品需求文档骨架：名词表、背景、目标、功能列表等多为空模板,保留+frontmatter
+Credit Bot/2. 开发版本记录.md,Credit Bot,chatbot-versioning,core,zh,一般,Dify 侧版本变更表与上线说明；提醒 yml 覆盖与手动更新环境变量,保留+frontmatter
+Credit Bot/3. 会议记录/0620会议记录.md,Credit Bot,chatbot-planning,core,zh,一般,Bot 定位、能力边界、知识库形态、试点与开发计划,保留+frontmatter
+Credit Bot/3. 会议记录/0917会议记录.md,Credit Bot,chatbot-planning,core,zh,好,Dify 与 smart 能力对齐表；元数据治理里提到用 Cursor 补 DDL comment,保留+frontmatter
+Credit Bot/3. 会议记录/2026-02-09会议记录.md,Credit Bot,chatbot-planning,core,zh,好,知识库分层 L1-L4 与 Chatbot 功能/Agent 路线图,保留+frontmatter
+Credit Bot/3. 会议记录/2026-02-26会议记录.md,Credit Bot,chatbot-planning,core,zh,一般,复盘/评测 agent 设计要点；线上从 Smart 切 ADK 的时间线与分工,保留+frontmatter
+Credit Bot/4. Dify版本/3. Dify参数.md,Credit Bot,chatbot-configuration,core,zh,好,环境变量、Prompt 模块、embedding 召回参数与缩写 JSON 存储说明,保留+frontmatter
+Credit Bot/4. Dify版本/4. 工作流设计.md,Credit Bot,chatbot-workflow,core,zh,一般,用户流程分支原则、反馈卡、正负向样本自动写入知识库等规则,保留+frontmatter
+Credit Bot/4. Dify版本/5. 知识库及相关文件索引.md,Credit Bot,chatbot-knowledge-base,core,zh,好,各 Topic/Gsheet、血缘与指标类知识索引及脚本位置,保留+frontmatter
+Credit Bot/4. Dify版本/6. 知识库维护SOP.md,Credit Bot,chatbot-operations,core,zh,差,用户历史、helpful/unhelpful 与每周 review 三条要点（极简）,保留+frontmatter
+Credit Bot/4. Dify版本/7. 知识库格式及运维.md,Credit Bot,chatbot-operations,core,zh,一般,结构化/非结构化知识分工；Confluence+Gsheet 融合刷写 Dify 的临时方案,保留+frontmatter
+Credit Bot/6. Google ADK版本/1. Milvus数据库.md,Credit Bot,vector-database,core,zh,好,Milvus 环境、collection、Notebook 导入流程、全量刷新与限流重试策略,保留+frontmatter
+Credit Bot/6. Google ADK版本/2. embedding模型.md,Credit Bot,embedding,core,en,差,Compass embedding 申请与 API 文档链接（极简）,保留+frontmatter
+Credit Bot/7. 参考论文.md,Credit Bot,research-reference,partial,mixed,差,零样本稠密检索论文链接与通俗化结论笔记,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/TL Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,TL 产品线约 17 个核心指标及示例 SQL,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/SPL Limit Xtra Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,SPL Limit Xtra 17 个指标与示例 SQL,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/CPL Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,CPL 42 个指标索引与极简 SQL 草稿,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/SPL Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,SPL 19 个指标与示例 SQL,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/SCL Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,SCL 17 个指标与示例 SQL,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/BCL Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,BCL 20 个指标与示例 SQL,保留+frontmatter
+Credit Bot/8. L1 L2 Metric SQL/FES Mart Key Metrics.md,Credit Bot,metric-sql,partial,en,好,FES 14 个指标与示例 SQL,保留+frontmatter
+Credit Bot/9. Live kb/Credit Mart SQL Standards.md,Credit Bot,chatbot-knowledge-base,core,mixed,好,Presto/Credit Mart 写 SQL 的方言、格式、领域约定、性能与自检清单,保留+frontmatter
+Credit Bot/9. Live kb/Risk Workflow Trace Guide.md,Credit Bot,domain-knowledge,partial,en,好,风控请求链路角色、追踪顺序与典型 mart 表族、词汇表,保留+frontmatter
+Credit Bot/9. Live kb/Credit Mart Terminology Primer.md,Credit Bot,domain-knowledge,partial,mixed,好,产品/流程/指标/字段术语速查与交叉引用,保留+frontmatter
+Credit Bot/9. Live kb/CL Biz Knowledge.md,Credit Bot,domain-knowledge,partial,mixed,好,现金贷业务概览、旅程、架构示意与 mart 表模式提示,保留+frontmatter
+Credit Bot/9. Live kb/FES Biz Knowledge.md,Credit Bot,domain-knowledge,partial,mixed,好,FES 产品、两种发票融资模式、流程与 mart 提示,保留+frontmatter
+Credit Bot/9. Live kb/SPL Biz Knowledge.md,Credit Bot,domain-knowledge,partial,mixed,好,SPL 业务、订单生命周期、架构与 mart 表模式,保留+frontmatter
+Credit Bot/9. Live kb/Collection Biz Knowledge.md,Credit Bot,domain-knowledge,partial,mixed,好,催收域概念、阶段、渠道、流程与指标术语,保留+frontmatter
+Credit Bot/9. Live kb/Risk Mart Current Scope.md,Credit Bot,domain-knowledge,partial,en,好,risk schema 范围、分层语义、高价值表族与回答启发式,保留+frontmatter
+Credit Bot/9. Live kb/DE Developing Common Sense.md,Credit Bot,domain-knowledge,partial,mixed,好,DE 侧 T-1、时区、分区、DPD/MOB、分层与近实时约定,保留+frontmatter
+Credit Bot/9. Live kb/Credit Mart Technical Guidelines.md,Credit Bot,domain-knowledge,partial,mixed,好,Mart 时效、时区、分区、DPD、状态、分层、重组贷款、命名约定,保留+frontmatter
+Credit Bot/9. Live kb/Table Name Schema.md,Credit Bot,domain-knowledge,partial,en,好,ODS/DW 与各 schema 命名模式,保留+frontmatter
+Credit Bot/9. Live kb/Common Abbreviations.md,Credit Bot,domain-knowledge,partial,mixed,好,业务与数据缩写中英对照及使用说明,保留+frontmatter
+Credit Bot/9. Live kb/Collection Terminology.md,Credit Bot,domain-knowledge,partial,mixed,好,催收缩写、分桶、外呼与指标表,保留+frontmatter
+Credit Bot/9. Live kb/Credit Product Classification.md,Credit Bot,domain-knowledge,partial,mixed,好,产品线与 biz_type/product_id 示例及 SQL 过滤示例,保留+frontmatter
+Agent/Protobuf Chatbot.md,Agent,agent-design,core,en,好,定义面向 Protobuf 的专用 Agent：角色 ISTJ、技能与工作流,保留+frontmatter
+Agent/Prompt Optimization Agent.md,Agent,agent-design,core,en,好,Prompt 优化类 Agent 的能力边界、CLEAR/STAR 框架与常见优化手法,保留+frontmatter
+Agent/Multi-Agent vs Workflow.md,Agent,agent-architecture,core,mixed,好,对比 Multi-Agent 与 Workflow 的控制权、确定性、适用框架,保留+frontmatter
+Agent/Deepwiki Agent.md,Agent,agent-design,core,mixed,好,DeepWiki 多 Agent 代码分析系统的价值与 7 个 Agent 分工,保留+frontmatter
+Agent/DataJoi 评测体系技术方案.md,Agent,chatbot-evaluation,core,zh,好,DataJoi RAG 问答评测目标、指标、框架选型与演进规划,保留+frontmatter
+Agent/Eight Honors and Eight Shames.md,Agent,engineering-practice,partial,en,一般,AI 辅助开发中的八荣八耻工程纪律,保留+frontmatter
+MCP/MCP开发指南.md,MCP,mcp-development,core,mixed,好,MCP 概念、Tools/Resources/Prompts、JSON-RPC 方法表与最简 Server 示例,保留+frontmatter
+Cursor经验/其他工具.md,Cursor经验,ai-tools,partial,en,差,Fabric 项目链接及一句英文简介,保留+frontmatter
+LLM/Basic Concept.md,LLM,llm-fundamentals,core,mixed,一般,从 seq2seq/Transformer 到 LLM 应用链路扫盲；Agent/Workflow/RAG 范式,保留+frontmatter
+RAG+Memory/Langchain V.S. LlamaIndex.md,RAG+Memory,rag-framework,core,mixed,好,对比 LangChain 与 LlamaIndex 在 RAG 上的定位与能力差异,保留+frontmatter
+RAG+Memory/RAG有效性评估.md,RAG+Memory,rag-evaluation,core,mixed,好,RAG 检索/生成/端到端评估维度、指标与工具及落地步骤,保留+frontmatter
+RAG+Memory/RAG调研方案 (version 0.1).md,RAG+Memory,rag-architecture,core,mixed,一般,RAG 调研索引、向量库选型表、整体方案图及全流程,保留+frontmatter
+RAG+Memory/embabel.md,RAG+Memory,agent-framework,core,mixed,一般,Embabel 中 @Tool/@Action、toolGroups 与 GOAP 规划兼容性,保留+frontmatter
+RAG+Memory/kb 里程碑.md,RAG+Memory,chatbot-roadmap,core,zh,好,2025 年知识库/RAG 产品里程碑表,保留+frontmatter
+RAG+Memory/milvus V.S. Qdrant.md,RAG+Memory,vector-database,core,mixed,好,Milvus 与 Qdrant 本地部署与 RAG 适用性多维度对比,保留+frontmatter
+RAG+Memory/vector db & RAG.md,RAG+Memory,rag-architecture,core,mixed,一般,多向量库与多 RAG 框架对比表及私有化架构,保留+frontmatter
+RAG+Memory/文档解析方案对比.md,RAG+Memory,rag-pipeline,core,mixed,好,对比 LangChain/LlamaIndex/Haystack 等框架的文档解析工具,保留+frontmatter
+RAG+Memory/知识图谱与向量数据库.md,RAG+Memory,rag-architecture,core,zh,好,知识图谱与向量库的差异、互补及混合检索/推理思路,保留+frontmatter
+RAG+Memory/知识库构建流程中的潜在问题和解决方案.md,RAG+Memory,rag-troubleshooting,core,mixed,好,RAG 流程图故障点与基于 LlamaIndex+Milvus 的实现/调优建议,保留+frontmatter
+RAG+Memory/非向量化方案.md,RAG+Memory,rag-architecture,core,zh,好,对比传统向量 RAG 与 RAPTOR/PageIndex 等层级/结构化方案,保留+frontmatter
+RAG+Memory/不同角色RAG需求.md,RAG+Memory,rag-requirements,partial,zh,好,按产品、前后端、测试等角色归纳 RAG 场景与偏好,保留+frontmatter
+RAG+Memory/知识库系统收益评估方式.md,RAG+Memory,rag-evaluation,partial,zh,好,KB 覆盖率、元数据、chunk、响应时延、召回率量化收益指标,保留+frontmatter
+RAG+Memory/系统挑战.md,RAG+Memory,rag-challenges,partial,zh,好,从技术与架构、知识数据、组织三方面归纳 KB/RAG 建设挑战,保留+frontmatter
+RAG+Memory/金融kb.md,RAG+Memory,finance-domain,irrelevant,zh,一般,金融业务知识库六大类内容域清单,保留+frontmatter
+Anomaly detection - sharkAI/00-时序预测(主页).md,archive/empty_pages,index-placeholder,irrelevant,zh,差,Confluence 父页面占位空壳,移至 archive/empty_pages/
+Anomaly detection - sharkAI/01-TD V0.1.md,Anomaly detection - sharkAI,shark-ai-system-design-v0.1,core,zh,一般,V0.1系统设计：数据ETL(Flink/HTTP)、Prometheus集成、数据回写、后端管理、算法模块,保留+frontmatter
+Anomaly detection - sharkAI/02-时序异常检测&时序预测-调研.md,Anomaly detection - sharkAI,anomaly-detection-algorithm-research,core,zh,一般,算法调研：30种经典异常检测算法、异常类型特征、判断原理、架构设计、API使用示例,保留+frontmatter+清理无关内容
+Anomaly detection - sharkAI/03-时序异常检测&时序预测-系统设计.md,Anomaly detection - sharkAI,anomaly-detection-system-design,core,zh,一般,系统设计：业内调研(国内外公司/ByteBrain)、内部系统模块、算法工厂策略模式、数据处理,保留+frontmatter+清理无关QA
+Anomaly detection - sharkAI/04-时序异常检测&时序预测-应用.md,Anomaly detection - sharkAI,anomaly-detection-model-application,core,zh,好,模型应用：异常检测6种方法、Ensemble/模型选择器/自适应方案、时序预测模型组成与代表性模型,保留+frontmatter
+Anomaly detection - sharkAI/05-时序异常检测&时序预测-服务使用案例.md,Anomaly detection - sharkAI,shark-ai-api-reference,core,zh,好,API参考：token获取、模型探索、模型状态、异常检测、子类型检测、窗口洞察、算法分类表,保留+frontmatter
+Anomaly detection - sharkAI/06-Shark Service 使用手册.md,archive,shark-service-manual-old,irrelevant,zh,一般,旧版使用手册（已被V202502版本取代）,移至 archive/
+Anomaly detection - sharkAI/07-Shark Service 系统设计.md,Anomaly detection - sharkAI,shark-service-system-design,core,zh,好,系统设计：架构组件、元数据管理(MySQL)、数据回写(InfluxDB协议)、异常点剔除、算法回放,保留+frontmatter
+Anomaly detection - sharkAI/08-时序异常检测&时序预测.md,Anomaly detection - sharkAI,shark-ai-platform-overview,core,zh,好,平台介绍：智能算法、开箱即用、模型自适应反馈、模型选择器/融合ensemble方案、资源使用,保留+frontmatter
+Anomaly detection - sharkAI/09-show demo.md,Anomaly detection - sharkAI,shark-service-demo,partial,en,一般,演示步骤：创建job、配置grafana、preview/release流程、监控面板datasource映射表,保留+frontmatter
+Anomaly detection - sharkAI/10-Shark Service 使用手册[V202502].md,Anomaly detection - sharkAI,shark-service-user-manual-v202502,core,zh,好,最新使用手册：首页/列表/Create/Preview/Release页面、异常检测配置、案例分析,保留+frontmatter
+Anomaly detection - sharkAI/11-Shark-AI 异常检测平台-业务接入SOP.md,Anomaly detection - sharkAI,shark-ai-integration-sop,core,zh,好,业务接入SOP：适用范围、接入准备、方向配置、检测策略、API快速开始、SLO评估口径、FAQ,保留+frontmatter
+Anomaly detection - sharkAI/12-时序预测-稀疏数据不可用解决方案.md,Anomaly detection - sharkAI,sparse-data-detection-algorithm,core,zh,好,稀疏数据方案：SparseGaussianTailDetector高斯尾概率检测+稠密度检验算法原理与流程,保留+frontmatter
+Anomaly detection - sharkAI/13-时序预测-复杂时序监督模型解决方案.md,Anomaly detection - sharkAI,supervised-model-complex-timeseries,core,zh,一般,监督模型方案：XGB多尺度斜率特征(28维7类)架构；数据采集/训练/线上效果章节为TODO,保留+frontmatter
+Anomaly detection - sharkAI/14-时序预测-部分业务问题的解决方案.md,Anomaly detection - sharkAI,business-problem-solutions,core,zh,一般,业务方案：路由模型(周期/稀疏/稳定性)、时间窗口映射、接入效果评估、代办事项,保留+frontmatter
+Anomaly detection - sharkAI/15-时序预测-多维度时序交互.md,Anomaly detection - sharkAI,multi-dimension-timeseries,core,zh,一般,多维度功能：多维度接入/可视化/告警模块设计,保留+frontmatter

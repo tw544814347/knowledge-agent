@@ -121,7 +121,7 @@ ngrok http 8000 &
 │   └── build_relations.py          # 文档关系图构建
 ├── frontend/                       # React 前端
 │   └── src/
-├── knowledge/                      # 内置知识库文件（Markdown）
+├── agent kb v1.2/                 # 内置知识库文件（Markdown）
 ├── docs/                           # 文档关系映射（自动生成）
 ├── data/vectordb/                  # 向量数据库持久化（不提交）
 ├── .github/workflows/              # GitHub Actions 自动部署
@@ -133,7 +133,7 @@ ngrok http 8000 &
 
 复制 `.env.example` 为 `.env` 并根据需要修改：
 
-- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径（默认 `./knowledge`）
+- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径（默认 `./agent kb v1.2`）
 - `LLM_MODEL`：LLM 模型名称（默认 `deepseek-r1:14b`）
 - `EMBEDDING_MODEL`：Embedding 模型（默认 `bge-m3`）
 - `CHUNK_SIZE` / `PARENT_CHUNK_SIZE`：双层 chunk 切分参数

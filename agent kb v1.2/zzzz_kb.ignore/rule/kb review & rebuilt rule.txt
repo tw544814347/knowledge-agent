@@ -1,0 +1,28 @@
+
+请审计这个知识库目录下所有 Markdown 文件，并按以下规则处理：
+
+0. “相关”定义为：内容直接服务于 agent / MCP / Cursor / chatbot / 时序预测的 agent / RAG 等工具和原理的设计、实现、配置、接入、排障、FAQ、架构或最佳实践。
+1. 审视单个目录下的文件，比较单个目录下的多个文件内部的内容，对单文件内不符合目录内容要求的内容进行删除（但是需要保留对比版本，待我来审核）
+2. 与主题无关的内容不要直接删除，先移动到 archive/ 目录，并在 audit_report.md 更新记录原因。
+3. 对“部分相关”的 md：
+   - 保留相关内容
+   - 移除无关段落到 archive/fragments/
+   - 将文件重构为统一模板：
+     # Title
+     ## Summary
+     ## Scope
+     ## Key Facts
+     ## Procedures
+     ## References
+4. 给每个文件补充 frontmatter：
+   ---
+   topic:
+   relevance: core | partial | irrelevant
+   language:
+   source:
+   last_reviewed:
+   ---
+5. 输出：
+   - knowledge_inventory.csv
+   - audit_report.md
+   - 所有改动以 diff 方式提交，等待我 review，不要直接永久删除文件。

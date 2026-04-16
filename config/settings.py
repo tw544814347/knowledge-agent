@@ -30,7 +30,7 @@ class Settings(BaseSettings):
 
     # 知识文档
     knowledge_source_dir: str = Field(
-        default="./knowledge",
+        default="./agent kb v1.2",
         alias="KNOWLEDGE_SOURCE_DIR",
     )
 
