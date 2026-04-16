@@ -223,6 +223,31 @@ export const sendAskResponse = async (question, selectedOption, optionIndex) => 
   return await response.json();
 };
 
+// 忘记密码功能
+export const forgotPassword = async (email) => {
+  const response = await fetch(`${API_BASE}/auth/forgot-password`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({ email })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const resetPassword = async (email, resetCode, newPassword) => {
+  const response = await fetch(`${API_BASE}/auth/reset-password`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({
+      email,
+      reset_code: resetCode,
+      new_password: newPassword
+    })
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
 export const checkAskRequests = async () => {
   const response = await fetch(`${API_BASE}/ask/check`, {
     method: 'GET',

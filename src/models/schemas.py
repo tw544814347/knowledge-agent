@@ -111,6 +111,18 @@ class SwitchKnowledgeBaseRequest(BaseModel):
     kb_id: str = Field(..., description="知识库ID")
 
 
+class ForgotPasswordRequest(BaseModel):
+    """忘记密码请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+
+
+class ResetPasswordRequest(BaseModel):
+    """重置密码请求"""
+    email: EmailStr = Field(..., description="邮箱地址")
+    reset_code: str = Field(..., description="重置验证码")
+    new_password: str = Field(..., min_length=6, description="新密码（至少6位）")
+
+
 class UpdateConversationRequest(BaseModel):
     """更新对话请求"""
     pinned: Optional[bool] = Field(None, description="是否置顶")

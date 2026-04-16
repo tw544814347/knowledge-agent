@@ -12,6 +12,7 @@ from src.core.doc_sync import DocumentSyncer
 from src.core.conversation_manager import ConversationManager
 from src.core.user_manager import UserManager
 from src.core.knowledge_base_manager import KnowledgeBaseManager
+from src.core.email_service import EmailService
 from src.core.auth_deps import get_current_user, get_current_user_optional, get_user_manager
 from src.models.schemas import (
     QueryRequest,
@@ -31,6 +32,8 @@ from src.models.schemas import (
     KnowledgeBase,
     KnowledgeBaseListResponse,
     SwitchKnowledgeBaseRequest,
+    ForgotPasswordRequest,
+    ResetPasswordRequest,
 )
 from config.settings import settings
 
@@ -41,16 +44,18 @@ _syncer: DocumentSyncer | None = None
 _conv_manager: ConversationManager | None = None
 _user_manager: UserManager | None = None
 _kb_manager: KnowledgeBaseManager | None = None
+_email_service: EmailService | None = None
 
 
-def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer, conv_manager: ConversationManager, user_manager: UserManager, kb_manager: KnowledgeBaseManager) -> None:
+def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer, conv_manager: ConversationManager, user_manager: UserManager, kb_manager: KnowledgeBaseManager, email_service: EmailService) -> None:
     """由 main.py lifespan 注入共享的实例"""
-    global _pipeline, _syncer, _conv_manager, _user_manager, _kb_manager
+    global _pipeline, _syncer, _conv_manager, _user_manager, _kb_manager, _email_service
     _pipeline = pipeline
     _syncer = syncer
     _conv_manager = conv_manager
     _user_manager = user_manager
     _kb_manager = kb_manager
+    _email_service = email_service
 
 
 def _require_pipeline() -> RAGPipeline:
@@ -81,6 +86,12 @@ def _require_kb_manager() -> KnowledgeBaseManager:
     if _kb_manager is None:
         raise HTTPException(status_code=503, detail="服务尚未初始化")
     return _kb_manager
+
+
+def _require_email_service() -> EmailService:
+    if _email_service is None:
+        raise HTTPException(status_code=503, detail="邮件服务尚未初始化")
+    return _email_service
 
 
 @router.post("/ask", response_model=QueryResponse)
@@ -363,4 +374,62 @@ async def switch_knowledge_base(
         "message": f"已切换到知识库: {request.kb_id}",
         "kb_id": request.kb_id,
         "note": "知识库切换已保存，向量库将在下次重启时生效"
+    }
+
+
+@router.post("/auth/forgot-password")
+async def forgot_password(request: ForgotPasswordRequest) -> dict:
+    """忘记密码 - 发送重置验证码"""
+    user_manager = _require_user_manager()
+    email_service = _require_email_service()
+    
+    # 生成重置验证码
+    reset_code = user_manager.generate_reset_code(request.email)
+    
+    if not reset_code:
+        # 为了安全，即使用户不存在也返回成功消息
+        return {
+            "status": "success",
+            "message": "如果该邮箱存在，您将收到密码重置邮件"
+        }
+    
+    # 发送邮件
+    email_sent = email_service.send_password_reset_email(request.email, reset_code)
+    
+    if email_sent:
+        logger.info(f"密码重置邮件已发送到: {request.email}")
+        return {
+            "status": "success",
+            "message": "密码重置邮件已发送，请查收您的邮箱"
+        }
+    else:
+        logger.error(f"发送密码重置邮件失败: {request.email}")
+        raise HTTPException(
+            status_code=500, 
+            detail="邮件发送失败，请稍后重试"
+        )
+
+
+@router.post("/auth/reset-password")
+async def reset_password(request: ResetPasswordRequest) -> dict:
+    """重置密码"""
+    user_manager = _require_user_manager()
+    
+    # 重置密码
+    success = user_manager.reset_password(
+        request.email, 
+        request.reset_code, 
+        request.new_password
+    )
+    
+    if not success:
+        raise HTTPException(
+            status_code=400, 
+            detail="验证码无效或已过期，请重新申请密码重置"
+        )
+    
+    logger.info(f"用户 {request.email} 密码重置成功")
+    return {
+        "status": "success",
+        "message": "密码重置成功，请使用新密码登录"
     }

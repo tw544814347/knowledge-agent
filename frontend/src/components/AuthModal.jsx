@@ -4,13 +4,18 @@ import { login, register } from '../api';
 
 export default function AuthModal({ onClose, onAuthSuccess }) {
   const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isResetPassword, setIsResetPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    nickname: ''
+    nickname: '',
+    resetCode: '',
+    newPassword: ''
   });
 
   const handleSubmit = async (e) => {

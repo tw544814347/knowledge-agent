@@ -2,6 +2,7 @@
 
 import json
 import uuid
+import secrets
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Optional, Dict, Any
@@ -20,9 +21,12 @@ class UserManager:
         self.data_dir = Path(data_dir)
         self.data_dir.mkdir(exist_ok=True)
         self.users_file = self.data_dir / "users.json"
+        self.reset_codes_file = self.data_dir / "reset_codes.json"
         self._users: Dict[str, Dict[str, Any]] = {}
+        self._reset_codes: Dict[str, Dict[str, Any]] = {}
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         self._load_users()
+        self._load_reset_codes()
     
     def _load_users(self):
         """从文件加载用户数据"""
@@ -38,9 +42,17 @@ class UserManager:
     def _save_users(self):
         """保存用户数据到文件"""
         try:
+            # 确保所有datetime对象都转换为字符串
+            users_data = {}
+            for user_id, user_info in self._users.items():
+                user_copy = user_info.copy()
+                if 'created_at' in user_copy and isinstance(user_copy['created_at'], datetime):
+                    user_copy['created_at'] = user_copy['created_at'].isoformat()
+                users_data[user_id] = user_copy
+            
             with open(self.users_file, 'w', encoding='utf-8') as f:
                 json.dump({
-                    'users': self._users,
+                    'users': users_data,
                     'last_updated': datetime.now().isoformat()
                 }, f, ensure_ascii=False, indent=2)
         except OSError as e:
@@ -124,6 +136,108 @@ class UserManager:
         if not self.verify_password(password, user.hashed_password):
             return None
         return user
+    
+    def _load_reset_codes(self):
+        """加载密码重置验证码"""
+        if self.reset_codes_file.exists():
+            try:
+                with open(self.reset_codes_file, 'r', encoding='utf-8') as f:
+                    self._reset_codes = json.load(f)
+            except (json.JSONDecodeError, OSError) as e:
+                print(f"Warning: Failed to load reset codes: {e}")
+                self._reset_codes = {}
+        else:
+            self._reset_codes = {}
+    
+    def _save_reset_codes(self):
+        """保存密码重置验证码"""
+        try:
+            with open(self.reset_codes_file, 'w', encoding='utf-8') as f:
+                json.dump(self._reset_codes, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"Failed to save reset codes: {e}")
+    
+    def _clean_expired_reset_codes(self):
+        """清理过期的重置验证码"""
+        current_time = datetime.now()
+        expired_codes = []
+        
+        for email, code_data in self._reset_codes.items():
+            expires_at = datetime.fromisoformat(code_data.get('expires_at', ''))
+            if current_time > expires_at:
+                expired_codes.append(email)
+        
+        for email in expired_codes:
+            del self._reset_codes[email]
+        
+        if expired_codes:
+            self._save_reset_codes()
+    
+    def generate_reset_code(self, email: str) -> Optional[str]:
+        """生成密码重置验证码"""
+        # 清理过期验证码
+        self._clean_expired_reset_codes()
+        
+        # 检查用户是否存在
+        user = self.get_user_by_email(email)
+        if not user:
+            return None
+        
+        # 生成6位数字验证码
+        reset_code = ''.join([str(secrets.randbelow(10)) for _ in range(6)])
+        
+        # 设置10分钟过期
+        expires_at = datetime.now() + timedelta(minutes=10)
+        
+        # 保存验证码
+        self._reset_codes[email] = {
+            'code': reset_code,
+            'expires_at': expires_at.isoformat(),
+            'created_at': datetime.now().isoformat()
+        }
+        self._save_reset_codes()
+        
+        print(f"Generated reset code for {email}")
+        return reset_code
+    
+    def verify_reset_code(self, email: str, code: str) -> bool:
+        """验证密码重置验证码"""
+        # 清理过期验证码
+        self._clean_expired_reset_codes()
+        
+        code_data = self._reset_codes.get(email)
+        if not code_data:
+            return False
+        
+        return code_data.get('code') == code
+    
+    def reset_password(self, email: str, code: str, new_password: str) -> bool:
+        """重置用户密码"""
+        # 验证重置码
+        if not self.verify_reset_code(email, code):
+            return False
+        
+        # 获取用户ID
+        user_id = None
+        for uid, user_data in self._users.items():
+            if user_data.get('email') == email:
+                user_id = uid
+                break
+        
+        if not user_id:
+            return False
+        
+        # 更新密码
+        self._users[user_id]['hashed_password'] = self.get_password_hash(new_password)
+        self._save_users()
+        
+        # 删除使用过的验证码
+        if email in self._reset_codes:
+            del self._reset_codes[email]
+            self._save_reset_codes()
+        
+        print(f"Password reset successful for {email}")
+        return True
     
     def create_access_token(self, user: UserInDB) -> str:
         """创建JWT访问令牌"""
