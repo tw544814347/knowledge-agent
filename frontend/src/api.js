@@ -83,3 +83,55 @@ export async function askQuestionStream(question, topK = 8, signal, onChunk) {
     try { onChunk(JSON.parse(buffer)); } catch { /* skip */ }
   }
 }
+
+// 对话历史相关 API
+const HEADERS = { 'Content-Type': 'application/json', ...NGROK_HEADERS };
+
+export const getConversations = async (limit = 20) => {
+  const response = await fetch(`${API_BASE}/conversations?limit=${limit}`, {
+    headers: NGROK_HEADERS,
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const getConversation = async (conversationId) => {
+  const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
+    headers: NGROK_HEADERS,
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const createConversation = async (question, answer, sources = []) => {
+  const response = await fetch(`${API_BASE}/conversations`, {
+    method: 'POST',
+    headers: HEADERS,
+    body: JSON.stringify({
+      question,
+      answer,
+      sources,
+    }),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const updateConversation = async (conversationId, updates) => {
+  const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
+    method: 'PUT',
+    headers: HEADERS,
+    body: JSON.stringify(updates),
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};
+
+export const deleteConversation = async (conversationId) => {
+  const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {
+    method: 'DELETE',
+    headers: NGROK_HEADERS,
+  });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+};

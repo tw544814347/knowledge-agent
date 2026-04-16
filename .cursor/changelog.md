@@ -1,5 +1,62 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-16（历史对话功能 v2.0）
+
+### 核心功能新增
+
+- **侧边栏历史对话**：显示最近20个对话，支持置顶功能
+- **对话持久化**：自动保存问答记录（排除thinking过程）
+- **历史对话管理**：支持置顶/取消置顶、删除对话、点击回看
+
+### 后端API扩展
+
+- **新增数据模型**：`ConversationManager`、`Conversation`、`ConversationMessage`等
+- **新增API端点**：
+  - `POST /api/v1/conversations`：保存对话
+  - `GET /api/v1/conversations`：获取对话列表
+  - `GET /api/v1/conversations/{id}`：获取单个对话
+  - `PUT /api/v1/conversations/{id}`：更新对话（置顶）
+  - `DELETE /api/v1/conversations/{id}`：删除对话
+- **数据存储**：使用本地JSON文件 `./data/conversations.json`
+
+### 前端UI优化
+
+- **新增组件**：`ConversationHistory.jsx` 历史对话列表
+- **侧边栏增强**：集成历史对话区域，支持滚动浏览
+- **交互体验**：悬停显示操作按钮、置顶标识、时间显示
+- **自动保存**：问答完成后自动保存到历史记录
+
+### 技术亮点
+
+- **智能排序**：置顶对话优先显示，其他按时间倒序
+- **数据同步**：前后端状态实时同步，操作即时生效
+- **用户体验**：点击历史对话自动加载到主界面
+- **存储优化**：历史记录仅保留最终答案，不包含thinking过程
+
+### 受影响文件
+
+#### 后端
+- `src/models/schemas.py`：新增对话相关数据模型
+- `src/core/conversation_manager.py`：新增对话管理核心逻辑
+- `src/api/routes.py`：新增对话相关API路由
+- `src/api/main.py`：集成ConversationManager依赖注入
+
+#### 前端
+- `frontend/src/api.js`：新增对话相关API客户端函数
+- `frontend/src/components/ConversationHistory.jsx`：新增历史对话组件
+- `frontend/src/components/Sidebar.jsx`：集成历史对话显示
+- `frontend/src/components/ChatPanel.jsx`：集成自动保存和历史加载
+- `frontend/src/App.jsx`：协调对话状态管理
+
+### 测试验证
+
+- ✅ 对话创建和保存功能正常
+- ✅ 历史对话列表获取正常  
+- ✅ 置顶/取消置顶功能正常
+- ✅ 删除对话功能正常
+- ✅ 前后端API通信正常
+- ✅ 前端开发服务器正常启动
+
 ## 2026-04-16（知识库 v1.2 升级）
 
 ### 知识库更新

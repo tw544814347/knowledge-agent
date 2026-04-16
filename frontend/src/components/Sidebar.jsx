@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { Database, RefreshCw, HardDriveDownload, X, Cpu, Layers } from 'lucide-react';
 import { syncDocuments, rebuildIndex } from '../api';
+import ConversationHistory from './ConversationHistory';
 
-export default function Sidebar({ serverStatus, indexStatus, onClose, onStatusRefresh }) {
+export default function Sidebar({ 
+  serverStatus, 
+  indexStatus, 
+  onClose, 
+  onStatusRefresh,
+  onSelectConversation,
+  selectedConversationId 
+}) {
   const [syncing, setSyncing] = useState(false);
   const [rebuilding, setRebuilding] = useState(false);
   const [message, setMessage] = useState('');
@@ -89,6 +97,17 @@ export default function Sidebar({ serverStatus, indexStatus, onClose, onStatusRe
           ) : (
             <p className="text-sm text-[var(--color-text-muted)]">加载中...</p>
           )}
+        </section>
+
+        {/* 历史对话 */}
+        <section>
+          <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">历史对话</h2>
+          <div className="max-h-64 overflow-y-auto">
+            <ConversationHistory 
+              onSelectConversation={onSelectConversation}
+              selectedConversationId={selectedConversationId}
+            />
+          </div>
         </section>
 
         {/* 操作 */}

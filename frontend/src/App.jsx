@@ -7,6 +7,7 @@ export default function App() {
   const [serverStatus, setServerStatus] = useState(null);
   const [indexStatus, setIndexStatus] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [selectedConversation, setSelectedConversation] = useState(null);
 
   useEffect(() => {
     const checkServer = async () => {
@@ -35,6 +36,8 @@ export default function App() {
             const status = await getStatus();
             setIndexStatus(status);
           }}
+          onSelectConversation={setSelectedConversation}
+          selectedConversationId={selectedConversation?.id}
         />
       )}
 
@@ -43,6 +46,10 @@ export default function App() {
           isConnected={!!serverStatus}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           sidebarOpen={sidebarOpen}
+          selectedConversation={selectedConversation}
+          onConversationSaved={(conversation) => {
+            // 对话保存后可以刷新侧边栏，这里暂时不做处理
+          }}
         />
       </main>
     </div>

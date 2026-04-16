@@ -1,9 +1,15 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { Send, PanelLeftOpen, Square } from 'lucide-react';
 import MessageBubble from './MessageBubble';
-import { askQuestionStream } from '../api';
+import { askQuestionStream, createConversation } from '../api';
 
-export default function ChatPanel({ isConnected, onToggleSidebar, sidebarOpen }) {
+export default function ChatPanel({ 
+  isConnected, 
+  onToggleSidebar, 
+  sidebarOpen, 
+  selectedConversation,
+  onConversationSaved 
+}) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,6 +27,33 @@ export default function ChatPanel({ isConnected, onToggleSidebar, sidebarOpen })
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
+
+  // 当选中历史对话时，加载对话内容
+  useEffect(() => {
+    if (selectedConversation) {
+      const userMsg = {
+        id: `u_${Date.now()}`,
+        role: 'user',
+        content: selectedConversation.message.question,
+        timestamp: new Date(selectedConversation.created_at),
+      };
+      
+      const aiMsg = {
+        id: `a_${Date.now()}`,
+        role: 'assistant',
+        content: selectedConversation.message.answer,
+        sources: selectedConversation.message.sources || [],
+        timestamp: new Date(selectedConversation.created_at),
+        loading: false,
+        streaming: false,
+        thinking: '',
+        thinkingDone: true,
+      };
+      
+      setMessages([userMsg, aiMsg]);
+      setInput('');
+    }
+  }, [selectedConversation]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -120,6 +153,24 @@ export default function ChatPanel({ isConnected, onToggleSidebar, sidebarOpen })
           setMessages(prev => prev.map(m => m.id === aiMsgId ? {
             ...m, loading: false, thinkingDone: true,
           } : m));
+          
+          // 保存对话到历史记录（不包含thinking过程）
+          setTimeout(async () => {
+            try {
+              const finalMessage = [...messages].find(m => m.id === aiMsgId);
+              if (finalMessage && finalMessage.content && !finalMessage.error) {
+                const conversation = await createConversation(
+                  question,
+                  rawContent.current.replace(/<think>.*?<\/think>/gs, '').trim() || finalMessage.content,
+                  finalMessage.sources || []
+                );
+                onConversationSaved?.(conversation);
+              }
+            } catch (error) {
+              console.error('保存对话失败:', error);
+              // 静默失败，不影响用户体验
+            }
+          }, 500);
         } else if (chunk.type === 'error') {
           if (rafRef.current) { cancelAnimationFrame(rafRef.current); rafRef.current = null; }
           setMessages(prev => prev.map(m => m.id === aiMsgId ? {

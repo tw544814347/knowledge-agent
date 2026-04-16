@@ -9,11 +9,16 @@ from loguru import logger
 from src.core.rag_pipeline import RAGPipeline
 from src.core.llm_client import LLMError
 from src.core.doc_sync import DocumentSyncer
+from src.core.conversation_manager import ConversationManager
 from src.models.schemas import (
     QueryRequest,
     QueryResponse,
     IndexStatusResponse,
     SyncResponse,
+    Conversation,
+    ConversationListResponse,
+    CreateConversationRequest,
+    UpdateConversationRequest,
 )
 from config.settings import settings
 
@@ -21,13 +26,15 @@ router = APIRouter()
 
 _pipeline: RAGPipeline | None = None
 _syncer: DocumentSyncer | None = None
+_conv_manager: ConversationManager | None = None
 
 
-def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer) -> None:
-    """由 main.py lifespan 注入共享的 pipeline 和 syncer 实例"""
-    global _pipeline, _syncer
+def set_dependencies(pipeline: RAGPipeline, syncer: DocumentSyncer, conv_manager: ConversationManager) -> None:
+    """由 main.py lifespan 注入共享的 pipeline、syncer 和 conversation_manager 实例"""
+    global _pipeline, _syncer, _conv_manager
     _pipeline = pipeline
     _syncer = syncer
+    _conv_manager = conv_manager
 
 
 def _require_pipeline() -> RAGPipeline:
@@ -40,6 +47,12 @@ def _require_syncer() -> DocumentSyncer:
     if _syncer is None:
         raise HTTPException(status_code=503, detail="服务尚未初始化")
     return _syncer
+
+
+def _require_conv_manager() -> ConversationManager:
+    if _conv_manager is None:
+        raise HTTPException(status_code=503, detail="服务尚未初始化")
+    return _conv_manager
 
 
 @router.post("/ask", response_model=QueryResponse)
@@ -111,3 +124,68 @@ async def get_status():
         source_dir=settings.knowledge_source_dir,
         last_sync=syncer.last_sync_time,
     )
+
+
+# 对话历史相关 API
+@router.post("/conversations", response_model=Conversation)
+async def create_conversation(req: CreateConversationRequest):
+    """保存对话到历史记录"""
+    conv_manager = _require_conv_manager()
+    try:
+        conversation = conv_manager.create_conversation(
+            question=req.question,
+            answer=req.answer,
+            sources=req.sources
+        )
+        return conversation
+    except Exception as e:
+        logger.error(f"保存对话失败: {e}")
+        raise HTTPException(status_code=500, detail=f"保存对话失败: {str(e)}")
+
+
+@router.get("/conversations", response_model=ConversationListResponse)
+async def get_conversations(limit: int = 20):
+    """获取历史对话列表"""
+    conv_manager = _require_conv_manager()
+    try:
+        conversations = conv_manager.get_conversations(limit=min(limit, 50))  # 最多50条
+        return ConversationListResponse(
+            conversations=conversations,
+            total=conv_manager.get_conversation_count()
+        )
+    except Exception as e:
+        logger.error(f"获取对话列表失败: {e}")
+        raise HTTPException(status_code=500, detail=f"获取对话列表失败: {str(e)}")
+
+
+@router.get("/conversations/{conversation_id}", response_model=Conversation)
+async def get_conversation(conversation_id: str):
+    """根据ID获取对话详情"""
+    conv_manager = _require_conv_manager()
+    conversation = conv_manager.get_conversation(conversation_id)
+    if not conversation:
+        raise HTTPException(status_code=404, detail="对话不存在")
+    return conversation
+
+
+@router.put("/conversations/{conversation_id}", response_model=Conversation)
+async def update_conversation(conversation_id: str, req: UpdateConversationRequest):
+    """更新对话（如置顶/取消置顶）"""
+    conv_manager = _require_conv_manager()
+    conversation = conv_manager.update_conversation(
+        conversation_id=conversation_id,
+        pinned=req.pinned
+    )
+    if not conversation:
+        raise HTTPException(status_code=404, detail="对话不存在")
+    return conversation
+
+
+@router.delete("/conversations/{conversation_id}")
+async def delete_conversation(conversation_id: str):
+    """删除对话"""
+    conv_manager = _require_conv_manager()
+    success = conv_manager.delete_conversation(conversation_id)
+    if not success:
+        raise HTTPException(status_code=404, detail="对话不存在")
+    return {"message": "删除成功"}

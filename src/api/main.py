@@ -10,6 +10,7 @@ from config.settings import settings
 from src.core.vector_store import VectorStore
 from src.core.rag_pipeline import RAGPipeline
 from src.core.doc_sync import DocumentSyncer
+from src.core.conversation_manager import ConversationManager
 from src.api.routes import router, set_dependencies
 
 
@@ -22,7 +23,8 @@ async def lifespan(app: FastAPI):
     vector_store = VectorStore()
     pipeline = RAGPipeline(vector_store=vector_store)
     syncer = DocumentSyncer(vector_store=vector_store)
-    set_dependencies(pipeline, syncer)
+    conv_manager = ConversationManager()
+    set_dependencies(pipeline, syncer, conv_manager)
     syncer.start_background_sync()
     yield
     syncer.stop_background_sync()

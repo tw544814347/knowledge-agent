@@ -1,0 +1,24 @@
+{
+  "conversations": {
+    "95336ba4-1a31-4f3a-afea-a36691359ab6": {
+      "id": "95336ba4-1a31-4f3a-afea-a36691359ab6",
+      "title": "什么是RAG？",
+      "message": {
+        "question": "什么是RAG？",
+        "answer": "RAG（Retrieval-Augmented Generation）是一种结合检索和生成的AI架构，通过先检索相关文档再生成答案的方式提升问答质量。",
+        "sources": [
+          {
+            "filename": "test.md",
+            "category": "test",
+            "score": 0.8,
+            "section": "",
+            "related_docs": []
+          }
+        ]
+      },
+      "created_at": "2026-04-16T13:15:26.683526",
+      "pinned": true
+    }
+  },
+  "last_updated": "2026-04-16T13:15:43.534409"
+}

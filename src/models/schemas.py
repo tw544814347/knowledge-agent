@@ -1,6 +1,8 @@
 """Pydantic 数据模型"""
 
+from datetime import datetime
 from pydantic import BaseModel, Field
+from typing import List, Optional
 
 
 class QueryRequest(BaseModel):
@@ -39,3 +41,38 @@ class SyncResponse(BaseModel):
     deleted: int = 0
     total_chunks: int = 0
     message: str = ""
+
+
+# 历史对话相关模型
+class ConversationMessage(BaseModel):
+    """对话消息"""
+    question: str = Field(..., description="用户问题")
+    answer: str = Field(..., description="AI回答")
+    sources: List[SourceInfo] = Field(default_factory=list, description="参考来源")
+
+
+class Conversation(BaseModel):
+    """对话记录"""
+    id: str = Field(..., description="对话ID")
+    title: str = Field(..., description="对话标题（从问题自动生成）")
+    message: ConversationMessage = Field(..., description="对话内容")
+    created_at: datetime = Field(..., description="创建时间")
+    pinned: bool = Field(default=False, description="是否置顶")
+
+
+class ConversationListResponse(BaseModel):
+    """对话列表响应"""
+    conversations: List[Conversation] = Field(..., description="对话列表")
+    total: int = Field(..., description="总数")
+
+
+class CreateConversationRequest(BaseModel):
+    """创建对话请求"""
+    question: str = Field(..., min_length=1, description="用户问题")
+    answer: str = Field(..., description="AI回答")
+    sources: List[SourceInfo] = Field(default_factory=list, description="参考来源")
+
+
+class UpdateConversationRequest(BaseModel):
+    """更新对话请求"""
+    pinned: Optional[bool] = Field(None, description="是否置顶")
