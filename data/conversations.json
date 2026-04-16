@@ -274,13 +274,204 @@
                 }
               ],
               "created_at": "2026-04-16T18:53:15.597961"
+            },
+            {
+              "question": "一句话告诉我 workflow",
+              "answer": "**直接回答：**\n\nWorkflow 是一个可执行的步骤图，包含条件、并行分支和引擎调用，用于处理单个风险场景。\n\n**补充细节：**\n- **RiskWorkflow** 是 Shopee 风险特定的工作流实现或元数据，命名可能出现在日志和数据仓库中。\n- 工作流通常按顺序执行步骤（如 Step 1 → Step 2 → Step 3），并支持基于规则的条件分支。\n\n**参考来源：**\n1. 文档1: Risk Workflow Trace Guide.md (Workflow Vocabulary)\n2. 文档3: Multi-Agent vs Workflow.md (工作流串联模式)\n\n**关联文档：**\n- 如果需要进一步了解工作流与多智能体架构的区别，可以查阅《Multi-Agent vs Workflow.md》。",
+              "sources": [
+                {
+                  "filename": "Risk Workflow Trace Guide.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.6335570812225342,
+                  "section": "Workflow Vocabulary",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6312255859375,
+                  "section": "1. 核心摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6154898405075073,
+                  "section": "3. 深度解析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Risk Workflow Trace Guide.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.6067452430725098,
+                  "section": "Practical Mapping Between Process Concepts And Mart Tables",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Risk Workflow Trace Guide.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.6025389432907104,
+                  "section": "How To Trace One Risk Request",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.6022976636886597,
+                  "section": "架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5980366468429565,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "4. 工作流设计.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.5950708985328674,
+                  "section": "工作流设计",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T21:59:03.954460"
             }
           ],
-          "updated_at": "2026-04-16T18:53:15.615333"
+          "updated_at": "2026-04-16T21:59:03.964332"
         }
       },
-      "last_updated": "2026-04-16T18:53:15.616398"
+      "last_updated": "2026-04-16T21:59:03.965616"
+    },
+    "8a1d3204-feeb-4ae6-b6ab-50e357aab83b": {
+      "conversations": {
+        "361434ff-fb9c-4b18-9c81-f4d7cbf643de": {
+          "id": "361434ff-fb9c-4b18-9c81-f4d7cbf643de",
+          "title": "告诉我 agent",
+          "messages": [
+            {
+              "question": "告诉我 agent",
+              "answer": "### Agent 的定义与核心概念\n\n**Agent（智能体）** 是一种能够感知环境、处理信息并采取行动以实现特定目标的系统。在大模型领域，Agent 通常是以大模型为核心的智能体，通过与用户对话的形式完成各种任务。\n\n#### 关键特点：\n1. **自主性**：能够在没有人类干预的情况下进行决策。\n2. **适应性**：能够根据环境变化和反馈调整行为。\n3. **交互性**：可以与其他 Agent 或环境互动，形成复杂的行为模式。\n\n---\n\n### Agent 的核心能力\n- **信息处理**：通过大模型处理输入信息并生成响应或执行动作。\n- **任务分解**：将目标拆解为具体步骤，并调用工具完成任务（如下单外卖、查询信息等）。\n- **规则扮演**：根据设定的角色和规则，限定操作范围（如智能客服只能回答特定问题）。\n\n---\n\n### Agent 与其他技术的关系\n1. **与大模型的区别**：\n   - 大模型依赖于明确的 prompt 进行交互，效果受 prompt 清晰度影响。\n   - Agent 只需目标即可独立思考并执行任务，能够自动生成 prompt 并完成操作。\n\n2. **工具调用**：\n   - Agent 可以通过 `@Tool` 和 `@Action` 注解定义工具和动作，实现复杂逻辑（如数据转换、错误处理等）。\n\n---\n\n### 应用示例\n1. **聊天机器人**：理解用户输入并生成自然语言响应。\n2. **推荐系统**：根据用户行为实时调整推荐内容。\n3. **自动驾驶**：感知环境并做出驾驶决策。\n4. **智能客服**：限定操作范围，回答特定问题。\n\n---\n\n### 总结\nAgent 是一种以大模型为核心的智能体，通过自主决策和交互完成复杂任务，在多个领域有广泛应用。",
+              "sources": [
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6551154255867004,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.6528879404067993,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6326146125793457,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.608347475528717,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5982201758590749,
+                  "section": "4. 归档文件清单与原因",
+                  "related_docs": []
+                },
+                {
+                  "filename": "embabel.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5951096415519714,
+                  "section": "embabel",
+                  "related_docs": []
+                },
+                {
+                  "filename": "embabel.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5945992469787598,
+                  "section": "embabel",
+                  "related_docs": []
+                },
+                {
+                  "filename": "01-TD V0.1.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5793541669845581,
+                  "section": "TD V0.1",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T22:02:07.914764"
+            }
+          ],
+          "created_at": "2026-04-16T22:02:07.923224",
+          "updated_at": "2026-04-16T22:02:07.923256",
+          "pinned": false,
+          "message": null
+        }
+      },
+      "last_updated": "2026-04-16T22:02:07.938046"
+    },
+    "f14c5b9a-5704-404f-b648-6f17a177b48b": {
+      "conversations": {
+        "e273e747-ff00-4cfc-8e6f-08e6eaaa75c0": {
+          "id": "e273e747-ff00-4cfc-8e6f-08e6eaaa75c0",
+          "title": "liagent",
+          "messages": [
+            {
+              "question": "liagent",
+              "answer": "在现有知识库中未找到相关内容。\n\n**补充说明**：根据提供的参考文档，主要讨论了RAG（检索增强生成）和LLM（大型语言模型）的应用，包括LangChain-ChatChat、OpenDevin等国产方案以及国际方案如LangChain、Haystack。这些方案涉及向量数据库的使用、工具调用和多轮对话支持，但并未提及“LiAgent”。如果您有其他问题或需要进一步了解相关技术，请提供更多细节。\n\n**参考来源**：\n1. vector db & RAG.md\n2. Basic Concept.md",
+              "sources": [
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5557438731193542,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5190280079841614,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5151787996292114,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.5039179921150208,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T22:21:52.983808"
+            }
+          ],
+          "created_at": "2026-04-16T22:21:52.990485",
+          "updated_at": "2026-04-16T22:21:52.990492",
+          "pinned": false,
+          "message": null
+        }
+      },
+      "last_updated": "2026-04-16T22:21:52.995242"
     }
   },
-  "last_updated": "2026-04-16T18:53:15.624069"
+  "last_updated": "2026-04-16T22:21:53.002405"
 }

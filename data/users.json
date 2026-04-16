@@ -47,7 +47,31 @@
       "hashed_password": "$2b$12$drP1YIxNi6UjCoTdzOcUEuJcCaCUupP./1HZnWzInThQ0McJkMxBy",
       "created_at": "2026-04-16T17:05:40.500456",
       "is_active": true
+    },
+    "8a1d3204-feeb-4ae6-b6ab-50e357aab83b": {
+      "id": "8a1d3204-feeb-4ae6-b6ab-50e357aab83b",
+      "email": "15648185667@163.com",
+      "nickname": "taowei",
+      "hashed_password": "$2b$12$.QLFI.CTfnFvbUAr65hWwuo5dBOAT6OO2Lj1GNN4EQXdDVHFwD.EK",
+      "created_at": "2026-04-16T19:11:53.463081",
+      "is_active": true
+    },
+    "8664338b-f950-428d-8bb5-8e1da650ac79": {
+      "id": "8664338b-f950-428d-8bb5-8e1da650ac79",
+      "email": "773947918@qq.com",
+      "nickname": "可可",
+      "hashed_password": "$2b$12$9pD1ZtDLng7Ga/ZrpwdO3u5H1IEpxQsqQ5zKrKaWiCRcuJ6lQ/n9W",
+      "created_at": "2026-04-16T22:03:16.500323",
+      "is_active": true
+    },
+    "f14c5b9a-5704-404f-b648-6f17a177b48b": {
+      "id": "f14c5b9a-5704-404f-b648-6f17a177b48b",
+      "email": "544814347@qq.com",
+      "nickname": "qq",
+      "hashed_password": "$2b$12$rLXBht5Ts346aaemhDekvOemdjsPleTAF7iFZoWQr.PXnd/GRWFUC",
+      "created_at": "2026-04-16T22:18:22.320833",
+      "is_active": true
     }
   },
-  "last_updated": "2026-04-16T18:57:26.081361"
+  "last_updated": "2026-04-16T22:18:22.321221"
 }

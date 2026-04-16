@@ -309,7 +309,11 @@ export const verifyRegistration = async (email, verificationCode, password, nick
     })
   });
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return await response.json();
+  const data = await response.json();
+  // 与 login 一致：注册成功后必须持久化 token，否则依赖 Authorization 的接口会 401
+  localStorage.setItem('access_token', data.access_token);
+  localStorage.setItem('user', JSON.stringify(data.user));
+  return data;
 };
 
 export const checkAskRequests = async () => {

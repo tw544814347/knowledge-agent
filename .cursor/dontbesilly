@@ -105,6 +105,37 @@ class RetentionStrategy:
 
 ---
 
+### Bug #004 (2026-04-16)
+**问题描述**: 新用户通过邮箱验证码完成注册后立刻使用，侧边栏「历史对话」报 HTTP 错误；随便发一条消息再退出重登后不再报错，但历史为空。
+
+**根本原因**:
+- `verifyRegistration` 与 `login` 行为不一致：登录成功后会将 `access_token` 与 `user` 写入 `localStorage`，而**验证注册成功**只把 `user` 交给 React 状态，**未持久化 JWT**。
+- 依赖 `Authorization: Bearer <token>` 的接口（如 `GET /conversations`、`POST /ask/stream`）从 `localStorage` 取 token，注册后 token 缺失 → **401**；流式问答无法以当前用户身份保存对话 → 重登后历史仍为空。
+
+**修复方案**:
+- 在 `verifyRegistration` 解析后端 `Token` 响应后，与 `login` 相同地执行：
+  - `localStorage.setItem('access_token', data.access_token)`
+  - `localStorage.setItem('user', JSON.stringify(data.user))`
+
+**影响文件**:
+- `frontend/src/api.js` — `verifyRegistration` 函数
+
+**改进点**:
+- ✅ 所有返回 `Token` 的认证接口（登录、验证注册、若仍使用 `POST /auth/register`）应**统一走同一套持久化**（或抽成 `persistAuthSession(data)`），避免遗漏。
+- ✅ 与 Bug #001 一致：建议用 `TOKEN_KEY` / `USER_KEY` 常量或 `auth` 工具封装，避免多处复制粘贴。
+
+**预防措施**:
+```javascript
+// 建议：登录/注册成功后统一调用
+function persistAuthSession(data) {
+  localStorage.setItem('access_token', data.access_token);
+  localStorage.setItem('user', JSON.stringify(data.user));
+}
+// login、verifyRegistration、（若使用的）register 均调用 persistAuthSession
+```
+
+---
+
 ### 配置更新 #001 (2026-04-16)
 **更改内容**: 启用真实邮件发送功能
 
@@ -170,6 +201,7 @@ class RetentionStrategy:
 
 ## 下次提bug时的检查清单
 
+- [ ] 新认证流程（注册/验证码/第三方登录）是否在成功后与 `login` 一样持久化 `access_token` / `user`？
 - [ ] 是否是数据结构不一致导致的问题？
 - [ ] 是否是硬编码常量不统一？
 - [ ] 是否是业务规则缺失或不完整？
