@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Database, RefreshCw, HardDriveDownload, X, Cpu, Layers, Plus, LogIn, LogOut, Key } from 'lucide-react';
-import { syncDocuments, rebuildIndex, newChat } from '../api';
+import { X, Cpu, Plus, LogIn, LogOut, Key } from 'lucide-react';
+import { newChat } from '../api';
 import ConversationHistory from './ConversationHistory';
 import KnowledgeBaseSelector from './KnowledgeBaseSelector';
 
@@ -17,39 +17,8 @@ export default function Sidebar({
   onChangePassword,
   refreshTrigger
 }) {
-  const [syncing, setSyncing] = useState(false);
-  const [rebuilding, setRebuilding] = useState(false);
   const [message, setMessage] = useState('');
   const [creatingNewChat, setCreatingNewChat] = useState(false);
-
-  const handleSync = async () => {
-    setSyncing(true);
-    setMessage('');
-    try {
-      const result = await syncDocuments();
-      setMessage(`同步完成：+${result.added} 新增, ~${result.updated} 更新, -${result.deleted} 删除`);
-      onStatusRefresh?.();
-    } catch (e) {
-      setMessage(`同步失败：${e.message}`);
-    } finally {
-      setSyncing(false);
-    }
-  };
-
-  const handleRebuild = async () => {
-    if (!confirm('确定要重建索引吗？这会清空现有向量库并重新索引所有文档。')) return;
-    setRebuilding(true);
-    setMessage('');
-    try {
-      const result = await rebuildIndex();
-      setMessage(`重建完成：${result.total_chunks} 个 chunk`);
-      onStatusRefresh?.();
-    } catch (e) {
-      setMessage(`重建失败：${e.message}`);
-    } finally {
-      setRebuilding(false);
-    }
-  };
 
   const handleNewChat = async () => {
     setCreatingNewChat(true);
@@ -176,29 +145,6 @@ export default function Sidebar({
             </div>
           </section>
         )}
-
-        {/* 操作 */}
-        <section>
-          <h2 className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider mb-2">操作</h2>
-          <div className="space-y-2">
-            <button
-              onClick={handleSync}
-              disabled={syncing || !serverStatus}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-[var(--color-dark-600)] hover:bg-[var(--color-dark-500)] disabled:opacity-40 disabled:cursor-not-allowed text-[var(--color-text-secondary)] transition-colors"
-            >
-              <RefreshCw size={14} className={syncing ? 'animate-spin' : ''} />
-              {syncing ? '同步中...' : '增量同步'}
-            </button>
-            <button
-              onClick={handleRebuild}
-              disabled={rebuilding || !serverStatus}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-[var(--color-dark-600)] hover:bg-[var(--color-dark-500)] disabled:opacity-40 disabled:cursor-not-allowed text-[var(--color-text-secondary)] transition-colors"
-            >
-              <HardDriveDownload size={14} className={rebuilding ? 'animate-spin' : ''} />
-              {rebuilding ? '重建中...' : '重建索引'}
-            </button>
-          </div>
-        </section>
 
         {message && (
           <div className="text-xs p-2 rounded bg-[var(--color-dark-700)] text-[var(--color-text-secondary)] break-words">
