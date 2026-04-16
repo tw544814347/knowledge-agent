@@ -25,8 +25,8 @@ class EmailService:
         
         # 开发模式控制：True=模拟发送(控制台输出), False=真实发送邮件
         # 现在已经有了授权码，可以启用真实邮件发送
-        # 为了方便测试，暂时使用开发模式
-        self.development_mode = True  # 开发模式：在控制台显示验证码
+        # 已启用生产模式，可以发送真实邮件
+        self.development_mode = False  # 生产模式：发送真实邮件
     
     def send_password_reset_email(self, to_email: str, reset_code: str) -> bool:
         """发送密码重置邮件"""
