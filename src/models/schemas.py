@@ -23,6 +23,22 @@ class SourceInfo(BaseModel):
     score: float = 0.0
     section: str = ""
     related_docs: list[str] = Field(default_factory=list, description="关联文档列表")
+    source_rel: Optional[str] = Field(
+        default=None,
+        description="相对知识库根目录的源文件路径，用于拉取原文预览",
+    )
+    web_url: Optional[str] = Field(
+        default=None,
+        description="网络检索结果的链接；category 为「网络」时使用",
+    )
+
+
+class KnowledgeDocumentResponse(BaseModel):
+    """知识库单篇文档原文（供前端弹窗预览）"""
+    rel_path: str
+    filename: str
+    content: str
+    format: str = Field(default="markdown", description="markdown 或 text")
 
 
 class QueryResponse(BaseModel):

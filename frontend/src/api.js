@@ -121,6 +121,30 @@ export const getConversations = async (limit = 10) => {
   return await response.json();
 };
 
+/** 获取知识库内单篇 md/txt 原文（需登录；rel_path 优先，filename 为同名兜底） */
+export async function getKnowledgeDocument(sourceRel, filename) {
+  const token = localStorage.getItem('access_token');
+  const params = new URLSearchParams();
+  if (sourceRel) params.set('rel_path', sourceRel);
+  if (filename) params.set('filename', filename);
+  const qs = params.toString();
+  const res = await fetch(`${API_BASE}/knowledge/document?${qs}`, {
+    headers: {
+      ...NGROK_HEADERS,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    const d = err.detail;
+    let msg = `请求失败 (${res.status})`;
+    if (typeof d === 'string') msg = d;
+    else if (Array.isArray(d)) msg = d.map((x) => x.msg || JSON.stringify(x)).join('; ') || msg;
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
 export const getConversation = async (conversationId) => {
   const token = localStorage.getItem('access_token');
   const response = await fetch(`${API_BASE}/conversations/${conversationId}`, {

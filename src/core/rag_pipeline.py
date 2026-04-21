@@ -1,6 +1,7 @@
 """RAG Pipeline：检索增强生成核心流程编排"""
 
 import asyncio
+from pathlib import Path
 from typing import Iterator
 
 from loguru import logger
@@ -111,6 +112,19 @@ class RAGPipeline:
         yield {"type": "done"}
 
     @staticmethod
+    def _source_rel_from_metadata(meta: dict) -> str | None:
+        """向量元数据中的绝对路径 → 相对知识库根目录的路径（供前端请求原文）。"""
+        source = (meta.get("source") or "").strip()
+        if not source:
+            return None
+        try:
+            abs_src = Path(source).resolve()
+            base = Path(settings.knowledge_source_dir).resolve()
+            return str(abs_src.relative_to(base))
+        except (ValueError, OSError):
+            return None
+
+    @staticmethod
     def _extract_sources(hits: list[dict]) -> list[SourceInfo]:
         sources = []
         for hit in hits:
@@ -138,6 +152,7 @@ class RAGPipeline:
                     score=hit.get("score", 0.0),
                     section=meta.get("h2", meta.get("h1", "")),
                     related_docs=list(dict.fromkeys(related)),
+                    source_rel=RAGPipeline._source_rel_from_metadata(meta),
                 )
             )
         return sources
@@ -148,13 +163,15 @@ class RAGPipeline:
         for w in web_snippets:
             title = (w.get("title") or "网页").strip()[:120]
             url = (w.get("url") or "").strip()
+            snippet = (w.get("snippet") or "").strip()
             out.append(
                 SourceInfo(
                     filename=title,
                     category="网络",
                     score=0.0,
-                    section=url[:500],
+                    section=snippet[:500] if snippet else (url[:500] if url else ""),
                     related_docs=[],
+                    web_url=url or None,
                 )
             )
         return out

@@ -3,8 +3,32 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy, Check, FileText, User, Bot, Brain, ChevronRight, ThumbsUp } from 'lucide-react';
+import { Copy, Check, FileText, User, Bot, Brain, ChevronRight, ThumbsUp, Globe, ExternalLink } from 'lucide-react';
 import ThinkingIndicator from './ThinkingIndicator';
+import KnowledgeDocPreviewModal from './KnowledgeDocPreviewModal';
+
+/** 网络来源：优先 web_url，旧数据可能仅在 section 存 URL */
+function pickWebHref(source) {
+  const wu = (source.web_url || '').trim();
+  if (wu) {
+    try {
+      const u = new URL(wu);
+      if (u.protocol === 'http:' || u.protocol === 'https:') return u.href;
+    } catch {
+      /* ignore */
+    }
+  }
+  const sec = (source.section || '').trim();
+  if (/^https?:\/\//i.test(sec)) {
+    try {
+      const u = new URL(sec);
+      if (u.protocol === 'http:' || u.protocol === 'https:') return u.href;
+    } catch {
+      /* ignore */
+    }
+  }
+  return null;
+}
 
 const markdownComponents = {
   code({ className, children, ...props }) {
@@ -24,6 +48,7 @@ const markdownComponents = {
 export default function MessageBubble({ message, onLike }) {
   const [copied, setCopied] = useState(false);
   const [likeBusy, setLikeBusy] = useState(false);
+  const [docPreview, setDocPreview] = useState(null);
   const isUser = message.role === 'user';
   const thinkDetailsRef = useRef(null);
   const thinkScrollRef = useRef(null);
@@ -135,21 +160,71 @@ export default function MessageBubble({ message, onLike }) {
 
           {!isUser && message.sources?.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {message.sources.map((s, i) => (
-                <span
-                  key={i}
-                  className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs bg-[var(--color-dark-600)] text-[var(--color-text-muted)] border border-[var(--color-border)]"
-                  title={
-                    s.category === '网络' && s.section
-                      ? `${s.filename}\n${s.section}`
-                      : `${s.filename} [${s.category}] 相关度: ${s.score?.toFixed(2)}`
-                  }
-                >
-                  <FileText size={10} />
-                  {s.filename}
-                  {s.score > 0 && <span className="text-[var(--color-accent)] ml-0.5">{(s.score * 100).toFixed(0)}%</span>}
-                </span>
-              ))}
+              {message.sources.map((s, i) => {
+                const isWeb = s.category === '网络';
+                const webHref = isWeb ? pickWebHref(s) : null;
+                const canPreviewKb = !isWeb && !!(s.source_rel || s.filename);
+                const chipTitle = isWeb
+                  ? (webHref ? `${s.filename}\n${webHref}` : s.section ? `${s.filename}\n${s.section}` : s.filename)
+                  : `${s.filename}${s.section ? ` · ${s.section}` : ''}${s.score > 0 ? ` · 相关度 ${(s.score * 100).toFixed(0)}%` : ''}${canPreviewKb ? '' : '（无法打开：缺少文件路径）'}`;
+
+                if (isWeb && webHref) {
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => window.open(webHref, '_blank', 'noopener,noreferrer')}
+                      title={chipTitle}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs bg-[var(--color-dark-600)] text-[var(--color-accent)] border border-[var(--color-accent)]/40 hover:bg-[var(--color-accent)]/15 transition-colors cursor-pointer"
+                    >
+                      <Globe size={10} />
+                      <span className="truncate max-w-[200px]">{s.filename}</span>
+                      <ExternalLink size={10} className="opacity-80 shrink-0" />
+                    </button>
+                  );
+                }
+
+                if (isWeb && !webHref) {
+                  return (
+                    <span
+                      key={i}
+                      title={chipTitle}
+                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs bg-[var(--color-dark-600)] text-[var(--color-text-muted)] border border-[var(--color-border)] opacity-80"
+                    >
+                      <Globe size={10} />
+                      <span className="truncate max-w-[200px]">{s.filename}</span>
+                    </span>
+                  );
+                }
+
+                return (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={!canPreviewKb}
+                    onClick={() =>
+                      canPreviewKb &&
+                      setDocPreview({
+                        sourceRel: s.source_rel || null,
+                        filename: s.source_rel ? null : s.filename,
+                        title: s.filename,
+                      })
+                    }
+                    title={canPreviewKb ? `${chipTitle}\n点击在弹窗中阅读全文` : chipTitle}
+                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs border border-[var(--color-border)] transition-colors ${
+                      canPreviewKb
+                        ? 'bg-[var(--color-dark-600)] text-[var(--color-text-secondary)] hover:bg-[var(--color-dark-500)] hover:text-[var(--color-text-primary)] cursor-pointer'
+                        : 'bg-[var(--color-dark-600)] text-[var(--color-text-muted)] opacity-50 cursor-not-allowed'
+                    }`}
+                  >
+                    <FileText size={10} />
+                    <span className="truncate max-w-[220px]">{s.filename}</span>
+                    {s.score > 0 && (
+                      <span className="text-[var(--color-accent)] ml-0.5 shrink-0">{(s.score * 100).toFixed(0)}%</span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           )}
 
@@ -189,6 +264,14 @@ export default function MessageBubble({ message, onLike }) {
           )}
         </div>
       </div>
+
+      <KnowledgeDocPreviewModal
+        open={docPreview != null}
+        onClose={() => setDocPreview(null)}
+        sourceRel={docPreview?.sourceRel}
+        filename={docPreview?.filename}
+        title={docPreview?.title}
+      />
     </div>
   );
 }

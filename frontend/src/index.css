@@ -73,6 +73,30 @@ body {
   color: var(--color-text-secondary);
 }
 
+/* 知识库原文弹窗：浅色纸张上的 Markdown */
+.markdown-body.markdown-paper-prose strong {
+  color: #111827 !important;
+}
+.markdown-body.markdown-paper-prose a {
+  color: #1d4ed8 !important;
+}
+.markdown-body.markdown-paper-prose code:not(pre code) {
+  background: #f3f4f6;
+  color: #1f2937;
+}
+.markdown-body.markdown-paper-prose pre {
+  background: #1f2937 !important;
+  color: #f9fafb;
+}
+.markdown-body.markdown-paper-prose th {
+  background: #f3f4f6;
+  color: #111827;
+}
+.markdown-body.markdown-paper-prose blockquote {
+  color: #4b5563;
+  border-left-color: #93c5fd;
+}
+
 /* 滚动条 */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }

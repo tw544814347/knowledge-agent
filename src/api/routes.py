@@ -1,8 +1,9 @@
 """API 路由定义"""
 
 import json
+from pathlib import Path
 
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, Query
 from fastapi.responses import StreamingResponse
 from loguru import logger
 
@@ -13,6 +14,7 @@ from src.core.conversation_manager import ConversationManager
 from src.core.user_manager import UserManager
 from src.core.knowledge_base_manager import KnowledgeBaseManager
 from src.core.email_service import EmailService
+from src.core.document_loader import EXCLUDE_DIRS, SUPPORTED_EXTENSIONS
 from src.core.auth_deps import get_current_user, get_current_user_optional, get_user_manager
 from src.models.schemas import (
     QueryRequest,
@@ -38,6 +40,7 @@ from src.models.schemas import (
     ChangePasswordRequest,
     SendRegistrationCodeRequest,
     VerifyRegistrationRequest,
+    KnowledgeDocumentResponse,
 )
 from config.settings import settings
 
@@ -415,6 +418,95 @@ async def check_ask_requests() -> dict:
         "has_request": False,
         "request": None
     }
+
+
+def _resolve_knowledge_document_file(
+    base: Path,
+    rel_path: str | None,
+    filename: str | None,
+) -> Path:
+    """将 rel_path 或 filename 解析为知识库目录内的安全绝对路径。"""
+    if not base.is_dir():
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="知识库目录不可用",
+        )
+
+    rel_path = (rel_path or "").strip() or None
+    filename = (filename or "").strip() or None
+
+    if rel_path:
+        candidate = (base / rel_path).resolve()
+        try:
+            candidate.relative_to(base)
+        except ValueError:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="路径不在知识库范围内",
+            )
+    elif filename:
+        if any(sep in filename for sep in ("/", "\\")) or ".." in filename:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="filename 仅支持不含路径分隔符的文件名",
+            )
+        matches: list[Path] = []
+        for p in base.rglob(filename):
+            if not p.is_file() or p.name != filename:
+                continue
+            if any(part in EXCLUDE_DIRS for part in p.parts):
+                continue
+            if p.suffix.lower() not in SUPPORTED_EXTENSIONS:
+                continue
+            try:
+                p.resolve().relative_to(base)
+            except ValueError:
+                continue
+            matches.append(p.resolve())
+        if not matches:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="未找到该文档")
+        if len(matches) > 1:
+            sample = ", ".join(str(m.relative_to(base)) for m in sorted(matches)[:5])
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"存在多个同名文件，请在检索结果中使用完整相对路径（source_rel）。示例：{sample}",
+            )
+        candidate = matches[0]
+    else:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="请提供查询参数 rel_path 或 filename",
+        )
+
+    if not candidate.is_file():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="文档不存在")
+    if candidate.suffix.lower() not in SUPPORTED_EXTENSIONS:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="仅支持预览 Markdown 与纯文本文件",
+        )
+    return candidate
+
+
+@router.get("/knowledge/document", response_model=KnowledgeDocumentResponse)
+async def get_knowledge_document(
+    rel_path: str | None = Query(None, description="相对知识库根目录的路径"),
+    filename: str | None = Query(None, description="仅文件名（无相对路径时的兜底，重名时返回 409）"),
+    current_user: User = Depends(get_current_user),
+) -> KnowledgeDocumentResponse:
+    """返回知识库内单篇文档原文，供前端弹窗滚动预览（需登录）。"""
+    _ = current_user
+    base = Path(settings.knowledge_source_dir).resolve()
+    path = _resolve_knowledge_document_file(base, rel_path, filename)
+    content = path.read_text(encoding="utf-8", errors="replace")
+    rel_out = str(path.relative_to(base))
+    fmt = "markdown" if path.suffix.lower() == ".md" else "text"
+    return KnowledgeDocumentResponse(
+        rel_path=rel_out,
+        filename=path.name,
+        content=content,
+        format=fmt,
+    )
 
 
 @router.get("/knowledge-bases")

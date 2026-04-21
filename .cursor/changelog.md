@@ -1,5 +1,11 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（来源可点：知识库弹窗预览 + 网络新开页）
+
+- **SourceInfo**：增加 `source_rel`（知识库内相对路径）、`web_url`（网络结果链接）；RAG 流式来源一并下发。
+- **API**：`GET /api/v1/knowledge/document?rel_path=` 或 `?filename=`（登录），安全解析仅允许知识库根下 `.md`/`.txt`；同名多文件返回 409。
+- **前端**：`MessageBubble` 知识库来源可点开 `KnowledgeDocPreviewModal`（浅色纸张 + 可滚动 Markdown）；`category===网络'` 且可解析 URL 时新标签页打开网页。
+
 ## 2026-04-21（单会话 50 对上限 + pair 计数 UI）
 
 - **`ConversationManager`**：`MAX_QA_PAIRS_PER_CONVERSATION = 50`；同一 `conversation_id` 下 `messages` 超过 50 条时从队首丢弃，并在加载时校正存量超长数据；截断后按新下标重建 `liked_answers` 导出文件，避免点赞索引错位。
