@@ -1,10 +1,28 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-20（前端：后端不可达全黑保养页）
+
+- 启动时与每 30s 探测 `GET /health`（12s 超时）；失败则全屏黑底文案：`Oooopps... 看起来我的主人正在给我保养 :)`；恢复后自动回到主界面。
+- 新增 `BackendUnavailable.jsx`、`BackendChecking.jsx`；`healthCheck` / `getStatus` 支持 `AbortSignal`。
+
+## 2026-04-20（Confluence 单页导出）
+
+- 通过 Atlassian MCP `confluence_get_page` 将页面 [3134098619](https://confluence.shopee.io/pages/viewpage.action?pageId=3134098619)（《从概念到生产: AI 落地实践分享》）导出为 Markdown，保存至 `agent kb v1.2/confluence_downloads/3134098619-从概念到生产-AI落地实践分享.md`（图片仍为内网附件链接）。
+
+## 2026-04-20（Confluence 导出语料挂载入库）
+
+- **`agent kb v1.2/confluence_downloads`**：符号链接至本机 `~/Desktop/cursor related/confluence_downloads`（相对路径 `../../cursor related/confluence_downloads`），与仓库内 Markdown 一并参与检索。
+- **`DocumentLoader._scan_files`**：由 `Path.rglob` 改为 `os.walk(..., followlinks=True)`，以便索引「指向目录的符号链接」下的文件（`rglob` 默认不进入此类目录）。
+
 ## 2026-04-16（用户账号体系 v3.0）
 
 ### 修复（邮箱验证注册）
 - **问题**：`verify-registration` 成功后未将 JWT 写入 `localStorage`，导致历史对话与流式问答在未重新登录时 401。
 - **处理**：`frontend/src/api.js` 中 `verifyRegistration` 与 `login` 一致，持久化 `access_token` 与 `user`。
+
+### 功能（夜间自动全量重建）
+- 本地时间 `AUTO_REBUILD_HOUR_START`–`AUTO_REBUILD_HOUR_END`（默认 2–4 点）内触发 `index_all`，`data/.auto_rebuild_state.json` 记录成功日，**每自然日最多成功一次**。
+- `DocumentSyncer.align_checksums_with_disk()`；手动 `POST /rebuild` 成功后同样对齐校验和。
 
 ### 功能（点赞语料 → 知识库）
 - 消息级 `liked` / `liked_at`，`PUT .../messages/{i}/like`；流式完成后下发 `conversation_saved` 供前端绑定会话 ID。

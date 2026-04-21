@@ -6,9 +6,9 @@
 
 ## 知识源
 
-- 目录：`./knowledge`（已内置到项目仓库）
-- 文件类型：Markdown（96 个文件，552 KB）
-- 分类：Agent、Anomaly Detection、Credit Bot、Cursor经验、LLM、MCP、RAG+Memory、Tech Doc
+- 目录：`./agent kb v1.2`（`KNOWLEDGE_SOURCE_DIR`）；另可通过子目录**符号链接**挂接外部文件夹（如 Confluence 导出 `confluence_downloads`）
+- 文件类型：Markdown / TXT
+- 分类：Agent、Anomaly Detection、Credit Bot、Cursor 经验、LLM、MCP、RAG+Memory、Tech Doc、Confluence 导出等
 - 特点：文件会不定期更新、删除、新增，需增量同步
 
 ## 任务清单

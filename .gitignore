@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 data/vectordb/
 data/checksums.json
+data/.auto_rebuild_state.json
 *.egg-info/
 dist/
 build/

@@ -194,6 +194,7 @@ async def rebuild_index():
     syncer = _require_syncer()
     try:
         count = pipeline.index_all()
+        syncer.align_checksums_with_disk()
         return IndexStatusResponse(
             total_chunks=count,
             source_dir=settings.knowledge_source_dir,

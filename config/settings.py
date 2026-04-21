@@ -1,7 +1,7 @@
 """项目配置：从 .env 加载，所有模块共用"""
 
 from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic import Field, model_validator
 
 
 class Settings(BaseSettings):
@@ -37,6 +37,25 @@ class Settings(BaseSettings):
     # 文档同步
     sync_interval: int = Field(default=300, alias="SYNC_INTERVAL")
 
+    # 夜间自动全量重建索引（本地系统时间；每个日历日最多成功执行一次）
+    auto_rebuild_enabled: bool = Field(default=True, alias="AUTO_REBUILD_ENABLED")
+    auto_rebuild_check_interval_seconds: int = Field(
+        default=60,
+        ge=10,
+        le=3600,
+        alias="AUTO_REBUILD_CHECK_INTERVAL_SECONDS",
+    )
+    auto_rebuild_hour_start: int = Field(
+        default=2, ge=0, le=23, alias="AUTO_REBUILD_HOUR_START"
+    )
+    auto_rebuild_hour_end: int = Field(
+        default=4, ge=1, le=24, alias="AUTO_REBUILD_HOUR_END"
+    )
+    auto_rebuild_state_file: str = Field(
+        default="./data/.auto_rebuild_state.json",
+        alias="AUTO_REBUILD_STATE_FILE",
+    )
+
     # API
     api_host: str = Field(default="0.0.0.0", alias="API_HOST")
     api_port: int = Field(default=8000, alias="API_PORT")
@@ -54,6 +73,14 @@ class Settings(BaseSettings):
     smtp_port: int = Field(default=587, alias="SMTP_PORT")
     smtp_username: str = Field(default="", alias="SMTP_USERNAME")
     smtp_password: str = Field(default="", alias="SMTP_PASSWORD")
+
+    @model_validator(mode="after")
+    def validate_auto_rebuild_window(self):
+        if self.auto_rebuild_hour_end <= self.auto_rebuild_hour_start:
+            raise ValueError(
+                "AUTO_REBUILD_HOUR_END 必须大于 AUTO_REBUILD_HOUR_START（语义：start <= hour < end）"
+            )
+        return self
 
     class Config:
         env_file = ".env"

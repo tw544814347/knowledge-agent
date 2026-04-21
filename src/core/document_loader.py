@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -87,12 +88,21 @@ class DocumentLoader:
         return checksums
 
     def _scan_files(self) -> list[Path]:
-        """递归扫描目录，排除隐藏目录"""
+        """递归扫描目录，排除隐藏目录；跟随指向目录的符号链接（便于外挂语料目录）"""
         files: list[Path] = []
-        for f in self.source_dir.rglob("*"):
-            if any(part in EXCLUDE_DIRS for part in f.parts):
-                continue
-            if f.is_file() and f.suffix.lower() in SUPPORTED_EXTENSIONS:
+        if not self.source_dir.exists():
+            return []
+        for root, dirnames, filenames in os.walk(self.source_dir, followlinks=True):
+            dirnames[:] = [d for d in dirnames if d not in EXCLUDE_DIRS]
+            root_path = Path(root)
+            for name in filenames:
+                f = root_path / name
+                if f.suffix.lower() not in SUPPORTED_EXTENSIONS:
+                    continue
+                if not f.is_file():
+                    continue
+                if any(part in EXCLUDE_DIRS for part in f.parts):
+                    continue
                 files.append(f)
         return sorted(files)
 

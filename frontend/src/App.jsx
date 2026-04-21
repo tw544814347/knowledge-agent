@@ -1,41 +1,65 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ChatPanel from './components/ChatPanel';
 import Sidebar from './components/Sidebar';
 import AuthModal from './components/AuthModal';
 import AskModal from './components/AskModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
+import BackendUnavailable from './components/BackendUnavailable';
+import BackendChecking from './components/BackendChecking';
 import { healthCheck, getStatus, getCurrentUser, logout, sendAskResponse } from './api';
 
+const HEALTH_PROBE_MS = 12_000;
+
 export default function App() {
+  /** checking: 首次探测；online: 后端可达；offline: 不可达（展示保养提示） */
+  const [connectivity, setConnectivity] = useState('checking');
   const [serverStatus, setServerStatus] = useState(null);
   const [indexStatus, setIndexStatus] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [selectedConversation, setSelectedConversation] = useState(null);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => getCurrentUser());
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [conversationRefreshTrigger, setConversationRefreshTrigger] = useState(0);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [askModal, setAskModal] = useState(null); // { question, options }
 
-  useEffect(() => {
-    // 检查本地存储的用户信息
-    const currentUser = getCurrentUser();
-    if (currentUser) {
-      setUser(currentUser);
-    }
+  const mountedRef = useRef(true);
 
-    const checkServer = async () => {
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    const probeBackend = async () => {
+      const ac = new AbortController();
+      const t = setTimeout(() => ac.abort(), HEALTH_PROBE_MS);
       try {
-        const [health, status] = await Promise.all([healthCheck(), getStatus()]);
+        const health = await healthCheck(ac.signal);
+        clearTimeout(t);
+        if (!mountedRef.current) return;
+        let status = null;
+        try {
+          status = await getStatus();
+        } catch {
+          status = null;
+        }
         setServerStatus(health);
         setIndexStatus(status);
+        setConnectivity('online');
       } catch {
+        clearTimeout(t);
+        if (!mountedRef.current) return;
         setServerStatus(null);
         setIndexStatus(null);
+        setConnectivity('offline');
       }
     };
-    checkServer();
-    const timer = setInterval(checkServer, 30000);
+
+    probeBackend();
+    const timer = setInterval(probeBackend, 30_000);
     return () => clearInterval(timer);
   }, []);
 
@@ -60,6 +84,14 @@ export default function App() {
       setAskModal(null);
     }
   };
+
+  if (connectivity === 'checking') {
+    return <BackendChecking />;
+  }
+
+  if (connectivity === 'offline') {
+    return <BackendUnavailable />;
+  }
 
   return (
     <div className="flex h-screen bg-[var(--color-dark-900)]">
@@ -90,9 +122,8 @@ export default function App() {
           selectedConversation={selectedConversation}
           user={user}
           onLogin={() => setShowAuthModal(true)}
-          onConversationSaved={(conversation) => {
-            // 对话保存后刷新历史记录
-            setConversationRefreshTrigger(prev => prev + 1);
+          onConversationSaved={() => {
+            setConversationRefreshTrigger((prev) => prev + 1);
           }}
         />
       </main>

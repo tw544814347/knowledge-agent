@@ -23,14 +23,14 @@ export async function askQuestion(question, topK = 8, signal) {
   return res.json();
 }
 
-export async function getStatus() {
-  const res = await fetch(`${API_BASE}/status`, { headers: NGROK_HEADERS });
+export async function getStatus(signal) {
+  const res = await fetch(`${API_BASE}/status`, { headers: NGROK_HEADERS, signal });
   if (!res.ok) throw new Error('获取状态失败');
   return res.json();
 }
 
-export async function healthCheck() {
-  const res = await fetch(`${HEALTH_BASE}/health`, { headers: NGROK_HEADERS });
+export async function healthCheck(signal) {
+  const res = await fetch(`${HEALTH_BASE}/health`, { headers: NGROK_HEADERS, signal });
   if (!res.ok) throw new Error('服务不可用');
   return res.json();
 }

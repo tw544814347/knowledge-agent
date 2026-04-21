@@ -14,6 +14,7 @@ from src.core.conversation_manager import ConversationManager
 from src.core.user_manager import UserManager
 from src.core.knowledge_base_manager import KnowledgeBaseManager
 from src.core.email_service import EmailService
+from src.core.auto_rebuild_scheduler import AutoRebuildScheduler
 from src.core.auth_deps import set_user_manager
 from src.api.routes import router, set_dependencies
 
@@ -35,7 +36,10 @@ async def lifespan(app: FastAPI):
     set_dependencies(pipeline, syncer, conv_manager, user_manager, kb_manager, email_service)
     set_user_manager(user_manager)
     syncer.start_background_sync()
+    auto_rebuild = AutoRebuildScheduler(pipeline=pipeline, syncer=syncer)
+    auto_rebuild.start()
     yield
+    auto_rebuild.stop()
     syncer.stop_background_sync()
     vector_store.close()
     pipeline.llm.close()

@@ -133,7 +133,7 @@ ngrok http 8000 &
 
 复制 `.env.example` 为 `.env` 并根据需要修改：
 
-- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径（默认 `./agent kb v1.2`）
+- `KNOWLEDGE_SOURCE_DIR`：知识文档源目录路径（默认 `./agent kb v1.2`）。可将外部语料用**目录符号链接**挂到该目录下（例如 `agent kb v1.2/confluence_downloads`），加载器会跟随符号链接并索引其中 `.md`/`.txt`。
 - `LLM_MODEL`：LLM 模型名称（默认 `deepseek-r1:14b`）
 - `EMBEDDING_MODEL`：Embedding 模型（默认 `bge-m3`）
 - `CHUNK_SIZE` / `PARENT_CHUNK_SIZE`：双层 chunk 切分参数

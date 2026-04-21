@@ -106,6 +106,13 @@ class DocumentSyncer:
             message=msg,
         )
 
+    def align_checksums_with_disk(self) -> None:
+        """全量重建索引后调用：把校验和缓存写成当前磁盘状态，避免下一轮增量误判"""
+        new_checksums = self.loader.get_file_checksums()
+        self._save_checksums(new_checksums)
+        self.last_sync_time = datetime.now().isoformat()
+        logger.info("已根据磁盘对齐文档校验和缓存")
+
     def start_background_sync(self, interval: int = settings.sync_interval) -> None:
         """启动后台定时同步"""
         if self._running:
