@@ -3,7 +3,9 @@ import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy, Check, FileText, User, Bot, Brain, ChevronRight, ThumbsUp, Globe, ExternalLink } from 'lucide-react';
+import { Copy, Check, FileText, User, Brain, ChevronRight, ThumbsUp, Globe, ExternalLink } from 'lucide-react';
+
+const TAGENT_AVATAR_SRC = '/branding/tagent-avatar.png';
 import ThinkingIndicator from './ThinkingIndicator';
 import KnowledgeDocPreviewModal from './KnowledgeDocPreviewModal';
 
@@ -141,8 +143,23 @@ export default function MessageBubble({ message, onLike }) {
   return (
     <div className={`msg-enter max-w-3xl mx-auto mb-5 ${isUser ? 'flex justify-end' : ''}`}>
       <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : ''} max-w-[85%]`}>
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 mt-0.5 ${isUser ? 'bg-[var(--color-user-bubble)]' : 'bg-[var(--color-dark-600)]'}`}>
-          {isUser ? <User size={16} className="text-white" /> : <Bot size={16} className="text-[var(--color-accent)]" />}
+        <div
+          className={`w-8 h-8 shrink-0 mt-0.5 overflow-hidden flex items-center justify-center ${
+            isUser ? 'rounded-lg bg-[var(--color-user-bubble)]' : 'rounded-full bg-black ring-1 ring-[var(--color-border)]'
+          }`}
+        >
+          {isUser ? (
+            <User size={16} className="text-white" />
+          ) : (
+            <img
+              src={TAGENT_AVATAR_SRC}
+              alt="Tagent"
+              className="h-full w-full object-cover"
+              width={32}
+              height={32}
+              decoding="async"
+            />
+          )}
         </div>
 
         <div className="min-w-0 flex-1">

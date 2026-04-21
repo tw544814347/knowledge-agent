@@ -1,5 +1,11 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（Tagent 品牌图：助手头像 + 保养页 Logo）
+
+- 将 `config/images/` 下 Tagent 头像与界面 Logo 复制到 `frontend/public/branding/`，供构建与 GitHub Pages 静态访问。
+- **`MessageBubble`**：助手侧头像改为 Tagent 圆形头像图。
+- **`BackendUnavailable`**：在「Oooopps…」保养文案上方展示界面 Logo。
+
 ## 2026-04-21（来源可点：知识库弹窗预览 + 网络新开页）
 
 - **SourceInfo**：增加 `source_rel`（知识库内相对路径）、`web_url`（网络结果链接）；RAG 流式来源一并下发。
