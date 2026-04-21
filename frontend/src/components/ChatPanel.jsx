@@ -337,6 +337,23 @@ export default function ChatPanel({
         <div ref={messagesEndRef} />
       </div>
 
+      {/* 已选历史会话或已与后端绑定的线程：展示当前问答对（pair）数量 */}
+      {user &&
+        messages.length > 0 &&
+        (selectedConversation ||
+          messages.some((m) => m.role === 'assistant' && m.conversationId)) && (
+          <div className="shrink-0 border-t border-[var(--color-border)] bg-[var(--color-dark-800)] px-4 py-2">
+            <div className="max-w-3xl mx-auto text-center text-xs text-[var(--color-text-muted)]">
+              当前对话共{' '}
+              <span className="text-[var(--color-text-secondary)] font-medium tabular-nums">
+                {messages.filter((m) => m.role === 'user').length}
+              </span>{' '}
+              个问答对（pair）
+              <span className="opacity-70"> · 单会话最多保存 50 对</span>
+            </div>
+          </div>
+        )}
+
       {/* Input */}
       <div className="border-t border-[var(--color-border)] bg-[var(--color-dark-800)] p-4">
         <div className="max-w-3xl mx-auto flex items-end gap-2 bg-[var(--color-dark-700)] rounded-xl px-3 py-3 border border-[var(--color-border)] focus-within:border-[var(--color-accent-dim)] transition-colors">

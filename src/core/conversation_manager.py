@@ -10,6 +10,9 @@ from typing import List, Optional, Dict, Any
 from config.settings import settings
 from ..models.schemas import Conversation, ConversationMessage, SourceInfo
 
+# 单条会话线程内最多保留的「问+答」对数：1 对 = 1 条 user 问 + 1 条 assistant 答（存为 messages 中一项）
+MAX_QA_PAIRS_PER_CONVERSATION = 50
+
 
 class ConversationManager:
     """对话历史管理器 - 支持用户分组的新数据结构"""
@@ -43,6 +46,75 @@ class ConversationManager:
             except (json.JSONDecodeError, OSError) as e:
                 print(f"Warning: Failed to load conversations: {e}")
                 self._user_conversations = {}
+        self._migrate_all_conversation_pair_limits()
+
+    def _ensure_messages_array(self, conv_data: Dict[str, Any]) -> List[Dict[str, Any]]:
+        """统一为 messages 列表（兼容仅有 message 的旧数据）。"""
+        if conv_data.get("messages"):
+            if "message" in conv_data:
+                del conv_data["message"]
+            return conv_data["messages"]
+        if "message" in conv_data:
+            conv_data["messages"] = [conv_data["message"]]
+            del conv_data["message"]
+            return conv_data["messages"]
+        conv_data["messages"] = []
+        return conv_data["messages"]
+
+    def _resync_liked_exports(
+        self,
+        conversation_id: str,
+        user_id: str,
+        messages_list: List[Dict[str, Any]],
+    ) -> None:
+        """按当前 messages 下标重建 liked_answers 文件，避免截断后索引错位。"""
+        self._delete_all_liked_exports_for_conversation(conversation_id)
+        for i, msg in enumerate(messages_list):
+            if not isinstance(msg, dict) or not msg.get("liked"):
+                continue
+            liked_at = msg.get("liked_at")
+            liked_at_iso = (
+                liked_at
+                if isinstance(liked_at, str) and liked_at
+                else datetime.now().isoformat()
+            )
+            if not isinstance(liked_at, str) or not liked_at:
+                msg["liked_at"] = liked_at_iso
+            self._write_liked_export(
+                user_id,
+                conversation_id,
+                i,
+                str(msg.get("question", "")),
+                str(msg.get("answer", "")),
+                liked_at_iso,
+            )
+
+    def _trim_conversation_messages_if_needed(
+        self,
+        conv_data: Dict[str, Any],
+        conversation_id: str,
+        user_id: str,
+    ) -> bool:
+        """超过 MAX_QA_PAIRS_PER_CONVERSATION 时从最早的一对开始丢弃，并同步点赞导出文件。"""
+        messages_list = self._ensure_messages_array(conv_data)
+        if len(messages_list) <= MAX_QA_PAIRS_PER_CONVERSATION:
+            return False
+        remove_count = len(messages_list) - MAX_QA_PAIRS_PER_CONVERSATION
+        conv_data["messages"] = messages_list[remove_count:]
+        self._resync_liked_exports(conversation_id, user_id, conv_data["messages"])
+        return True
+
+    def _migrate_all_conversation_pair_limits(self) -> None:
+        """加载后校正已超长的历史会话（写入文件一次）。"""
+        any_changed = False
+        for user_id, user_data in self._user_conversations.items():
+            conversations = user_data.get("conversations", {})
+            for conv_id, conv_data in conversations.items():
+                if self._trim_conversation_messages_if_needed(conv_data, conv_id, user_id):
+                    any_changed = True
+                    user_data["last_updated"] = datetime.now().isoformat()
+        if any_changed:
+            self._save_conversations()
     
     def _migrate_old_format(self, old_conversations: Dict[str, Any]):
         """迁移旧格式数据到新格式"""
@@ -223,6 +295,15 @@ class ConversationManager:
                 
                 existing_conv_data['messages'].append(new_message.model_dump())
                 existing_conv_data['updated_at'] = datetime.now().isoformat()
+
+                trimmed = self._trim_conversation_messages_if_needed(
+                    existing_conv_data, conversation_id, user_id
+                )
+                if trimmed:
+                    print(
+                        f"会话 {conversation_id} 已超过 {MAX_QA_PAIRS_PER_CONVERSATION} "
+                        f"对问答，已丢弃最旧记录并同步点赞文件"
+                    )
                 
                 # 保存更新
                 self._user_conversations[user_id]['last_updated'] = datetime.now().isoformat()

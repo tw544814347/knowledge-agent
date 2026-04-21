@@ -84,6 +84,7 @@
 
 ### 阶段九：后续迭代
 
+- [x] 单会话多轮历史最多保留 50 个问答对（超出从最早删除）+ 前端展示 pair 数 `done`
 - [ ] 添加单元测试和集成测试 `not started`
 - [ ] 性能测试（索引速度、查询延迟）`not started`
 - [ ] 爬取外部链接内容（full_content 模式，保存为 Markdown）`not started`

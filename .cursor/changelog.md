@@ -1,5 +1,10 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（单会话 50 对上限 + pair 计数 UI）
+
+- **`ConversationManager`**：`MAX_QA_PAIRS_PER_CONVERSATION = 50`；同一 `conversation_id` 下 `messages` 超过 50 条时从队首丢弃，并在加载时校正存量超长数据；截断后按新下标重建 `liked_answers` 导出文件，避免点赞索引错位。
+- **前端**：`ChatPanel` 在已选历史会话或已与后端绑定的线程中，于输入框上方展示「当前对话共 N 个问答对（pair）」及 50 对上限说明；`App.jsx` 在选中会话且列表刷新后 `GET /conversations/{id}` 拉取最新 messages，与截断后的存储一致。
+
 ## 2026-04-21（数据同步至 GitHub + 手动重部署 Pages）
 
 - 将本地 `data/conversations.json`、`data/registration_codes.json`、`data/users.json` 提交并推送到 `origin/main`。

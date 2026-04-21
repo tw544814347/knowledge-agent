@@ -6,7 +6,7 @@ import AskModal from './components/AskModal';
 import ChangePasswordModal from './components/ChangePasswordModal';
 import BackendUnavailable from './components/BackendUnavailable';
 import BackendChecking from './components/BackendChecking';
-import { healthCheck, getStatus, getCurrentUser, logout, sendAskResponse } from './api';
+import { healthCheck, getStatus, getCurrentUser, logout, sendAskResponse, getConversation } from './api';
 
 const HEALTH_PROBE_MS = 12_000;
 
@@ -31,6 +31,26 @@ export default function App() {
       mountedRef.current = false;
     };
   }, []);
+
+  /** 选中会话后、或历史列表刷新后，拉取最新会话（含截断后的 messages），避免与后端存储不一致 */
+  useEffect(() => {
+    if (!user?.id || !selectedConversation?.id) return;
+    const convId = selectedConversation.id;
+    let cancelled = false;
+    (async () => {
+      try {
+        const fresh = await getConversation(convId);
+        if (!cancelled && fresh?.id === convId) {
+          setSelectedConversation(fresh);
+        }
+      } catch {
+        /* 忽略：列表里已有快照时可继续用 */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.id, selectedConversation?.id, conversationRefreshTrigger]);
 
   useEffect(() => {
     const probeBackend = async () => {
