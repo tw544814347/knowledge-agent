@@ -1,5 +1,10 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（数据同步至 GitHub + 手动重部署 Pages）
+
+- 将本地 `data/conversations.json`、`data/registration_codes.json`、`data/users.json` 提交并推送到 `origin/main`。
+- 因本次未变更 `frontend/**`，使用 `workflow_dispatch` 触发「Deploy Frontend to GitHub Pages」，使线上静态站点与仓库流程一致。
+
 ## 2026-04-21（保养页 404 + 联网搜索补充）
 
 - **保养页**：在保养文案上方增加灰色 **404 Not Found**（`BackendUnavailable.jsx`）。

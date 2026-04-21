@@ -347,9 +347,203 @@
             }
           ],
           "updated_at": "2026-04-16T23:24:34.105845"
+        },
+        "be906a03-7640-42c8-b102-6ea5118d5c6a": {
+          "id": "be906a03-7640-42c8-b102-6ea5118d5c6a",
+          "title": "data 和 agent的关系是什么 按总分的思路来简单说明",
+          "messages": [
+            {
+              "question": "data 和 agent的关系是什么 按总分的思路来简单说明",
+              "answer": "**总分式说明：**\n\n1. **总体关系：**\n   数据是代理运行的基础，为代理提供感知、学习和决策所需的信息。代理利用这些数据来执行任务并采取行动。\n\n2. **具体应用层面：**\n   - **感知与交互：** 代理通过传感器或输入数据感知环境，如自动驾驶汽车使用摄像头和雷达收集数据。\n   - **学习与推理：** 数据用于训练机器学习模型，使代理能够理解和推断复杂问题。\n   - **存储与管理：** 代理需要高效的数据存储和管理机制，确保快速访问所需信息。\n   - **通信与协作：** 在多代理系统中，数据交换促进各代理之间的协同工作。\n   - **决策与行动：** 代理基于数据做出决策，并执行相应动作，如智能客服根据用户问题生成回复。\n\n总结来说，数据为代理提供必要的信息和资源，而代理则利用这些数据来实现目标和任务。两者的关系是相互依存的，共同推动系统的高效运作。",
+              "sources": [
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.6883196234703064,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.670220673084259,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Basic Concept.md",
+                  "category": "LLM",
+                  "score": 0.651086151599884,
+                  "section": "Basic Concept",
+                  "related_docs": []
+                },
+                {
+                  "filename": "DataJoi 评测体系技术方案.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.6005920767784119,
+                  "section": "7. 整体架构与服务设计",
+                  "related_docs": []
+                },
+                {
+                  "filename": "vector db & RAG.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5851800441741943,
+                  "section": "vector db & RAG",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Multi-Agent vs Workflow.md",
+                  "category": "Agent",
+                  "score": 0.5838741064071655,
+                  "section": "1. 核心摘要",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5837649621863793,
+                  "section": "3. 目录级分析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "embabel.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5825985670089722,
+                  "section": "embabel",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-17T00:06:04.137928",
+              "liked": false,
+              "liked_at": null
+            },
+            {
+              "question": "告诉我cursor 的常用功能有哪些",
+              "answer": "### 直接回答\n在现有知识库中未找到关于 Cursor 常用功能的具体信息。\n\n---\n\n### 补充细节\n虽然没有直接列出 Cursor 的常用功能，但根据最佳实践和相关文档，可以推测以下可能的功能：\n1. **规则管理**：通过 Cursorules 设定广泛规则（如测试优先于编码）。\n2. **增量式代码开发**：以小块的编辑+测试循环方式编写代码。\n3. **版本控制支持**：频繁使用 Git 进行版本控制。\n4. **上下文管理**：保持上下文简短并适时重新开始，通过 /Reference open editors 快速添加文件到上下文中。\n5. **外部工具集成**：与 [gitingest.com](http://gitingest.com) 等外部工具集成。\n\n---\n\n### 参考来源\n1. 文档 1: Cursor最佳实践.md (相关度: 0.67)\n2. 文档 4: 页面结构.md (相关度: 0.61)\n3. 文档 8: 下载清单和验证报告.md (相关度: 0.60)\n\n---\n\n### 关联文档\n如果需要进一步了解 Cursor 的具体功能，可以参考以下文档：\n- **Cursor Rules**: https://cursor.directory/\n- **gitingest**: http://gitingest.com",
+              "sources": [
+                {
+                  "filename": "Cursor最佳实践.md",
+                  "category": "confluence_downloads",
+                  "score": 0.6680434346199036,
+                  "section": "Cursor最佳实践",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.6297734975814819,
+                  "section": "3. 目录级分析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "页面结构.md",
+                  "category": "confluence_downloads",
+                  "score": 0.615107536315918,
+                  "section": "页面层级结构",
+                  "related_docs": []
+                },
+                {
+                  "filename": "页面结构.md",
+                  "category": "confluence_downloads",
+                  "score": 0.6137298941612244,
+                  "section": "发现的超链接",
+                  "related_docs": []
+                },
+                {
+                  "filename": "最终验证报告.md",
+                  "category": "confluence_downloads",
+                  "score": 0.6063335592442497,
+                  "section": "外部资源汇总",
+                  "related_docs": []
+                },
+                {
+                  "filename": "下载清单和验证报告.md",
+                  "category": "confluence_downloads",
+                  "score": 0.6062653064727783,
+                  "section": "目录结构",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Cursor最佳实践.md",
+                  "category": "confluence_downloads",
+                  "score": 0.5998967885971069,
+                  "section": "Cursor最佳实践",
+                  "related_docs": []
+                },
+                {
+                  "filename": "下载清单和验证报告.md",
+                  "category": "confluence_downloads",
+                  "score": 0.597445032479441,
+                  "section": "发现的外部链接",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-20T14:05:47.747294",
+              "liked": true,
+              "liked_at": "2026-04-20T14:05:52.645587"
+            }
+          ],
+          "created_at": "2026-04-17T00:06:04.143738",
+          "updated_at": "2026-04-20T14:05:52.650551",
+          "pinned": false,
+          "message": null
+        },
+        "0d6ecd2b-7a93-450c-8991-c48bc015c69a": {
+          "id": "0d6ecd2b-7a93-450c-8991-c48bc015c69a",
+          "title": "今天天气深圳多少度",
+          "messages": [
+            {
+              "question": "今天天气深圳多少度",
+              "answer": "根据网络检索摘要，深圳今天的天气实况为：\n\n- **实时温度**：27度  \n- **天气状况**：晴  \n- **湿度**：76%  \n- **风向**：西南风4级  \n\n白天的气温预计会达到30度，多云。夜间则为多云，温度降至24度，可能会感觉潮湿闷热。\n\n### 参考来源\n1. [深圳市天气](https://tianqi.moji.com/weather/china/guangdong/shenzhen)",
+              "sources": [
+                {
+                  "filename": "深圳天气预报,深圳7天天气预报,深圳15天天气预报,深圳天气查询",
+                  "category": "网络",
+                  "score": 0.0,
+                  "section": "https://www.weather.com.cn/weather/101280601.shtml",
+                  "related_docs": []
+                },
+                {
+                  "filename": "【深圳今天天气预报】深圳天气预报24小时详情_深圳天气网",
+                  "category": "网络",
+                  "score": 0.0,
+                  "section": "https://www.tianqi.com/shenzhen/today/",
+                  "related_docs": []
+                },
+                {
+                  "filename": "【深圳24小时天气查询】_深圳今日逐小时天气预报查询_2345天气预报",
+                  "category": "网络",
+                  "score": 0.0,
+                  "section": "https://tianqi.2345.com/today-59493.htm",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Meteorological Bureau Of Shenzhen Municipality-深圳市气象局（台）",
+                  "category": "网络",
+                  "score": 0.0,
+                  "section": "https://weather.sz.gov.cn/en/",
+                  "related_docs": []
+                },
+                {
+                  "filename": "【深圳市天气】_深圳市天气预报_天气查询 - 墨迹天气",
+                  "category": "网络",
+                  "score": 0.0,
+                  "section": "https://tianqi.moji.com/weather/china/guangdong/shenzhen",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-21T12:06:14.068203",
+              "liked": false,
+              "liked_at": null
+            }
+          ],
+          "created_at": "2026-04-21T12:06:14.073983",
+          "updated_at": "2026-04-21T12:06:14.074013",
+          "pinned": false,
+          "message": null
         }
       },
-      "last_updated": "2026-04-16T23:27:25.841567"
+      "last_updated": "2026-04-21T12:06:14.084290"
     },
     "8a1d3204-feeb-4ae6-b6ab-50e357aab83b": {
       "conversations": {
@@ -430,54 +624,8 @@
       "last_updated": "2026-04-16T22:02:07.938046"
     },
     "f14c5b9a-5704-404f-b648-6f17a177b48b": {
-      "conversations": {
-        "e273e747-ff00-4cfc-8e6f-08e6eaaa75c0": {
-          "id": "e273e747-ff00-4cfc-8e6f-08e6eaaa75c0",
-          "title": "liagent",
-          "messages": [
-            {
-              "question": "liagent",
-              "answer": "在现有知识库中未找到相关内容。\n\n**补充说明**：根据提供的参考文档，主要讨论了RAG（检索增强生成）和LLM（大型语言模型）的应用，包括LangChain-ChatChat、OpenDevin等国产方案以及国际方案如LangChain、Haystack。这些方案涉及向量数据库的使用、工具调用和多轮对话支持，但并未提及“LiAgent”。如果您有其他问题或需要进一步了解相关技术，请提供更多细节。\n\n**参考来源**：\n1. vector db & RAG.md\n2. Basic Concept.md",
-              "sources": [
-                {
-                  "filename": "vector db & RAG.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5557438731193542,
-                  "section": "vector db & RAG",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5190280079841614,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5151787996292114,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5039179921150208,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-16T22:21:52.983808"
-            }
-          ],
-          "created_at": "2026-04-16T22:21:52.990485",
-          "updated_at": "2026-04-16T22:21:52.990492",
-          "pinned": false,
-          "message": null
-        }
-      },
-      "last_updated": "2026-04-16T22:21:52.995242"
+      "conversations": {},
+      "last_updated": "2026-04-20T14:06:19.598407"
     },
     "ac05bff9-e5a0-47a5-9ff0-55c43fd6dedb": {
       "conversations": {
@@ -548,15 +696,138 @@
               ],
               "created_at": "2026-04-16T22:30:54.585621",
               "liked": false
+            },
+            {
+              "question": "cursor 的mcp",
+              "answer": "### 直接回答\n**Cursor 的 MCP 相关信息：**\n\n1. **MCP 定义**  \n   - Model Context Protocol（MCP）是由 Anthropic 于 2024 年发布的开放协议，用于标准化 LLM 应用与外部数据源、工具之间的通信方式。  \n   - Cursor 是一个 MCP 客户端，可以连接到任何 MCP Server。\n\n2. **MCP 协议特点**  \n   - 使用 JSON-RPC over HTTP 进行通信。\n   - 支持多种功能，如工具调用、资源管理、提示模板等。\n\n3. **MCP 方法**（具体方法请参考文档 4）\n\n---\n\n### 补充细节\n- **Cursor 的 MCP 实现**  \n  Cursor 是一个 MCP 客户端，支持通过 MCP 协议与服务器进行交互。例如：\n  - 调用工具：`tools/call`\n  - 获取资源列表：`resources/list`\n  - 订阅资源更新通知：`resources/subscribe`\n\n- **文档质量**  \n  目前知识库中关于 Cursor 的经验内容严重缺失（见文档 1 和文档 6），建议优先补充相关资料。\n\n---\n\n### 参考来源\n1. [MCP开发指南.md](#) (文档 2, 文档 3)\n2. [audit_report.md](#) (文档 1, 文档 5, 文档 6)\n\n---\n\n### 关联文档提示\n如果需要更详细的信息，可以查阅以下文档：\n- [MCP 定义的所有方法](#)（文档 4）\n- [知识库审计报告](#)（文档 5, 文档 6）",
+              "sources": [
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.6121493649251344,
+                  "section": "3. 目录级分析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "MCP开发指南.md",
+                  "category": "MCP",
+                  "score": 0.6105457544326782,
+                  "section": "1. MCP 是什么",
+                  "related_docs": []
+                },
+                {
+                  "filename": "MCP开发指南.md",
+                  "category": "MCP",
+                  "score": 0.5895413160324097,
+                  "section": "1. MCP 是什么",
+                  "related_docs": []
+                },
+                {
+                  "filename": "MCP开发指南.md",
+                  "category": "MCP",
+                  "score": 0.5717885494232178,
+                  "section": "3. JSON-RPC 协议格式",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5693626400829892,
+                  "section": "3. 目录级分析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5137585855497647,
+                  "section": "5. 质量问题汇总",
+                  "related_docs": []
+                },
+                {
+                  "filename": "1. Credit Bot PRD.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.5017729997634888,
+                  "section": "产品概述",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T23:54:47.701277",
+              "liked": false,
+              "liked_at": null
+            },
+            {
+              "question": "因为 y = x + y, y 和 x 取值可以是什么",
+              "answer": "根据代数分析：\n\n1. 从方程 y = x + y 出发：\n   - 两边同时减去 y 得到 0 = x\n   - 因此，x 必须等于 0\n\n2. 当 x = 0 时，原方程变为 y = 0 + y，即 y = y，这意味着 y 可以是任意实数。\n\n**结论：**\n- x 的取值必须为 0。\n- y 的取值可以是任何实数。",
+              "sources": [
+                {
+                  "filename": "11-Shark-AI 异常检测平台-业务接入SOP.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5481041073799133,
+                  "section": "6. 结果解读与分级",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Credit Mart SQL Standards.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.537885308265686,
+                  "section": "Common Pitfalls（常见陷阱）",
+                  "related_docs": []
+                },
+                {
+                  "filename": "BCL Mart Key Metrics.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.5328533053398132,
+                  "section": "BCL Mart Key Metrics -- SQL Logic",
+                  "related_docs": []
+                },
+                {
+                  "filename": "知识库构建流程中的潜在问题和解决方案.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5322104692459106,
+                  "section": "知识库构建流程中的潜在问题和解决方案",
+                  "related_docs": []
+                },
+                {
+                  "filename": "13-时序预测-复杂时序监督模型解决方案.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.52773517370224,
+                  "section": "2.原理解释",
+                  "related_docs": []
+                },
+                {
+                  "filename": "01-TD V0.1.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5230401158332825,
+                  "section": "TD V0.1",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Credit Mart SQL Standards.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.5222177505493164,
+                  "section": "Presto SQL Specific Rules（Presto 专项）",
+                  "related_docs": []
+                },
+                {
+                  "filename": "知识库构建流程中的潜在问题和解决方案.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5187453627586365,
+                  "section": "知识库构建流程中的潜在问题和解决方案",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T23:57:24.528608",
+              "liked": true,
+              "liked_at": "2026-04-16T23:58:38.133634"
             }
           ],
           "created_at": "2026-04-16T22:30:54.596325",
-          "updated_at": "2026-04-16T22:30:54.596331",
+          "updated_at": "2026-04-16T23:58:38.135441",
           "pinned": false,
           "message": null
         }
       },
-      "last_updated": "2026-04-16T22:30:54.613187"
+      "last_updated": "2026-04-16T23:58:38.135459"
     },
     "8664338b-f950-428d-8bb5-8e1da650ac79": {
       "conversations": {
@@ -709,10 +980,102 @@
           "updated_at": "2026-04-16T23:36:32.253659",
           "pinned": false,
           "message": null
+        },
+        "6ebfab7b-2fe3-4ad5-bfc6-3390a049cf18": {
+          "id": "6ebfab7b-2fe3-4ad5-bfc6-3390a049cf18",
+          "title": "Cursor 有什么使用技巧？",
+          "messages": [
+            {
+              "question": "Cursor 有什么使用技巧？",
+              "answer": "在现有知识库中未找到关于“Cursor 使用技巧”的具体内容。\n\n**补充说明：**\n根据审计报告（文档1和文档2），Cursor 经验目录下存在多个空壳页面，包括开发套路、Prompt分享、MCP分享和 Cursor Rules 等内容。这些页面严重缺乏实质内容，建议优先补充 Cursor 相关的经验和规则。\n\n**参考来源：**\n- audit_report.md (知识库审计报告 > 3. 目录级分析 > 3.3 Cursor经验/ — 严重缺失)\n- audit_report.md (知识库审计报告 > 5. 质量问题汇总 > 5.3 建议优先行动)\n\n**关联文档：**\n- MCP开发指南.md [MCP]",
+              "sources": [
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.6508234351051958,
+                  "section": "3. 目录级分析",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.592313702365641,
+                  "section": "5. 质量问题汇总",
+                  "related_docs": []
+                },
+                {
+                  "filename": "audit_report.md",
+                  "category": "uncategorized",
+                  "score": 0.5420951599854202,
+                  "section": "4. 归档文件清单与原因",
+                  "related_docs": []
+                },
+                {
+                  "filename": "Credit Mart SQL Standards.md",
+                  "category": "Credit Bot - Datajoi",
+                  "score": 0.5316976308822632,
+                  "section": "Presto SQL Specific Rules（Presto 专项）",
+                  "related_docs": []
+                },
+                {
+                  "filename": "非向量化方案.md",
+                  "category": "RAG+Memory",
+                  "score": 0.5198790710674072,
+                  "section": "非向量化方案",
+                  "related_docs": []
+                },
+                {
+                  "filename": "02-时序异常检测&时序预测-调研.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5192549228668213,
+                  "section": "时序异常检测&时序预测-调研",
+                  "related_docs": []
+                },
+                {
+                  "filename": "05-时序异常检测&时序预测-服务使用案例.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5145070552825928,
+                  "section": "Step 2、获取时序最适合的检测算法/模型",
+                  "related_docs": []
+                },
+                {
+                  "filename": "MCP开发指南.md",
+                  "category": "MCP",
+                  "score": 0.5144954919815063,
+                  "section": "3. JSON-RPC 协议格式",
+                  "related_docs": []
+                }
+              ],
+              "created_at": "2026-04-16T23:43:29.925913",
+              "liked": false
+            }
+          ],
+          "created_at": "2026-04-16T23:43:29.933267",
+          "updated_at": "2026-04-16T23:43:55.744137",
+          "pinned": false,
+          "message": null
+        },
+        "b775060e-7d88-4830-a478-d9c4788609b7": {
+          "id": "b775060e-7d88-4830-a478-d9c4788609b7",
+          "title": "深圳今天会下雨吗",
+          "messages": [
+            {
+              "question": "深圳今天会下雨吗",
+              "answer": "深圳今天的天气情况如下：\n\n- **是否会下雨**：今天预计有小雨，建议携带雨具。\n- **气温范围**：20°C 至 25°C。\n\n### 参考来源\n1. [网络检索摘要 - 深圳市天气预报](https://www.nmc.cn/publish/area/south/city SZ.html)\n\n如果需要更多详细信息，可以参考关联文档。",
+              "sources": [],
+              "created_at": "2026-04-21T14:02:18.358824",
+              "liked": false,
+              "liked_at": null
+            }
+          ],
+          "created_at": "2026-04-21T14:02:18.362844",
+          "updated_at": "2026-04-21T14:02:18.363238",
+          "pinned": false,
+          "message": null
         }
       },
-      "last_updated": "2026-04-16T23:36:32.261445"
+      "last_updated": "2026-04-21T14:02:18.367771"
     }
   },
-  "last_updated": "2026-04-16T23:36:32.265962"
+  "last_updated": "2026-04-21T14:02:18.375366"
 }
