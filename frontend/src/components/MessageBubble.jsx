@@ -5,7 +5,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Copy, Check, FileText, User, Brain, ChevronRight, ThumbsUp, Globe, ExternalLink } from 'lucide-react';
 
-const TAGENT_AVATAR_SRC = '/branding/tagent-avatar.png';
+/** 与 vite.config.js 中 base 一致，GitHub Pages 子路径下必须用 BASE_URL 前缀 */
+const TAGENT_AVATAR_SRC = `${import.meta.env.BASE_URL}branding/tagent-avatar.png`;
 import ThinkingIndicator from './ThinkingIndicator';
 import KnowledgeDocPreviewModal from './KnowledgeDocPreviewModal';
 

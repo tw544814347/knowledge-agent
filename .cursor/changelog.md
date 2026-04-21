@@ -1,5 +1,9 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（修复：GitHub Pages 子路径下品牌图 404）
+
+- 头像与保养页 Logo 的 `src` 由绝对路径 `/branding/...` 改为 `${import.meta.env.BASE_URL}branding/...`，与 `vite.config.js` 的 `base: '/knowledge-agent/'` 一致。
+
 ## 2026-04-21（Tagent 品牌图：助手头像 + 保养页 Logo）
 
 - 将 `config/images/` 下 Tagent 头像与界面 Logo 复制到 `frontend/public/branding/`，供构建与 GitHub Pages 静态访问。

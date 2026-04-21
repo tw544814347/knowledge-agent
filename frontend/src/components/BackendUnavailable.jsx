@@ -1,5 +1,5 @@
 /** 后端不可达（未启动、未穿透、断网等）时的全屏提示 */
-const INTERFACE_LOGO_SRC = '/branding/tagent-interface-logo.png';
+const INTERFACE_LOGO_SRC = `${import.meta.env.BASE_URL}branding/tagent-interface-logo.png`;
 
 export default function BackendUnavailable() {
   return (
