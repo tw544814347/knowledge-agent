@@ -1,5 +1,10 @@
 # 知识库 Agent 变更日志
 
+## 2026-04-21（保养页 404 + 联网搜索补充）
+
+- **保养页**：在保养文案上方增加灰色 **404 Not Found**（`BackendUnavailable.jsx`）。
+- **联网搜索**：输入框左侧「联网搜索」开关；`POST /ask`、`/ask/stream` 增加 `web_search`；仅当开关开启且**知识库检索无命中**时调用 DuckDuckGo 文本检索，将摘要与空库上下文合并后再由 LLM 生成；来源区增加「网络」条目。配置项 `WEB_SEARCH_MAX_RESULTS`、`WEB_SEARCH_TIMEOUT_SECONDS`。
+
 ## 2026-04-20（前端：后端不可达全黑保养页）
 
 - 启动时与每 30s 探测 `GET /health`（12s 超时）；失败则全屏黑底文案：`Oooopps... 看起来我的主人正在给我保养 :)`；恢复后自动回到主界面。

@@ -139,7 +139,11 @@ export default function MessageBubble({ message, onLike }) {
                 <span
                   key={i}
                   className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-xs bg-[var(--color-dark-600)] text-[var(--color-text-muted)] border border-[var(--color-border)]"
-                  title={`${s.filename} [${s.category}] 相关度: ${s.score?.toFixed(2)}`}
+                  title={
+                    s.category === '网络' && s.section
+                      ? `${s.filename}\n${s.section}`
+                      : `${s.filename} [${s.category}] 相关度: ${s.score?.toFixed(2)}`
+                  }
                 >
                   <FileText size={10} />
                   {s.filename}

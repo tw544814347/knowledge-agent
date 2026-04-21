@@ -140,3 +140,4 @@ ngrok http 8000 &
 - `TOP_K`：检索返回数量（默认 8）
 - `MIN_SCORE`：检索最低相关度阈值（默认 0.5）
 - `SYNC_INTERVAL`：后台自动同步间隔（秒）
+- `WEB_SEARCH_MAX_RESULTS` / `WEB_SEARCH_TIMEOUT_SECONDS`：前端开启「联网搜索」且知识库无命中时，DuckDuckGo 补充检索条数与超时（秒）

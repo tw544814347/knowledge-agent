@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     min_score: float = Field(default=0.5, alias="MIN_SCORE")
     max_chunks_per_doc: int = Field(default=3, alias="MAX_CHUNKS_PER_DOC")
 
+    # 联网检索（RAG 无命中时补充；DuckDuckGo，无需 Key）
+    web_search_max_results: int = Field(default=5, ge=1, le=10, alias="WEB_SEARCH_MAX_RESULTS")
+    web_search_timeout_seconds: int = Field(default=12, ge=3, le=60, alias="WEB_SEARCH_TIMEOUT_SECONDS")
+
     # ChromaDB
     chroma_persist_dir: str = Field(default="./data/vectordb", alias="CHROMA_PERSIST_DIR")
     chroma_collection_name: str = Field(default="knowledge_base", alias="CHROMA_COLLECTION_NAME")

@@ -10,6 +10,10 @@ class QueryRequest(BaseModel):
     question: str = Field(..., min_length=1, description="用户问题")
     top_k: int = Field(default=5, ge=1, le=20, description="检索文档数量")
     conversation_id: Optional[str] = Field(None, description="可选的对话ID，用于在现有对话中添加消息")
+    web_search: bool = Field(
+        default=False,
+        description="为 true 时：仅当知识库检索无命中才自动联网检索，并与空库上下文一并交给模型生成回答",
+    )
 
 
 class SourceInfo(BaseModel):

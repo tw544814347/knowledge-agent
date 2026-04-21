@@ -103,7 +103,9 @@ async def ask_question(req: QueryRequest):
     """知识库问答接口"""
     pipeline = _require_pipeline()
     try:
-        result = await pipeline.aquery(req.question, top_k=req.top_k)
+        result = await pipeline.aquery(
+            req.question, top_k=req.top_k, web_search=req.web_search
+        )
         return result
     except LLMError as e:
         raise HTTPException(status_code=502, detail=str(e))
@@ -128,7 +130,9 @@ async def ask_question_stream(
     def generate():
         nonlocal full_answer, sources
         try:
-            for chunk in pipeline.stream_query(req.question, top_k=req.top_k):
+            for chunk in pipeline.stream_query(
+                req.question, top_k=req.top_k, web_search=req.web_search
+            ):
                 # 收集sources信息
                 if chunk.get("type") == "sources":
                     sources = chunk.get("sources", [])

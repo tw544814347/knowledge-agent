@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { Send, PanelLeftOpen, Square } from 'lucide-react';
+import { Send, PanelLeftOpen, Square, Globe } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 import { askQuestionStream, setMessageLike } from '../api';
 
@@ -14,6 +14,7 @@ export default function ChatPanel({
 }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [webSearchOn, setWebSearchOn] = useState(false);
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
   const textareaRef = useRef(null);
@@ -241,7 +242,7 @@ export default function ChatPanel({
             ...m, content: `请求失败：${chunk.message}`, loading: false, error: true,
           } : m));
         }
-      }, conversationId);
+      }, conversationId, webSearchOn);
     } catch (err) {
       if (err.name === 'AbortError') return;
       setMessages(prev => prev.map(m => m.id === aiMsgId ? {
@@ -338,7 +339,25 @@ export default function ChatPanel({
 
       {/* Input */}
       <div className="border-t border-[var(--color-border)] bg-[var(--color-dark-800)] p-4">
-        <div className="max-w-3xl mx-auto flex items-end gap-3 bg-[var(--color-dark-700)] rounded-xl px-4 py-3 border border-[var(--color-border)] focus-within:border-[var(--color-accent-dim)] transition-colors">
+        <div className="max-w-3xl mx-auto flex items-end gap-2 bg-[var(--color-dark-700)] rounded-xl px-3 py-3 border border-[var(--color-border)] focus-within:border-[var(--color-accent-dim)] transition-colors">
+          <button
+            type="button"
+            onClick={() => setWebSearchOn((v) => !v)}
+            disabled={!user || !isConnected || loading}
+            title={
+              webSearchOn
+                ? '已开启：知识库无命中时将自动联网检索并合并回答'
+                : '关闭：仅使用知识库'
+            }
+            className={`mb-0.5 flex shrink-0 flex-col items-center justify-center gap-0.5 rounded-lg px-2 py-1.5 text-[10px] leading-tight transition-colors disabled:cursor-not-allowed disabled:opacity-30 ${
+              webSearchOn
+                ? 'bg-[var(--color-accent)]/25 text-[var(--color-accent)] ring-1 ring-[var(--color-accent)]/50'
+                : 'text-[var(--color-text-muted)] hover:bg-[var(--color-dark-600)] hover:text-[var(--color-text-secondary)]'
+            }`}
+          >
+            <Globe size={18} strokeWidth={webSearchOn ? 2.25 : 1.75} />
+            <span className="whitespace-nowrap">联网搜索</span>
+          </button>
           <textarea
             ref={textareaRef}
             value={input}

@@ -8,11 +8,11 @@ const NGROK_HEADERS = import.meta.env.VITE_API_URL?.includes('ngrok')
   ? { 'ngrok-skip-browser-warning': 'true' }
   : {};
 
-export async function askQuestion(question, topK = 8, signal) {
+export async function askQuestion(question, topK = 8, signal, webSearch = false) {
   const res = await fetch(`${API_BASE}/ask`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...NGROK_HEADERS },
-    body: JSON.stringify({ question, top_k: topK }),
+    body: JSON.stringify({ question, top_k: topK, web_search: !!webSearch }),
     signal,
   });
 
@@ -47,7 +47,14 @@ export async function rebuildIndex() {
   return res.json();
 }
 
-export async function askQuestionStream(question, topK = 8, signal, onChunk, conversationId = null) {
+export async function askQuestionStream(
+  question,
+  topK = 8,
+  signal,
+  onChunk,
+  conversationId = null,
+  webSearch = false,
+) {
   const token = localStorage.getItem('access_token');
   const headers = { 
     'Content-Type': 'application/json', 
@@ -58,7 +65,7 @@ export async function askQuestionStream(question, topK = 8, signal, onChunk, con
     headers['Authorization'] = `Bearer ${token}`;
   }
   
-  const requestBody = { question, top_k: topK };
+  const requestBody = { question, top_k: topK, web_search: !!webSearch };
   if (conversationId) {
     requestBody.conversation_id = conversationId;
   }
