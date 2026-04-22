@@ -290,7 +290,7 @@ export default function ChatPanel({
         )}
         <div className="flex items-center gap-2">
           <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} />
-          <span className="text-sm text-[var(--color-text-secondary)]">知识库问答</span>
+          <span className="text-sm text-[var(--color-text-secondary)]">Tagent - 你身边的专属知识智能专家</span>
         </div>
       </header>
 
@@ -301,7 +301,7 @@ export default function ChatPanel({
             <div className="w-16 h-16 rounded-2xl bg-[var(--color-dark-700)] flex items-center justify-center mb-4">
               <span className="text-3xl">🧠</span>
             </div>
-            <h2 className="text-lg font-medium text-[var(--color-text-primary)] mb-1">知识库 Agent</h2>
+            <h2 className="text-lg font-medium text-[var(--color-text-primary)] mb-1">Tagent</h2>
             <p className="text-sm text-[var(--color-text-muted)] max-w-sm">
               基于 DeepSeek R1 + RAG 的智能问答系统，{user ? '输入你的问题开始对话。' : '请先登录后开始使用。'}
             </p>

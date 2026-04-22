@@ -46,7 +46,7 @@ export default function Sidebar({
       "
     >
       <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between">
-        <h1 className="text-base font-semibold text-[var(--color-text-primary)]">知识库 Agent</h1>
+        <h1 className="text-base font-semibold text-[var(--color-text-primary)]">Tagent</h1>
         <button onClick={onClose} className="p-1 rounded hover:bg-[var(--color-dark-600)] text-[var(--color-text-secondary)]">
           <X size={16} />
         </button>
