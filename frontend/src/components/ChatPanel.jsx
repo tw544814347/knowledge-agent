@@ -302,7 +302,7 @@ export default function ChatPanel({
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-[var(--color-chat-bg)]">
       {/* Header */}
       <header className="flex items-center gap-3 px-4 py-3 border-b border-[var(--color-border)] bg-[var(--color-dark-800)]">
         {!sidebarOpen && (
@@ -317,7 +317,7 @@ export default function ChatPanel({
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
+      <div className="flex-1 overflow-y-auto bg-[var(--color-chat-bg)] px-4 py-6">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <img

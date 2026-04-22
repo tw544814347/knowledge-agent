@@ -130,7 +130,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-[var(--color-dark-900)]">
+    <div className="flex h-screen bg-[var(--color-chat-bg)]">
       {sidebarOpen && (
         <>
           {/* 移动端半透明遮罩：点击收起侧边栏；桌面端隐藏 */}
@@ -159,7 +159,7 @@ export default function App() {
         </>
       )}
 
-      <main className="flex-1 flex flex-col min-w-0">
+      <main className="flex-1 flex flex-col min-w-0 bg-[var(--color-chat-bg)]">
         <ChatPanel
           isConnected={!!serverStatus}
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}

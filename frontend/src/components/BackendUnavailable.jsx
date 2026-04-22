@@ -3,7 +3,7 @@ const INTERFACE_LOGO_SRC = `${import.meta.env.BASE_URL}branding/tagent-interface
 
 export default function BackendUnavailable() {
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-black px-6">
+    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-6 bg-[var(--color-chat-bg)] px-6">
       <img
         src={INTERFACE_LOGO_SRC}
         alt="Tagent"
