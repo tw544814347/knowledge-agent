@@ -3,6 +3,14 @@ import { Send, PanelLeftOpen, Square, Globe } from 'lucide-react';
 import MessageBubble from './MessageBubble';
 import { askQuestionStream, setMessageLike } from '../api';
 
+const INTERFACE_LOGO_SRC = `${import.meta.env.BASE_URL}branding/tagent-interface-logo.png`;
+
+const EMPTY_STATE_SUGGESTIONS = [
+  { tag: '📖 入门', q: '我可以问你哪些问题？' },
+  { tag: '🧠 专业', q: 'Multi-Agent 和 Workflow 有什么区别？' },
+  { tag: '🌐 联网', q: '结合知识库和最新资讯，帮我做一份竞品对比' },
+];
+
 export default function ChatPanel({ 
   isConnected, 
   onToggleSidebar, 
@@ -298,29 +306,33 @@ export default function ChatPanel({
       <div className="flex-1 overflow-y-auto px-4 py-6">
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center">
-            <div className="w-16 h-16 rounded-2xl bg-[var(--color-dark-700)] flex items-center justify-center mb-4">
-              <span className="text-3xl">🧠</span>
-            </div>
-            <h2 className="text-lg font-medium text-[var(--color-text-primary)] mb-1">Tagent</h2>
-            <p className="text-sm text-[var(--color-text-muted)] max-w-sm">
-              基于 DeepSeek R1 + RAG 的智能问答系统，{user ? '输入你的问题开始对话。' : '请先登录后开始使用。'}
+            <img
+              src={INTERFACE_LOGO_SRC}
+              alt="Tagent"
+              className="max-w-[min(80%,260px)] w-auto h-auto object-contain mb-4 select-none"
+              decoding="async"
+            />
+            <h2 className="text-lg font-medium text-[var(--color-text-primary)] mb-2">Tagent</h2>
+            <p className="text-sm text-[var(--color-text-muted)] max-w-sm leading-relaxed">
+              你的专属知识智能专家。支持私有知识库检索、专业问题推理，必要时联网搜索最新资讯。
             </p>
             {!user && (
               <button
                 onClick={onLogin}
                 className="mt-4 px-6 py-2 rounded-lg bg-[var(--color-accent)] hover:bg-[var(--color-accent-dim)] text-white transition-colors"
               >
-                登录/注册
+                登录 / 注册
               </button>
             )}
-            <div className="mt-6 flex flex-wrap gap-2 justify-center max-w-md">
-              {['Multi-Agent 和 Workflow 有什么区别？', 'RAG 系统有哪些挑战？', 'Cursor 有什么使用技巧？'].map(q => (
+            <div className="mt-6 flex flex-col gap-2 w-full max-w-sm">
+              {EMPTY_STATE_SUGGESTIONS.map(({ tag, q }) => (
                 <button
                   key={q}
                   onClick={() => { setInput(q); textareaRef.current?.focus(); }}
-                  className="px-3 py-1.5 text-xs rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-dark-700)] hover:text-[var(--color-text-primary)] transition-colors"
+                  className="flex items-center gap-2 px-3 py-2 text-xs rounded-lg border border-[var(--color-border)] text-[var(--color-text-secondary)] hover:bg-[var(--color-dark-700)] hover:text-[var(--color-text-primary)] transition-colors text-left"
                 >
-                  {q}
+                  <span className="shrink-0 text-[var(--color-text-muted)]">{tag}</span>
+                  <span className="truncate">{q}</span>
                 </button>
               ))}
             </div>
