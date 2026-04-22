@@ -37,7 +37,14 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="w-64 bg-[var(--color-dark-800)] border-r border-[var(--color-border)] flex flex-col shrink-0">
+    <aside
+      className="
+        fixed inset-y-0 left-0 z-40 w-3/4 max-w-[280px]
+        md:static md:w-64 md:max-w-none md:z-auto
+        bg-[var(--color-dark-800)] border-r border-[var(--color-border)]
+        flex flex-col shrink-0 shadow-xl md:shadow-none
+      "
+    >
       <div className="p-4 border-b border-[var(--color-border)] flex items-center justify-between">
         <h1 className="text-base font-semibold text-[var(--color-text-primary)]">知识库 Agent</h1>
         <button onClick={onClose} className="p-1 rounded hover:bg-[var(--color-dark-600)] text-[var(--color-text-secondary)]">

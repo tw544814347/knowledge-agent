@@ -15,7 +15,14 @@ export default function App() {
   const [connectivity, setConnectivity] = useState('checking');
   const [serverStatus, setServerStatus] = useState(null);
   const [indexStatus, setIndexStatus] = useState(null);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() =>
+    typeof window === 'undefined' ? true : window.innerWidth >= 768
+  );
+  const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
+  const handleSelectConversation = (conv) => {
+    setSelectedConversation(conv);
+    if (conv && isMobile()) setSidebarOpen(false);
+  };
   const [selectedConversation, setSelectedConversation] = useState(null);
   const [user, setUser] = useState(() => getCurrentUser());
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -116,22 +123,30 @@ export default function App() {
   return (
     <div className="flex h-screen bg-[var(--color-dark-900)]">
       {sidebarOpen && (
-        <Sidebar
-          serverStatus={serverStatus}
-          indexStatus={indexStatus}
-          onClose={() => setSidebarOpen(false)}
-          onStatusRefresh={async () => {
-            const status = await getStatus();
-            setIndexStatus(status);
-          }}
-          onSelectConversation={setSelectedConversation}
-          selectedConversationId={selectedConversation?.id}
-          user={user}
-          onLogin={() => setShowAuthModal(true)}
-          onLogout={handleLogout}
-          onChangePassword={() => setShowChangePasswordModal(true)}
-          refreshTrigger={conversationRefreshTrigger}
-        />
+        <>
+          {/* 移动端半透明遮罩：点击收起侧边栏；桌面端隐藏 */}
+          <div
+            className="fixed inset-0 bg-black/50 z-30 md:hidden"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+          <Sidebar
+            serverStatus={serverStatus}
+            indexStatus={indexStatus}
+            onClose={() => setSidebarOpen(false)}
+            onStatusRefresh={async () => {
+              const status = await getStatus();
+              setIndexStatus(status);
+            }}
+            onSelectConversation={handleSelectConversation}
+            selectedConversationId={selectedConversation?.id}
+            user={user}
+            onLogin={() => setShowAuthModal(true)}
+            onLogout={handleLogout}
+            onChangePassword={() => setShowChangePasswordModal(true)}
+            refreshTrigger={conversationRefreshTrigger}
+          />
+        </>
       )}
 
       <main className="flex-1 flex flex-col min-w-0">
