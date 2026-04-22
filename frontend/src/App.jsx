@@ -23,8 +23,17 @@ export default function App() {
     setSelectedConversation(conv);
     if (conv && isMobile()) setSidebarOpen(false);
   };
+
   const [selectedConversation, setSelectedConversation] = useState(null);
+  /** 每次点击「新对话」递增，用于在 selectedConversation 已是 null 时仍强制重置 ChatPanel（清空草稿与流式请求） */
+  const [draftSessionKey, setDraftSessionKey] = useState(0);
   const [user, setUser] = useState(() => getCurrentUser());
+
+  const handleStartNewConversation = () => {
+    setSelectedConversation(null);
+    setDraftSessionKey((k) => k + 1);
+    if (isMobile()) setSidebarOpen(false);
+  };
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [conversationRefreshTrigger, setConversationRefreshTrigger] = useState(0);
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
@@ -133,6 +142,7 @@ export default function App() {
           <Sidebar
             serverStatus={serverStatus}
             indexStatus={indexStatus}
+            onStartNewConversation={handleStartNewConversation}
             onClose={() => setSidebarOpen(false)}
             onStatusRefresh={async () => {
               const status = await getStatus();
@@ -155,6 +165,7 @@ export default function App() {
           onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
           sidebarOpen={sidebarOpen}
           selectedConversation={selectedConversation}
+          draftSessionKey={draftSessionKey}
           user={user}
           onLogin={() => setShowAuthModal(true)}
           onConversationSaved={() => {

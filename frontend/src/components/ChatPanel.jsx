@@ -16,6 +16,7 @@ export default function ChatPanel({
   onToggleSidebar, 
   sidebarOpen, 
   selectedConversation,
+  draftSessionKey = 0,
   user,
   onLogin,
   onConversationSaved 
@@ -39,8 +40,20 @@ export default function ChatPanel({
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // 当选中历史对话时，加载对话内容
+  // 切换会话、或点击「新对话」递增 draftSessionKey 时：中止流式请求并同步消息区
   useEffect(() => {
+    if (abortRef.current) {
+      abortRef.current.abort();
+      abortRef.current = null;
+    }
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    pendingQuestionRef.current = '';
+    pendingMsgIdsRef.current = { userId: null, aiId: null };
+    setLoading(false);
+
     if (selectedConversation) {
       // 处理不同的数据结构：置顶对话使用messages数组，普通对话使用message对象
       let conversationMessages = [];
@@ -102,10 +115,11 @@ export default function ChatPanel({
       setMessages(conversationMessages);
       setInput('');
     } else {
-      // selectedConversation为null表示新对话
+      // 未选中历史会话：空白草稿（含引导区）；draftSessionKey 变化时也会进入此分支以清空进行中的草稿
       setMessages([]);
+      setInput('');
     }
-  }, [selectedConversation]);
+  }, [selectedConversation, draftSessionKey]);
 
   useEffect(() => {
     if (textareaRef.current) {

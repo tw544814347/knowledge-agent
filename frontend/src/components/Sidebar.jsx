@@ -10,6 +10,7 @@ export default function Sidebar({
   onClose, 
   onStatusRefresh,
   onSelectConversation,
+  onStartNewConversation,
   selectedConversationId,
   user,
   onLogin,
@@ -23,14 +24,15 @@ export default function Sidebar({
   const handleNewChat = async () => {
     setCreatingNewChat(true);
     setMessage('');
+    // 先切到空白草稿界面（不依赖后端）；避免 newChat 失败时仍停留在旧会话
+    onStartNewConversation?.();
     try {
       await newChat();
-      onSelectConversation(null); // 清空当前选中的对话
-      setMessage('新对话已创建');
-      // 触发对话历史刷新
+      setMessage('已切换到新对话');
       setTimeout(() => setMessage(''), 2000);
     } catch (e) {
-      setMessage(`创建新对话失败：${e.message}`);
+      setMessage(`同步新对话状态失败：${e.message}（界面已重置，可继续输入）`);
+      setTimeout(() => setMessage(''), 4000);
     } finally {
       setCreatingNewChat(false);
     }
