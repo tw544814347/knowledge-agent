@@ -2,548 +2,99 @@
   "users": {
     "671f347d-1984-4b6f-ac8d-913e77454117": {
       "conversations": {
-        "3ddbf527-6906-4411-832a-308bbc84ef61": {
-          "id": "3ddbf527-6906-4411-832a-308bbc84ef61",
-          "title": "你好，我是Wei Tao",
-          "message": {
-            "question": "你好，我是Wei Tao",
-            "answer": "你好Wei Tao！很高兴见到你，我是智能助手，有什么可以帮助您的吗？",
-            "sources": []
-          },
-          "created_at": "2026-04-16T17:17:30.016476",
-          "pinned": false
-        },
-        "fce2e651-788c-498e-803c-5bab867c05de": {
-          "id": "fce2e651-788c-498e-803c-5bab867c05de",
-          "title": "系统功能测试",
-          "message": {
-            "question": "系统功能测试",
-            "answer": "系统功能测试完成，所有功能正常！",
-            "sources": []
-          },
-          "created_at": "2026-04-16T17:17:39.832833",
-          "pinned": false
-        },
-        "cd0628c2-420a-4c29-b7db-82acf8494d64": {
-          "id": "cd0628c2-420a-4c29-b7db-82acf8494d64",
-          "title": "自动保存功能测试",
-          "created_at": "2026-04-16T17:33:05.119716",
-          "pinned": false,
+        "2744789c-fbd0-4362-b136-bf688d0a537f": {
+          "id": "2744789c-fbd0-4362-b136-bf688d0a537f",
+          "title": "你好",
           "messages": [
             {
-              "question": "自动保存功能测试",
-              "answer": "在现有知识库中未找到与“自动保存功能测试”直接相关的内容。\n\n**参考来源：**\n1. audit_report.md (文档 1)\n2. audit_report.md (文档 2)\n3. 知识库系统收益评估方式.md (文档 3)\n\n如果需要进一步查阅其他关联文档，请告知具体需求。",
-              "sources": [
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.5910459942008229,
-                  "section": "7. Anomaly detection - sharkAI 目录审计 (2026-04-16)",
-                  "related_docs": []
-                },
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.5786059536778118,
-                  "section": "2. 执行动作摘要",
-                  "related_docs": []
-                },
-                {
-                  "filename": "知识库系统收益评估方式.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5613126754760742,
-                  "section": "知识库系统收益评估方式",
-                  "related_docs": []
-                }
-              ],
-              "liked": false
-            },
-            {
-              "question": "multiagent",
-              "answer": "### 直接回答\n**多智能体（Multi-Agent）** 是指多个AI代理协同工作的系统，每个代理都有特定的任务和能力，通过协作完成复杂的任务。\n\n---\n\n### 补充细节\n1. **核心特点**\n   - **去中心化**：各个 Agent 独立决策，无需中央控制。\n   - **协作与辩论**：Agent 之间可以互相审核和改进结果（如文档4）。\n   - **循环迭代**：允许多次交互以优化最终输出。\n\n2. **优势**\n   - 解决复杂问题，尤其适合未知领域（如文档3）。\n   - 提高系统鲁棒性和灵活性。\n\n3. **挑战**\n   - Token消耗不可控，导致成本增加。\n   - 结果一致性难以保证。\n\n4. **当前应用**\n   - 多数场景仍处于工具使用阶段（如文档1）。\n   - 有框架如 MetaGPT、AgentVerse 等支持多智能体协作（如文档1）。\n\n---\n\n### 参考来源\n- 文档3: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 1. 核心摘要)\n- 文档4: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 3. 深度解析 > A. Multi-Agent (自主协作模式))\n- 文档1: Basic Concept.md [LLM] (Basic Concept > 2.应用发展)\n\n---\n\n### 关联文档\n如需进一步了解多智能体框架和工具，可以查阅：\n- MetaGPT\n- AgentVerse\n- Agents",
-              "sources": [
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.6250252723693848,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.6090992022725151,
-                  "section": "4. 归档文件清单与原因",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.5911531448364258,
-                  "section": "1. 核心摘要",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.5885555148124695,
-                  "section": "3. 深度解析",
-                  "related_docs": []
-                },
-                {
-                  "filename": "vector db & RAG.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5833478569984436,
-                  "section": "vector db & RAG",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5729004144668579,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5691555738449097,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.5653918385505676,
-                  "section": "",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-16T18:07:30.887174",
-              "liked": false
-            },
-            {
-              "question": "1",
-              "answer": "### 直接回答\n根据提供的参考文档内容：\n\n1. **数据层定义**：\n   - ODS：贴源层，存储近原始事件与快照，支持UTC、变更频繁。\n   - DWD：明细建模，进行清洗、统一编码和主题关联。\n   - DWM：中间汇总层，轻度聚合和宽表准备。\n   - DWS：按主题/维度（如用户、借据、日）进行汇总。\n   - ADS：应用层指标表，主要用于报表与API服务。\n   - DIM：维度表，包括产品、地区和码表等。\n   - VIEW：逻辑视图，可能跨层封装，需注意性能与权限。\n\n2. **向量数据库及RAG架构**：\n   - RAG系统架构：用户请求由应用层接收，检索模块触发本地知识库查询。文档预处理后通过嵌入模型生成向量，存储于向量数据库（如Milvus、Weaviate）。用户提问时，系统将查询转换为向量，在向量库中检索相关文档，并结合LLM生成答案。\n   - 组件流程：数据预处理、索引存储、检索查询和生成回答四大环节。典型使用案例包括AI研发助手和智能问答平台。\n\n### 补充细节\n- **数据层定义**：\n  - ODS作为贴源层，主要用于存储原始数据的快照和事件数据。\n  - DWD进行清洗和标准化处理，为后续分析提供基础。\n  - DWM用于准备宽表，支持复杂的查询需求。\n  - DWS按主题或维度汇总数据，便于高层决策。\n  - ADS直接服务于应用层面的需求，如报表和API调用。\n  - DIM用于存储维度信息，如产品分类和地区代码。\n  - VIEW是逻辑视图，可能跨越多个层级，需谨慎处理性能问题。\n\n- **向量数据库及RAG架构**：\n  - RAG系统通过预处理文档生成向量，并存储于向量数据库中。用户提问时，系统检索相关文档并结合LLM生成回答。\n  - 典型使用案例包括AI研发助手和智能问答平台，分别服务于代码查询和技术支持。\n\n### 参考来源\n1. **Credit Mart Technical Guidelines.md**：详细列出了数据层的定义及其用途。\n2. **vector db & RAG.md**：介绍了RAG系统的架构设计、组件流程及典型应用场景。",
-              "sources": [
-                {
-                  "filename": "Credit Mart Technical Guidelines.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.623295783996582,
-                  "section": "Data Layer Definitions（ODS, DWD, DWM, DWS, ADS, DIM, VIEW）",
-                  "related_docs": []
-                },
-                {
-                  "filename": "vector db & RAG.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5145544409751892,
-                  "section": "vector db & RAG",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-16T18:51:13.322343",
-              "liked": false
-            }
-          ],
-          "updated_at": "2026-04-16T18:51:13.333622"
-        },
-        "48fad6ba-5cac-4737-b279-c4a57c9dd550": {
-          "id": "48fad6ba-5cac-4737-b279-c4a57c9dd550",
-          "title": "multiagent 和 workflow 区别",
-          "created_at": "2026-04-16T17:46:50.416348",
-          "pinned": false,
-          "messages": [
-            {
-              "question": "multiagent 和 workflow 区别",
-              "answer": "### 直接回答\n**Multi-Agent (自主协作) 和 Workflow (工作流编排)** 的主要区别如下：\n\n1. **协作与控制方式**\n   - **Multi-Agent**: 去中心化，多个 Agent 自主交互和决策。\n   - **Workflow**: 中心化控制，按预定义的步骤执行。\n\n2. **灵活性 vs 稳定性**\n   - **Multi-Agent**: 高度灵活，适合复杂、动态的任务。\n   - **Workflow**: 稳定性强，适用于标准化流程。\n\n3. **交互方式**\n   - **Multi-Agent**: Agent 之间协作与辩论，多次循环迭代。\n   - **Workflow**: 按部就班执行预定义步骤。\n\n---\n\n### 补充细节\n- **Multi-Agent** 的核心是去中心化和自主性，Agent 可根据当前语境决定下一步操作（文档1、文档4）。\n- **Workflow** 则依赖于预先定义的 SOP 或 DAG 图，按部就班执行（文档2、文档5）。\n\n---\n\n### 参考来源\n- 文档1: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排))\n- 文档2: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 1. 核心摘要)\n- 文档4: Multi-Agent vs Workflow.md [Agent] (架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排) > 3. 深度解析 > A. Multi-Agent (自主协作模式))\n- 文档5: Basic Concept.md [LLM] (Basic Concept > 2.应用发展)\n\n---\n\n### 关联文档\n如需进一步了解多智能体协作或工作流编排的具体实现，可以查阅以下文档：\n- **Multi-Agent vs Workflow.md**",
-              "sources": [
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.685449481010437,
-                  "section": "架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.6832680106163025,
-                  "section": "1. 核心摘要",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.6415292620658875,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.6068467497825623,
-                  "section": "3. 深度解析",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.58014976978302,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.5760783471613278,
-                  "section": "4. 归档文件清单与原因",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5651063919067383,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "vector db & RAG.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5621351003646851,
-                  "section": "vector db & RAG",
-                  "related_docs": []
-                }
-              ],
-              "liked": false
-            },
-            {
-              "question": "一句话告诉我agent",
-              "answer": "Agent 是一种能够在特定环境中感知信息、做出决策并采取行动以实现目标的智能系统。",
+              "question": "你好",
+              "answer": "你好！目前提供的参考文档中并未包含关于问候语的直接信息。如果你有其他具体问题，欢迎随时提问，我会尽力为你解答！",
               "sources": [
                 {
                   "filename": "vector db & RAG.md",
                   "category": "RAG+Memory",
-                  "score": 0.6583764553070068,
+                  "score": 0.5706534385681152,
                   "section": "vector db & RAG",
-                  "related_docs": []
+                  "related_docs": [],
+                  "source_rel": "RAG+Memory/vector db & RAG.md",
+                  "web_url": null
                 },
                 {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.637734055519104,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.6239336729049683,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.6096506714820862,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "embabel.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5908876657485962,
-                  "section": "embabel",
-                  "related_docs": []
-                },
-                {
-                  "filename": "embabel.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5832821726799011,
-                  "section": "embabel",
-                  "related_docs": []
-                },
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.573976690053026,
-                  "section": "4. 归档文件清单与原因",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Prompt Optimization Agent.md",
-                  "category": "Agent",
-                  "score": 0.5710647106170654,
-                  "section": "",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-16T18:53:15.597961",
-              "liked": false
-            },
-            {
-              "question": "一句话告诉我 workflow",
-              "answer": "**直接回答：**\n\nWorkflow 是一个可执行的步骤图，包含条件、并行分支和引擎调用，用于处理单个风险场景。\n\n**补充细节：**\n- **RiskWorkflow** 是 Shopee 风险特定的工作流实现或元数据，命名可能出现在日志和数据仓库中。\n- 工作流通常按顺序执行步骤（如 Step 1 → Step 2 → Step 3），并支持基于规则的条件分支。\n\n**参考来源：**\n1. 文档1: Risk Workflow Trace Guide.md (Workflow Vocabulary)\n2. 文档3: Multi-Agent vs Workflow.md (工作流串联模式)\n\n**关联文档：**\n- 如果需要进一步了解工作流与多智能体架构的区别，可以查阅《Multi-Agent vs Workflow.md》。",
-              "sources": [
-                {
-                  "filename": "Risk Workflow Trace Guide.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.6335570812225342,
-                  "section": "Workflow Vocabulary",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.6312255859375,
-                  "section": "1. 核心摘要",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.6154898405075073,
-                  "section": "3. 深度解析",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Risk Workflow Trace Guide.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.6067452430725098,
-                  "section": "Practical Mapping Between Process Concepts And Mart Tables",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Risk Workflow Trace Guide.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.6025389432907104,
-                  "section": "How To Trace One Risk Request",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.6022976636886597,
-                  "section": "架构模式对比：Multi-Agent (自主协作) vs. Workflow (工作流编排)",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.5980366468429565,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "4. 工作流设计.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.5950708985328674,
-                  "section": "工作流设计",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-16T21:59:03.954460",
-              "liked": true,
-              "liked_at": "2026-04-16T23:24:34.105286"
-            }
-          ],
-          "updated_at": "2026-04-16T23:24:34.105845"
-        },
-        "be906a03-7640-42c8-b102-6ea5118d5c6a": {
-          "id": "be906a03-7640-42c8-b102-6ea5118d5c6a",
-          "title": "data 和 agent的关系是什么 按总分的思路来简单说明",
-          "messages": [
-            {
-              "question": "data 和 agent的关系是什么 按总分的思路来简单说明",
-              "answer": "**总分式说明：**\n\n1. **总体关系：**\n   数据是代理运行的基础，为代理提供感知、学习和决策所需的信息。代理利用这些数据来执行任务并采取行动。\n\n2. **具体应用层面：**\n   - **感知与交互：** 代理通过传感器或输入数据感知环境，如自动驾驶汽车使用摄像头和雷达收集数据。\n   - **学习与推理：** 数据用于训练机器学习模型，使代理能够理解和推断复杂问题。\n   - **存储与管理：** 代理需要高效的数据存储和管理机制，确保快速访问所需信息。\n   - **通信与协作：** 在多代理系统中，数据交换促进各代理之间的协同工作。\n   - **决策与行动：** 代理基于数据做出决策，并执行相应动作，如智能客服根据用户问题生成回复。\n\n总结来说，数据为代理提供必要的信息和资源，而代理则利用这些数据来实现目标和任务。两者的关系是相互依存的，共同推动系统的高效运作。",
-              "sources": [
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.6883196234703064,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.670220673084259,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Basic Concept.md",
-                  "category": "LLM",
-                  "score": 0.651086151599884,
-                  "section": "Basic Concept",
-                  "related_docs": []
-                },
-                {
-                  "filename": "DataJoi 评测体系技术方案.md",
-                  "category": "Credit Bot - Datajoi",
-                  "score": 0.6005920767784119,
-                  "section": "7. 整体架构与服务设计",
-                  "related_docs": []
+                  "filename": "01-TD V0.1.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5660913586616516,
+                  "section": "TD V0.1",
+                  "related_docs": [],
+                  "source_rel": "Anomaly detection - sharkAI/01-TD V0.1.md",
+                  "web_url": null
                 },
                 {
                   "filename": "vector db & RAG.md",
                   "category": "RAG+Memory",
-                  "score": 0.5851800441741943,
+                  "score": 0.552666425704956,
                   "section": "vector db & RAG",
-                  "related_docs": []
+                  "related_docs": [],
+                  "source_rel": "RAG+Memory/vector db & RAG.md",
+                  "web_url": null
                 },
                 {
-                  "filename": "Multi-Agent vs Workflow.md",
-                  "category": "Agent",
-                  "score": 0.5838741064071655,
-                  "section": "1. 核心摘要",
-                  "related_docs": []
+                  "filename": "我可以问你哪些问题.md",
+                  "category": "user_guide",
+                  "score": 0.5519208312034607,
+                  "section": "我可以问你哪些问题？—— Tagent 使用指南",
+                  "related_docs": [],
+                  "source_rel": "user_guide/我可以问你哪些问题.md",
+                  "web_url": null
                 },
                 {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.5837649621863793,
-                  "section": "3. 目录级分析",
-                  "related_docs": []
+                  "filename": "我可以问你哪些问题.md",
+                  "category": "user_guide",
+                  "score": 0.5462073087692261,
+                  "section": "四、我**不**擅长 / 可能答不好的问题",
+                  "related_docs": [],
+                  "source_rel": "user_guide/我可以问你哪些问题.md",
+                  "web_url": null
                 },
                 {
-                  "filename": "embabel.md",
-                  "category": "RAG+Memory",
-                  "score": 0.5825985670089722,
-                  "section": "embabel",
-                  "related_docs": []
+                  "filename": "15-时序预测-多维度时序交互.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5458237528800964,
+                  "section": "功能",
+                  "related_docs": [],
+                  "source_rel": "Anomaly detection - sharkAI/15-时序预测-多维度时序交互.md",
+                  "web_url": null
+                },
+                {
+                  "filename": "08-时序异常检测&时序预测.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5437936782836914,
+                  "section": "时序异常检测&时序预测",
+                  "related_docs": [],
+                  "source_rel": "Anomaly detection - sharkAI/08-时序异常检测&时序预测.md",
+                  "web_url": null
+                },
+                {
+                  "filename": "11-Shark-AI 异常检测平台-业务接入SOP.md",
+                  "category": "Anomaly detection - sharkAI",
+                  "score": 0.5394384860992432,
+                  "section": "1. 适用范围与目标",
+                  "related_docs": [],
+                  "source_rel": "Anomaly detection - sharkAI/11-Shark-AI 异常检测平台-业务接入SOP.md",
+                  "web_url": null
                 }
               ],
-              "created_at": "2026-04-17T00:06:04.137928",
-              "liked": false,
-              "liked_at": null
-            },
-            {
-              "question": "告诉我cursor 的常用功能有哪些",
-              "answer": "### 直接回答\n在现有知识库中未找到关于 Cursor 常用功能的具体信息。\n\n---\n\n### 补充细节\n虽然没有直接列出 Cursor 的常用功能，但根据最佳实践和相关文档，可以推测以下可能的功能：\n1. **规则管理**：通过 Cursorules 设定广泛规则（如测试优先于编码）。\n2. **增量式代码开发**：以小块的编辑+测试循环方式编写代码。\n3. **版本控制支持**：频繁使用 Git 进行版本控制。\n4. **上下文管理**：保持上下文简短并适时重新开始，通过 /Reference open editors 快速添加文件到上下文中。\n5. **外部工具集成**：与 [gitingest.com](http://gitingest.com) 等外部工具集成。\n\n---\n\n### 参考来源\n1. 文档 1: Cursor最佳实践.md (相关度: 0.67)\n2. 文档 4: 页面结构.md (相关度: 0.61)\n3. 文档 8: 下载清单和验证报告.md (相关度: 0.60)\n\n---\n\n### 关联文档\n如果需要进一步了解 Cursor 的具体功能，可以参考以下文档：\n- **Cursor Rules**: https://cursor.directory/\n- **gitingest**: http://gitingest.com",
-              "sources": [
-                {
-                  "filename": "Cursor最佳实践.md",
-                  "category": "confluence_downloads",
-                  "score": 0.6680434346199036,
-                  "section": "Cursor最佳实践",
-                  "related_docs": []
-                },
-                {
-                  "filename": "audit_report.md",
-                  "category": "uncategorized",
-                  "score": 0.6297734975814819,
-                  "section": "3. 目录级分析",
-                  "related_docs": []
-                },
-                {
-                  "filename": "页面结构.md",
-                  "category": "confluence_downloads",
-                  "score": 0.615107536315918,
-                  "section": "页面层级结构",
-                  "related_docs": []
-                },
-                {
-                  "filename": "页面结构.md",
-                  "category": "confluence_downloads",
-                  "score": 0.6137298941612244,
-                  "section": "发现的超链接",
-                  "related_docs": []
-                },
-                {
-                  "filename": "最终验证报告.md",
-                  "category": "confluence_downloads",
-                  "score": 0.6063335592442497,
-                  "section": "外部资源汇总",
-                  "related_docs": []
-                },
-                {
-                  "filename": "下载清单和验证报告.md",
-                  "category": "confluence_downloads",
-                  "score": 0.6062653064727783,
-                  "section": "目录结构",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Cursor最佳实践.md",
-                  "category": "confluence_downloads",
-                  "score": 0.5998967885971069,
-                  "section": "Cursor最佳实践",
-                  "related_docs": []
-                },
-                {
-                  "filename": "下载清单和验证报告.md",
-                  "category": "confluence_downloads",
-                  "score": 0.597445032479441,
-                  "section": "发现的外部链接",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-20T14:05:47.747294",
-              "liked": true,
-              "liked_at": "2026-04-20T14:05:52.645587"
-            }
-          ],
-          "created_at": "2026-04-17T00:06:04.143738",
-          "updated_at": "2026-04-20T14:05:52.650551",
-          "pinned": false,
-          "message": null
-        },
-        "0d6ecd2b-7a93-450c-8991-c48bc015c69a": {
-          "id": "0d6ecd2b-7a93-450c-8991-c48bc015c69a",
-          "title": "今天天气深圳多少度",
-          "messages": [
-            {
-              "question": "今天天气深圳多少度",
-              "answer": "根据网络检索摘要，深圳今天的天气实况为：\n\n- **实时温度**：27度  \n- **天气状况**：晴  \n- **湿度**：76%  \n- **风向**：西南风4级  \n\n白天的气温预计会达到30度，多云。夜间则为多云，温度降至24度，可能会感觉潮湿闷热。\n\n### 参考来源\n1. [深圳市天气](https://tianqi.moji.com/weather/china/guangdong/shenzhen)",
-              "sources": [
-                {
-                  "filename": "深圳天气预报,深圳7天天气预报,深圳15天天气预报,深圳天气查询",
-                  "category": "网络",
-                  "score": 0.0,
-                  "section": "https://www.weather.com.cn/weather/101280601.shtml",
-                  "related_docs": []
-                },
-                {
-                  "filename": "【深圳今天天气预报】深圳天气预报24小时详情_深圳天气网",
-                  "category": "网络",
-                  "score": 0.0,
-                  "section": "https://www.tianqi.com/shenzhen/today/",
-                  "related_docs": []
-                },
-                {
-                  "filename": "【深圳24小时天气查询】_深圳今日逐小时天气预报查询_2345天气预报",
-                  "category": "网络",
-                  "score": 0.0,
-                  "section": "https://tianqi.2345.com/today-59493.htm",
-                  "related_docs": []
-                },
-                {
-                  "filename": "Meteorological Bureau Of Shenzhen Municipality-深圳市气象局（台）",
-                  "category": "网络",
-                  "score": 0.0,
-                  "section": "https://weather.sz.gov.cn/en/",
-                  "related_docs": []
-                },
-                {
-                  "filename": "【深圳市天气】_深圳市天气预报_天气查询 - 墨迹天气",
-                  "category": "网络",
-                  "score": 0.0,
-                  "section": "https://tianqi.moji.com/weather/china/guangdong/shenzhen",
-                  "related_docs": []
-                }
-              ],
-              "created_at": "2026-04-21T12:06:14.068203",
+              "created_at": "2026-04-29T14:20:12.931276",
               "liked": false,
               "liked_at": null
             }
           ],
-          "created_at": "2026-04-21T12:06:14.073983",
-          "updated_at": "2026-04-21T12:06:14.074013",
+          "created_at": "2026-04-29T14:20:12.941185",
+          "updated_at": "2026-04-29T14:20:12.941193",
           "pinned": false,
           "message": null
         }
       },
-      "last_updated": "2026-04-21T12:06:14.084290"
+      "last_updated": "2026-04-29T14:20:12.949246"
     },
     "8a1d3204-feeb-4ae6-b6ab-50e357aab83b": {
       "conversations": {
@@ -617,8 +168,7 @@
           ],
           "created_at": "2026-04-16T22:02:07.923224",
           "updated_at": "2026-04-16T22:02:07.923256",
-          "pinned": false,
-          "message": null
+          "pinned": false
         }
       },
       "last_updated": "2026-04-16T22:02:07.938046"
@@ -823,8 +373,7 @@
           ],
           "created_at": "2026-04-16T22:30:54.596325",
           "updated_at": "2026-04-16T23:58:38.135441",
-          "pinned": false,
-          "message": null
+          "pinned": false
         }
       },
       "last_updated": "2026-04-16T23:58:38.135459"
@@ -903,8 +452,7 @@
           ],
           "created_at": "2026-04-16T23:34:35.940065",
           "updated_at": "2026-04-16T23:34:35.940075",
-          "pinned": false,
-          "message": null
+          "pinned": false
         },
         "f2613b5f-a0b6-4806-97cd-d11e6ef31415": {
           "id": "f2613b5f-a0b6-4806-97cd-d11e6ef31415",
@@ -978,8 +526,7 @@
           ],
           "created_at": "2026-04-16T23:36:32.253650",
           "updated_at": "2026-04-16T23:36:32.253659",
-          "pinned": false,
-          "message": null
+          "pinned": false
         },
         "6ebfab7b-2fe3-4ad5-bfc6-3390a049cf18": {
           "id": "6ebfab7b-2fe3-4ad5-bfc6-3390a049cf18",
@@ -1052,8 +599,7 @@
           ],
           "created_at": "2026-04-16T23:43:29.933267",
           "updated_at": "2026-04-16T23:43:55.744137",
-          "pinned": false,
-          "message": null
+          "pinned": false
         },
         "b775060e-7d88-4830-a478-d9c4788609b7": {
           "id": "b775060e-7d88-4830-a478-d9c4788609b7",
@@ -1070,12 +616,11 @@
           ],
           "created_at": "2026-04-21T14:02:18.362844",
           "updated_at": "2026-04-21T14:02:18.363238",
-          "pinned": false,
-          "message": null
+          "pinned": false
         }
       },
       "last_updated": "2026-04-21T14:02:18.367771"
     }
   },
-  "last_updated": "2026-04-21T14:02:18.375366"
+  "last_updated": "2026-04-29T14:20:12.953879"
 }
